@@ -11,7 +11,9 @@ import nl.codingwithlinda.mastermeme.core.presentation.MemeTemplatesImpl
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
 
-class MemeListViewModel: ViewModel() {
+class MemeListViewModel(
+
+): ViewModel() {
 
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state
