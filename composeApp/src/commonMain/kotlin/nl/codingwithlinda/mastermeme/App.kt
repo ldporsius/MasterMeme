@@ -25,7 +25,11 @@ fun App() {
                     )
                 }
                 composable(route = Route.MemeCreator.route){
-                    MemeCreatorRoot()
+                    MemeCreatorRoot(
+                        onBack = {
+                            navController.navigateUp()
+                        }
+                    )
                 }
             }
         }
