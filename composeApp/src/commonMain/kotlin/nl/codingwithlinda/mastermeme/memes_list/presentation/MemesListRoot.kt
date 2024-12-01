@@ -6,7 +6,9 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListScreen
 
 @Composable
-fun MemesListRoot() {
+fun MemesListRoot(
+    navToMemeCreator: () -> Unit
+) {
 
     val memeListViewModel:MemeListViewModel  = viewModel()
     MemeListScreen(
