@@ -7,26 +7,26 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.MemeUi
 
 @Composable
-fun MemesListItem(
+fun MemeListItem(
     modifier: Modifier = Modifier,
-    memeImage: MemeImageUi,
-    onClick: () -> Unit
+    memeUi: MemeUi,
+    onClick: (String) -> Unit
 ) {
 
     Box(
         modifier = modifier
-            .clickable(onClick = onClick)
+            .clickable(onClick = {
+                onClick(memeUi.id)
+            })
             .clip(shape = RoundedCornerShape(12))
         ,
 
     ){
         Box(modifier = Modifier.fillMaxSize()){
-            memeImage.DrawImage()
-
+            memeUi.image.DrawImage()
         }
-
     }
 }

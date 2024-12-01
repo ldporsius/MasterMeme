@@ -8,8 +8,10 @@ import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources._0_1otri4
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.MemeUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
-import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemesListItem
+import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListAdaptiveLayout
+import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListItem
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 
 @Preview
@@ -24,9 +26,41 @@ fun MemesListEmptyComponentPreview() {
 @Composable
 fun MemesListItemPreview() {
     AppTheme {
-        MemesListItem(
+        MemeListItem(
             modifier = Modifier.size(200.dp),
-            memeImage = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+            memeUi = MemeUi(
+                id = "1",
+                name = "meme1",
+                dateCreated = 123456789,
+                image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+            )
         ) { }
+    }
+}
+
+
+@Preview
+@Composable
+fun MemesListPreview() {
+    AppTheme {
+        MemeListAdaptiveLayout(
+            modifier = Modifier,
+            memes = listOf(
+                MemeUi(
+                    id = "1",
+                    name = "meme1",
+                    dateCreated = 123456789,
+                    image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+
+                ),
+                MemeUi(
+                    id = "2",
+                    name = "meme2",
+                    dateCreated = 123456789,
+                    image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+                )
+            ),
+            onMemeClick = {}
+        )
     }
 }
