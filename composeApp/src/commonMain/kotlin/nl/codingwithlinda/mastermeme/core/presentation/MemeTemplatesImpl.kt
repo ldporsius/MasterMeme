@@ -32,9 +32,7 @@ import mastermeme.composeapp.generated.resources._6_3f0mvv
 import mastermeme.composeapp.generated.resources._6_boardroom_meeting_suggestion
 import nl.codingwithlinda.mastermeme.core.domain.MemeTemplates
 
-class MemeTemplatesImpl(
-
-): MemeTemplates {
+object MemeTemplatesImpl: MemeTemplates {
     override fun getTemplates(): List<MemeImageUi> {
        return listOf(
         MemeImageUi.pngImage(Res.drawable._0_1otri4),
@@ -42,6 +40,7 @@ class MemeTemplatesImpl(
         MemeImageUi.pngImage(Res.drawable._0_3x8soh),
         MemeImageUi.pngImage(Res.drawable._0_8c9dbh),
         MemeImageUi.pngImage(Res.drawable._0__i_bet_hes_thinking_about_other_women),
+        MemeImageUi.pngImage(Res.drawable._1_49su9f),
         MemeImageUi.pngImage(Res.drawable._1__third_world_skeptical_kid),
         MemeImageUi.pngImage(Res.drawable._1_clown_applying_makeup),
         MemeImageUi.pngImage(Res.drawable._1_is_this_a_pigeon),
@@ -65,7 +64,6 @@ class MemeTemplatesImpl(
         MemeImageUi.pngImage(Res.drawable._6_3f0mvv),
         MemeImageUi.pngImage(Res.drawable._6_21ajtl),
         MemeImageUi.pngImage(Res.drawable._6_boardroom_meeting_suggestion),
-
-           )
+        )
     }
 }
