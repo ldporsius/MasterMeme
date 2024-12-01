@@ -18,7 +18,11 @@ fun App() {
         NavHost(navController = navController, startDestination = "start"){
             navigation(startDestination = Route.MemeList.route, route = "start"){
                 composable(route = Route.MemeList.route){
-                    MemesListRoot()
+                    MemesListRoot(
+                        navToMemeCreator = {
+                            navController.navigate(Route.MemeCreator.route)
+                        }
+                    )
                 }
                 composable(route = Route.MemeCreator.route){
                     MemeCreatorRoot()

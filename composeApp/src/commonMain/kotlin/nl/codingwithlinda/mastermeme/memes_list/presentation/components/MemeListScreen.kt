@@ -24,7 +24,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MemeListScreen(
     state: MemeListViewState,
-    onAction: (MemeListAction) -> Unit
+    onAction: (MemeListAction) -> Unit,
+
 
 ) {
     Scaffold(

@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListScreen
+import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 
 @Composable
 fun MemesListRoot(
@@ -13,6 +14,12 @@ fun MemesListRoot(
     val memeListViewModel:MemeListViewModel  = viewModel()
     MemeListScreen(
         state = memeListViewModel.state.collectAsStateWithLifecycle().value,
-        onAction = memeListViewModel::handleAction
+        onAction = {
+            if(it is MemeListAction.CreateNewMeme){
+                navToMemeCreator()
+            }else{
+                memeListViewModel.handleAction(it)
+            }
+        }
     )
 }
