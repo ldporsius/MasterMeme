@@ -55,9 +55,9 @@ kotlin {
 }
 
 compose.resources {
-    publicResClass = false
-    packageOfResClass = "mastermeme.composeapp.generated.resources"
-    generateResClass = auto
+//    publicResClass = false
+//    packageOfResClass = "mastermeme.composeapp.generated.resources"
+//    generateResClass = auto
     customDirectory(
         sourceSetName = "memeTemplates",
         directoryProvider = provider { layout.projectDirectory.dir("memeTemplates") }

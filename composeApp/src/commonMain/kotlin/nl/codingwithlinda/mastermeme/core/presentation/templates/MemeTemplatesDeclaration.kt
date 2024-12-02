@@ -16,7 +16,7 @@ object MemeTemplatesDeclaration{
         id = "",
         image = MemeImageUi.vectorImage(Res.drawable.vector_18)
     )
-    val templates: List<MemeTemplateUi> = listOf(
+    private val templates: List<MemeTemplateUi> = listOf(
            MemeTemplateUi(
                id = "0",
                image = MemeImageUi.pngImage(Res.drawable._1_49su9f)

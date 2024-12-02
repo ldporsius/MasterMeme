@@ -24,9 +24,7 @@ class MemeListViewModel(
     val state = _state
         .onStart {
             _state.update {
-                it.copy(templates = templates.getTemplates().map {
-                    it.toUi()
-                })
+                it.copy(templates = templates.toUi())
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), _state.value)
 
@@ -59,8 +57,6 @@ class MemeListViewModel(
                 MemeListViewModel(templates)
             }
         }
-
     }
-
 
 }

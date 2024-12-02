@@ -12,10 +12,15 @@ class TemplatesImpl() : Templates{
 
     @OptIn(ExperimentalResourceApi::class)
     override fun getTemplates(): List<MemeTemplate> {
-        return Res.allDrawableResources.map {
+
+        return Res.allDrawableResources
+            .filterNot {
+                it.key.startsWith("vector")
+            }
+            .map {
             MemeTemplate(
                 id = it.key,
-                uri = it.value.toString()
+                drawableResource = it.value
             )
         }
 
