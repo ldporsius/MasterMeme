@@ -52,7 +52,9 @@ fun MemeCreatorRoot(
     ){
         paddingValues ->
         MemeCreatorScreen(
-            modifier = Modifier.padding(paddingValues),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value
         )
 
