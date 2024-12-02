@@ -9,6 +9,7 @@ import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
@@ -16,12 +17,18 @@ import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 @Preview
 @Composable
 fun PreviewMemeButtonsComponent() {
-
     AppTheme {
         CreatorButtonsComponent(
             modifier = Modifier.fillMaxWidth(),
             onAction = {}
         )
+    }
+}
+@Preview
+@Composable
+fun PreviewMemeTextSizeComponent() {
+    AppTheme {
+        EditTextSizeComponent()
     }
 }
 
