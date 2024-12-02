@@ -13,16 +13,19 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditTextSizeComponent() {
+fun EditTextSizeComponent(
+    onAction: (MemeCreatorAction) -> Unit
+) {
 
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = { onAction(MemeCreatorAction.StopEditing) }) {
             Icon(imageVector = Icons.Default.Close, contentDescription = null)
         }
         Slider(

@@ -40,7 +40,11 @@ class MemeCreatorViewModel(
                 )
             }
             MemeCreatorAction.SaveMeme -> {}
+            MemeCreatorAction.StopEditing -> {
+                _state.value = _state.value.copy(
+                    isEditing = false
+                )
+            }
         }
-
     }
 }

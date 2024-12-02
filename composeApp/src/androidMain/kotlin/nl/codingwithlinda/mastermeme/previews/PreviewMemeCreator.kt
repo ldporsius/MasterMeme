@@ -28,7 +28,9 @@ fun PreviewMemeButtonsComponent() {
 @Composable
 fun PreviewMemeTextSizeComponent() {
     AppTheme {
-        EditTextSizeComponent()
+        EditTextSizeComponent(
+            onAction = {}
+        )
     }
 }
 
