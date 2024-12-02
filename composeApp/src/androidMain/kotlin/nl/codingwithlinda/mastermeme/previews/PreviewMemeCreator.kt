@@ -19,7 +19,8 @@ fun PreviewMemeButtonsComponent() {
 
     AppTheme {
         CreatorButtonsComponent(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            onAction = {}
         )
     }
 }
@@ -32,9 +33,9 @@ AppTheme {
     MemeCreatorScreen(
         modifier = Modifier.fillMaxSize(),
         state = MemeCreatorViewState(
-            memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18)
-
-        )
+            memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
+        ),
+        onAction = {}
     )
 }
 }

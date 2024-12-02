@@ -10,20 +10,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 
 @Composable
 fun CreatorButtonsComponent(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onAction: (MemeCreatorAction) -> Unit
 ) {
 
-    Row(modifier = modifier,
+    Row(
+        modifier = modifier,
         horizontalArrangement = Arrangement.End
     ) {
-        OutlinedButton(onClick = { /*TODO*/ }) {
+        OutlinedButton(onClick = { onAction(MemeCreatorAction.AddText) }) {
             Text(text = "Add text")
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { onAction(MemeCreatorAction.SaveMeme) }) {
             Text(text = "Save meme")
         }
     }

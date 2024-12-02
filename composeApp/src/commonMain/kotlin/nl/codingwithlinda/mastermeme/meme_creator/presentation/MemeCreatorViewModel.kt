@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import nl.codingwithlinda.mastermeme.core.domain.Templates
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesDeclaration
 import nl.codingwithlinda.mastermeme.core.presentation.templates.memeTemplateToUi
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 
 class MemeCreatorViewModel(
@@ -29,5 +30,17 @@ class MemeCreatorViewModel(
                 templates = templates
             ).image
         )
+    }
+
+    fun handleAction(action: MemeCreatorAction){
+        when(action){
+            MemeCreatorAction.AddText -> {
+                _state.value = _state.value.copy(
+                    isEditing = true
+                )
+            }
+            MemeCreatorAction.SaveMeme -> {}
+        }
+
     }
 }

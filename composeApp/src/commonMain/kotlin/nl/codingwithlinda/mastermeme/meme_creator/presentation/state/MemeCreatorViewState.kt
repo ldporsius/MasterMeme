@@ -4,4 +4,5 @@ import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
 
 data class MemeCreatorViewState(
    val  memeImageUi: MemeImageUi,
+   val isEditing: Boolean = false,
 )

@@ -55,8 +55,8 @@ fun MemeCreatorRoot(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
-            state = viewModel.state.collectAsStateWithLifecycle().value
+            state = viewModel.state.collectAsStateWithLifecycle().value,
+            onAction = viewModel::handleAction
         )
-
     }
 }
