@@ -1,7 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSetTree.Companion.main
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -33,7 +32,6 @@ kotlin {
     
     sourceSets {
 
-        this.register("memetemplates")
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(compose.components.uiToolingPreview)
@@ -57,18 +55,19 @@ kotlin {
 }
 
 compose.resources {
+    publicResClass = false
+    packageOfResClass = "mastermeme.composeapp.generated.resources"
+    generateResClass = auto
     customDirectory(
-        sourceSetName = "memetemplates",
-        directoryProvider = provider { layout.projectDirectory.dir("commonMain") }
+        sourceSetName = "memeTemplates",
+        directoryProvider = provider { layout.projectDirectory.dir("memeTemplates") }
     )
 }
+
 android {
     namespace = "nl.codingwithlinda.mastermeme"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-   /* sourceSets {
-        this.register("meme-templates")
-    }*/
     defaultConfig {
         applicationId = "nl.codingwithlinda.mastermeme"
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -89,6 +88,13 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    sourceSets {
+        getByName("main") {
+            res {
+                srcDirs("src/androidMain/res", "src/androidMain/meme_templates")
+            }
+        }
     }
 }
 

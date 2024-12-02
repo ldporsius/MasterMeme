@@ -1,7 +1,12 @@
 package nl.codingwithlinda.mastermeme.core.presentation.templates
 
-import mastermeme.composeapp.generated.resources.Res
+//import mastermeme.composeapp.generated.resources.Res
+//import mastermeme.composeapp.generated.resources.
+//import mastermeme.composeapp.generated.resources.Res._1_49su9f
+//import mastermeme.composeapp.generated.resources.Res.vector_18
 //import mastermeme.composeapp.generated.resources._0_1otri4
+//import mastermeme.composeapp.generated.resources._1_49su9f
+import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources._1_49su9f
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
@@ -15,7 +20,8 @@ object MemeTemplatesDeclaration{
            MemeTemplateUi(
                id = "0",
                image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
-           )
+           ),
+
 //        "0" to MemeImageUi.pngImage(Res.drawable._0_1otri4),
 //        "1" to MemeImageUi.pngImage(Res.drawable._0_2reqtg),
 //        "2" to MemeImageUi.pngImage(Res.drawable._0_3x8soh),
