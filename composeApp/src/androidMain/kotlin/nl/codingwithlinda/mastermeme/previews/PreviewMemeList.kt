@@ -6,7 +6,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
-import mastermeme.composeapp.generated.resources._0_1otri4
+import mastermeme.composeapp.generated.resources._1_49su9f
+import mastermeme.composeapp.generated.resources._4_scared
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.MemeUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
@@ -32,7 +33,7 @@ fun MemesListItemPreview() {
                 id = "1",
                 name = "meme1",
                 dateCreated = 123456789,
-                image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+                image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
             )
         ) { }
     }
@@ -50,14 +51,14 @@ fun MemesListPreview() {
                     id = "1",
                     name = "meme1",
                     dateCreated = 123456789,
-                    image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+                    image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
 
                 ),
                 MemeUi(
                     id = "2",
                     name = "meme2",
                     dateCreated = 123456789,
-                    image = MemeImageUi.pngImage(Res.drawable._0_1otri4)
+                    image = MemeImageUi.pngImage(Res.drawable._4_scared)
                 )
             ),
             onMemeClick = {}

@@ -1,14 +1,17 @@
 package nl.codingwithlinda.mastermeme.navigation
 
+import kotlinx.serialization.Serializable
+
 sealed interface Route {
-   val route: String
 
-   data object MemeList: Route {
-      override val route: String = "meme_list"
-   }
+    @Serializable
+    object mainGraph: Route
 
-   data object MemeCreator: Route {
-       override val route: String
-           get() = "meme_creator"
-   }
+    @Serializable
+    data object MemeList: Route
+
+    @Serializable
+    data class MemeCreator(
+        val memeId: String
+    ): Route
 }

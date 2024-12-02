@@ -12,7 +12,6 @@ import org.jetbrains.compose.resources.vectorResource
 sealed interface MemeImageUi{
     data class vectorImage(val image: DrawableResource): MemeImageUi
     data class pngImage(val image: DrawableResource): MemeImageUi
-    //data class bitmapImage(val image: Bitmap): MemeImageUi
 
     @Composable
     fun DrawImage() {
@@ -28,6 +27,7 @@ sealed interface MemeImageUi{
                 contentDescription = null,
                 contentScale = ContentScale.FillBounds
             )
+
         }
     }
 }

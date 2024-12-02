@@ -70,7 +70,7 @@ fun MemeListScreen(
                 MemeTemplatePicker(
                     templates = state.templates,
                     onTemplateSelected = {
-                        onAction(MemeListAction.CreateNewMeme)
+                        onAction(MemeListAction.CreateNewMeme(it))
                     }
                 )
             }

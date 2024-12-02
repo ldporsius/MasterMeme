@@ -1,7 +1,8 @@
 package nl.codingwithlinda.mastermeme.core.domain
 
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.domain.model.MemeTemplate
 
-fun interface MemeTemplates {
-    fun getTemplates(): List<MemeImageUi>
+
+interface Templates{
+    fun getTemplates(): List<MemeTemplate>
 }

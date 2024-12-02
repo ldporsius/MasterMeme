@@ -8,15 +8,17 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListActio
 
 @Composable
 fun MemesListRoot(
-    navToMemeCreator: () -> Unit
+    navToMemeCreator: (id: String) -> Unit
 ) {
 
-    val memeListViewModel:MemeListViewModel  = viewModel()
+    val memeListViewModel:MemeListViewModel  = viewModel(
+        factory = MemeListViewModel.Factory
+    )
     MemeListScreen(
         state = memeListViewModel.state.collectAsStateWithLifecycle().value,
         onAction = {
             if(it is MemeListAction.CreateNewMeme){
-                navToMemeCreator()
+                navToMemeCreator(it.id)
             }else{
                 memeListViewModel.handleAction(it)
             }

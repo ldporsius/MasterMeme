@@ -9,12 +9,12 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplateUi
 
 @Composable
 fun MemeTemplatePicker(
-    templates: List<MemeImageUi>,
-    onTemplateSelected: () -> Unit) {
+    templates: List<MemeTemplateUi>,
+    onTemplateSelected: (id:String) -> Unit) {
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -22,12 +22,13 @@ fun MemeTemplatePicker(
         verticalArrangement = Arrangement.spacedBy(16.dp),
         contentPadding = PaddingValues(16.dp)
     ){
-        items(templates){
+
+        items(templates){template ->
             MemeTemplateItem(
                 modifier = Modifier.size(176.dp),
-                memeImageUi = it,
+                memeImageUi = template.image,
                 onClick = {
-                    onTemplateSelected()
+                    onTemplateSelected(template.id)
                 }
             )
         }

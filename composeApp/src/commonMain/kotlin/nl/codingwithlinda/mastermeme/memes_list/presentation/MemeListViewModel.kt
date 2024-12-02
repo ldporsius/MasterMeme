@@ -1,25 +1,34 @@
 package nl.codingwithlinda.mastermeme.memes_list.presentation
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import nl.codingwithlinda.mastermeme.core.presentation.MemeTemplatesImpl
+import nl.codingwithlinda.mastermeme.core.domain.Templates
+import nl.codingwithlinda.mastermeme.core.presentation.templates.TemplatesFromResources
+import nl.codingwithlinda.mastermeme.core.presentation.templates.toUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
 
 class MemeListViewModel(
-
+    templates: Templates
 ): ViewModel() {
 
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state
         .onStart {
             _state.update {
-                it.copy(templates = MemeTemplatesImpl.getTemplates())
+                it.copy(templates = templates.getTemplates().map {
+                    it.toUi()
+                })
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), _state.value)
 
@@ -43,6 +52,16 @@ class MemeListViewModel(
 
             }
         }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val templates = TemplatesFromResources()
+                MemeListViewModel(templates)
+            }
+        }
+
     }
 
 
