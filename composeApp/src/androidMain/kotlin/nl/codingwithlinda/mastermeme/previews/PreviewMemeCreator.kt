@@ -44,7 +44,9 @@ AppTheme {
         state = MemeCreatorViewState(
             memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
         ),
-        onAction = {}
+        onAction = {},
+        onDrag = {}
+
     )
 }
 }
