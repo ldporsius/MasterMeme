@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.flow.stateIn
@@ -13,24 +12,25 @@ import kotlinx.coroutines.flow.update
 import nl.codingwithlinda.mastermeme.core.domain.Templates
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesDeclaration
-import nl.codingwithlinda.mastermeme.core.presentation.templates.memeTemplateToUi
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val templates: Templates
 ) : ViewModel() {
 
-    private val _memeTexts = MutableStateFlow<List<String>>(emptyList())
+    private val _memeTexts = MutableStateFlow<Map<Int, MemeUiText>>(emptyMap())
+    private val _selectedMemeIndex = MutableStateFlow<Int>(-1)
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
         memeImageUi =  MemeTemplatesDeclaration.emptyTemplate.image,
     ))
-    val state = combine(_state, _memeTexts){
-        state, memeTexts ->
+    val state = combine(_state, _memeTexts, _selectedMemeIndex){ state, memeTexts , selectedMemeIndex ->
         state.copy(
-            memeTexts = memeTexts
+            memeTexts = memeTexts,
+            selectedMemeTextIndex = selectedMemeIndex,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
@@ -46,30 +46,46 @@ class MemeCreatorViewModel(
 
     fun handleAction(action: MemeCreatorAction){
         when(action){
-            MemeCreatorAction.AddText -> {
+            is MemeCreatorAction.AddText -> {
+                val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
+                val newMemeText =  MemeUiText(
+                    text = "",
+                    offsetX = 0f,
+                    offsetY = 0f,
+                    parentWidth = 0f,
+                    parentHeight = 0f
+                )
                 _memeTexts.update {
-                    it + ""
+                   it.plus(newIndex to newMemeText)
                 }
-                _state.update {
-                    it.copy(
-                        memeTexts = _memeTexts.value,
+                _selectedMemeIndex.update {
+                   newIndex
+                }
 
-                    )
+            }
+
+            is MemeCreatorAction.PositionText -> {
+                val memeIndex = _selectedMemeIndex.value
+                val updateMemeText = _memeTexts.value[memeIndex]?.copy(
+                    offsetX = action.offsetX,
+                    offsetY = action.offsetY,
+                    parentWidth = action.parentWidth,
+                    parentHeight = action.parentHeight
+                ) ?: return
+                _memeTexts.update {
+                    it.plus(memeIndex to updateMemeText)
                 }
             }
             MemeCreatorAction.SaveMeme -> {}
 
-            MemeCreatorAction.StartEditing -> {
-                _state.update {
-                    it.copy(
-                        isEditing = true
-                    )
-                }
+            is MemeCreatorAction.StartEditing -> {
+               _state.update {
+                   it.copy(
+                       isEditing = true
+                   )
+               }
             }
             MemeCreatorAction.StopEditing -> {
-                _memeTexts.update {
-                    it.dropLast(1)
-                }
                 _state.update {
                     it.copy(
                         isEditing = false
@@ -77,24 +93,29 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.EditMemeText -> {
-                val currentMemeTextIndex = _state.value.selectedMemeTextIndex
+                val currentMemeTextIndex = _selectedMemeIndex.value
+                val currentMemeText = _memeTexts.value[currentMemeTextIndex] ?: throw Exception("Meme text not found")
 
-                _memeTexts.value.toMutableList().add(currentMemeTextIndex, action.text)
-
-                _state.update {
-                    it.copy(
-                        memeTexts = _memeTexts.value
+                val updateMemeText = currentMemeText.copy(
+                        text = action.text
                     )
+               _memeTexts.update {
+                   it.plus(currentMemeTextIndex to updateMemeText)
+                }
+
+            }
+
+            is MemeCreatorAction.DeleteMemeText -> {
+                _memeTexts.update {
+                    it.minus(action.index)
+                }
+                _selectedMemeIndex.update {
+                    -1
                 }
             }
 
             is MemeCreatorAction.SelectMemeText -> {
-                _state.update {
-                    it.copy(
-                        selectedMemeTextIndex = action.index ,
-                        //isEditing = true
-                    )
-                }
+                _selectedMemeIndex.update { action.index }
             }
         }
     }

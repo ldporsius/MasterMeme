@@ -58,8 +58,6 @@ AppTheme {
             memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
         ),
         onAction = {},
-        onDrag = {}
-
     )
 }
 }

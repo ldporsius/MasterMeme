@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,6 +26,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.ui.theme.black
 import kotlin.math.roundToInt
 
 @Composable
@@ -32,7 +34,6 @@ fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
     state: MemeCreatorViewState,
     onAction: (MemeCreatorAction) -> Unit,
-    onDrag: (Float) -> Unit
 ) {
     Surface (modifier = modifier){
 
@@ -47,7 +48,16 @@ fun MemeCreatorScreen(
         }
         val pointerInputModifier = Modifier
             .pointerInput(Unit) {
-                detectDragGestures { _, dragAmount ->
+                detectDragGestures(
+                    onDragEnd = {
+                        onAction(MemeCreatorAction.PositionText(
+                            parentWidth = size.width,
+                            parentHeight = size.height,
+                            offsetX = offsetX.value,
+                            offsetY = offsetY.value
+                        ))
+                    },
+                ) { _, dragAmount ->
                     val original = Offset(offsetX.value, offsetY. value)
                     val summed = original + dragAmount
                     val newValue = Offset(
@@ -79,60 +89,53 @@ fun MemeCreatorScreen(
 
                 state.memeImageUi.DrawImage()
 
-               state.memeTexts.onEachIndexed { index, s ->
-                    if(index == state.selectedMemeTextIndex){
+                state.selectedMemeText?.let {memeText ->
+                    if(state.isEditing){
+                        TextField(
+                            value = memeText.text,
+                            onValueChange = {
+                                onAction(MemeCreatorAction.EditMemeText(it))
+                            },
+                            modifier = Modifier
+                                .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                                .width(size.width.dp)
+                                .then(pointerInputModifier),
+                            singleLine = true
 
-                        if(state.isEditing){
-                            TextField(
-                                value = s,
-                                onValueChange = {
-                                    onAction(MemeCreatorAction.EditMemeText(it))
-                                },
-                                modifier = Modifier
-                                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-                                    .width(size.width.dp)
-                                    .then(pointerInputModifier),
-                                singleLine = true
-
-                            )
-                        }
-                        else{
-                            MemeTextComponentActive(
-                                modifier = Modifier
-                                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-                                    .width(size.width.dp)
-                                    .then(pointerInputModifier),
-                                actionOnTapTwice = {
-                                    onAction(MemeCreatorAction.StartEditing)
-                                },
-                                actionOnDelete = {
-                                    onAction(MemeCreatorAction.StopEditing)
-                                }
-                            )
-                        }
+                        )
                     }
-                   else{
-                       MemeTextComponent(
-                           modifier = Modifier
-                               .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-                               .width(size.width.dp)
-                               .then(pointerInputModifier),
-                           actionOnTap = {
-                               onAction(MemeCreatorAction.SelectMemeText(index))
-                           }
-                       )
+                    else{
+                        MemeTextComponentActive(
+                            modifier = Modifier
+                                .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                                .width(size.width.dp)
+                                .then(pointerInputModifier),
+                            actionOnTapTwice = {
+                                onAction(MemeCreatorAction.StartEditing)
+                            },
+                            actionOnDelete = {
+                                onAction(MemeCreatorAction.DeleteMemeText(state.selectedMemeTextIndex))
+                            }
+                        )
                     }
                 }
-                when(state.isEditing){
-                    true -> {
+                state.memeTexts.values.onEachIndexed { index, memeText ->
+                    Text(
+                        modifier = Modifier
+                            .offset
+                            {IntOffset (memeText.offsetX.roundToInt(), memeText.offsetY.roundToInt()) },
+                        text = memeText.text, color = black)
 
-                    }
-                    false -> {
-
-                    }
+                    /* MemeTextComponent(
+                        modifier = Modifier
+                            .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                            .width(size.width.dp)
+                            .then(pointerInputModifier),
+                        actionOnTap = {
+                            onAction(MemeCreatorAction.SelectMemeText(index))
+                        }
+                    )*/
                 }
-
-
 
             }
 

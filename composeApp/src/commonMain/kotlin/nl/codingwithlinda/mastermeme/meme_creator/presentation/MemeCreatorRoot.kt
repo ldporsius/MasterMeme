@@ -57,7 +57,6 @@ fun MemeCreatorRoot(
                 .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value,
             onAction = viewModel::handleAction,
-            onDrag = {}
         )
     }
 }
