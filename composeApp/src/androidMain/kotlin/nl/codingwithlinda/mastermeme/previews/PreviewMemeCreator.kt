@@ -11,9 +11,22 @@ import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeTextComponentActive
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 
+@Preview
+@Composable
+fun PreviewMemeTextComponent() {
+    AppTheme {
+        MemeTextComponentActive(
+            modifier = Modifier.fillMaxWidth(),
+            actionOnTapTwice = {},
+            actionOnDelete = {}
+
+        )
+    }
+}
 @Preview
 @Composable
 fun PreviewMemeButtonsComponent() {

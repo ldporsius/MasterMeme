@@ -6,9 +6,10 @@ import nl.codingwithlinda.mastermeme.core.domain.Templates
 import nl.codingwithlinda.mastermeme.core.domain.model.MemeTemplate
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 
+@OptIn(ExperimentalResourceApi::class)
 class TemplatesFromResources : Templates {
 
-    @OptIn(ExperimentalResourceApi::class)
+
     override fun getTemplates(): List<MemeTemplate> {
         return Res.allDrawableResources
             .filterNot {
@@ -20,5 +21,14 @@ class TemplatesFromResources : Templates {
                 drawableResource = it.value
             )
         }
+    }
+
+    override fun getTemplate(id: String): MemeTemplate {
+        return Res.allDrawableResources[id]?.let {
+            MemeTemplate(
+                id = id,
+                drawableResource = it
+            )
+        } ?:  throw IllegalArgumentException("Template with id $id not found")
     }
 }

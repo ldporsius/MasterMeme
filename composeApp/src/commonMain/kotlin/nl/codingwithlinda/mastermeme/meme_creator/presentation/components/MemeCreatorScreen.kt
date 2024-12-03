@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -44,6 +45,18 @@ fun MemeCreatorScreen(
         var size by remember {
             mutableStateOf(Size.Zero)
         }
+        val pointerInputModifier = Modifier
+            .pointerInput(Unit) {
+                detectDragGestures { _, dragAmount ->
+                    val original = Offset(offsetX.value, offsetY. value)
+                    val summed = original + dragAmount
+                    val newValue = Offset(
+                        x = summed. x. coerceIn(0f, size.width - 150.dp.toPx()),
+                        y = summed. y. coerceIn(0f, size.height - 50.dp.toPx())                     )
+                    offsetX. value = newValue. x
+                    offsetY. value = newValue. y
+                }
+            }
 
         Column {
             Spacer(modifier = Modifier.weight(1f))
@@ -54,37 +67,83 @@ fun MemeCreatorScreen(
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
                     }
+                    .pointerInput(Unit) {
+                        detectTapGestures(
+                            onTap = {
+                                onAction(MemeCreatorAction.StopEditing)
+                            }
+                        )
+                    }
 
             ) {
 
                 state.memeImageUi.DrawImage()
 
-                TextField(
-                    value = "hello world",
-                    onValueChange = {},
-                    modifier = Modifier
-                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
-                    .width(150.dp)
-                    .pointerInput(Unit) {
-                        detectDragGestures { _, dragAmount ->
-                            val original = Offset(offsetX.value, offsetY. value)
-                            val summed = original + dragAmount
-                            val newValue = Offset(
-                                x = summed. x. coerceIn(0f, size.width - 150.dp.toPx()),
-                                y = summed. y. coerceIn(0f, size.height - 50.dp.toPx())                     )
-                            offsetX. value = newValue. x
-                            offsetY. value = newValue. y
+               state.memeTexts.onEachIndexed { index, s ->
+                    if(index == state.selectedMemeTextIndex){
+
+                        if(state.isEditing){
+                            TextField(
+                                value = s,
+                                onValueChange = {
+                                    onAction(MemeCreatorAction.EditMemeText(it))
+                                },
+                                modifier = Modifier
+                                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                                    .width(size.width.dp)
+                                    .then(pointerInputModifier),
+                                singleLine = true
+
+                            )
+                        }
+                        else{
+                            MemeTextComponentActive(
+                                modifier = Modifier
+                                    .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                                    .width(size.width.dp)
+                                    .then(pointerInputModifier),
+                                actionOnTapTwice = {
+                                    onAction(MemeCreatorAction.StartEditing)
+                                },
+                                actionOnDelete = {
+                                    onAction(MemeCreatorAction.StopEditing)
+                                }
+                            )
                         }
                     }
-                )
+                   else{
+                       MemeTextComponent(
+                           modifier = Modifier
+                               .offset { IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt()) }
+                               .width(size.width.dp)
+                               .then(pointerInputModifier),
+                           actionOnTap = {
+                               onAction(MemeCreatorAction.SelectMemeText(index))
+                           }
+                       )
+                    }
+                }
+                when(state.isEditing){
+                    true -> {
+
+                    }
+                    false -> {
+
+                    }
+                }
+
+
+
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
             when(state.isEditing){
-                true -> EditTextSizeComponent(
-                    onAction = onAction
-                )
+                true -> {
+                    EditTextSizeComponent(
+                        onAction = onAction
+                    )
+                }
                 false -> {
                     CreatorButtonsComponent(
                         modifier = Modifier.fillMaxWidth(),
