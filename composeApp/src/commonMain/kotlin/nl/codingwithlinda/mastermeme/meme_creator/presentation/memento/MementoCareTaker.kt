@@ -10,9 +10,8 @@ class MementoCareTaker<T>(
         history.add(state)
     }
     fun undo(): T?{
-        println("UNDO CALLED. history = $history")
         val previousState = history.removeLastOrNull()
-       return previousState?.restoreState()
+        return previousState?.restoreState()
 
     }
 }

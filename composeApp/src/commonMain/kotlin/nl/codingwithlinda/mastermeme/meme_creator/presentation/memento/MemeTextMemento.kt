@@ -15,8 +15,4 @@ class MemeTextMemento(
     override fun restoreState(): MemeUiText? {
        return _state
     }
-
-
-
-
 }

@@ -20,8 +20,6 @@ data class MemeUiText(
     }
 
     fun restoreState(careTaker: MementoCareTaker<MemeUiText>): MemeUiText {
-        println("CARETAKER RESTORED CALLED. ")
         return careTaker.undo() ?: this
-
     }
 }

@@ -6,17 +6,25 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFontFamilyResolver
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -35,8 +43,26 @@ fun MemeTextComponent(
     text: MemeUiText,
     parentSize: Size,
     onAction: (MemeCreatorAction) -> Unit,
+) {
 
-    ) {
+    val fontFamily = FontFamily(
+        Font(Res.font.impact)
+    )
+
+    val textMeasurer = rememberTextMeasurer(0)
+
+    val textWidth = remember(text.fontSize) {
+        println("MEME TEXT COMPONENT has new font size: ${text.fontSize}")
+        textMeasurer.measure(
+            text= text.text,
+            style = TextStyle(
+                fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
+                fontFamily = fontFamily
+            )
+        ).size.width
+    }
+
+    //val textHeight = textLayoutResult.size.height
 
     val offsetX = remember() {
         mutableStateOf(text.offsetX)
@@ -72,7 +98,7 @@ fun MemeTextComponent(
                 val original = Offset(offsetX.value, offsetY. value)
                 val summed = original + dragAmount
                 val newValue = Offset(
-                    x = summed.x.coerceIn(-parentSize.width/2, parentSize.width - 100.dp.toPx()),
+                    x = summed.x.coerceIn(0f, parentSize.width - textWidth),
                     y = summed.y.coerceIn(0f, parentSize.height - 50.dp.toPx())                     )
                 offsetX. value = newValue. x
                 offsetY. value = newValue. y
@@ -83,38 +109,22 @@ fun MemeTextComponent(
         offsetX.value.roundToInt(),
         offsetY.value.roundToInt()
     )
-    Box(modifier = modifier
+    Box(modifier = Modifier
         .offset { pointerOffset }
         .then(pointerInputModifier),
         contentAlignment = Alignment.TopEnd
     ){
 
-
-        Box(modifier = Modifier
-            .fillMaxWidth()
-
-            .padding(top = 24.dp, end = 24.dp)
-            //.border(width = 2.dp, color = black)
-        ) {
-
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = text.text,
-                    modifier = Modifier.padding(8.dp),
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontFamily = FontFamily(
-                        Font(Res.font.impact)
-                    ),
-                    fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
-                    textAlign = TextAlign.Justify,
-                    color = black
-                )
-            }
-
-        }
-
+        Text(
+            text = text.text,
+            modifier = Modifier,
+            style = MaterialTheme.typography.headlineLarge,
+            fontFamily = FontFamily(
+                Font(Res.font.impact)
+            ),
+            fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
+            textAlign = TextAlign.Justify,
+            color = black
+        )
     }
 }
