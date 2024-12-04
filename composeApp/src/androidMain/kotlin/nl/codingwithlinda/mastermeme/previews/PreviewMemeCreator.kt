@@ -13,6 +13,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTe
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeTextComponentActive
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 
 @Preview
@@ -21,8 +22,17 @@ fun PreviewMemeTextComponent() {
     AppTheme {
         MemeTextComponentActive(
             modifier = Modifier.fillMaxWidth(),
-            actionOnTapTwice = {},
-            actionOnDelete = {}
+            text = MemeUiText(
+                id = 0,
+                text = "Tap twice to edit",
+                offsetX = 0f,
+                offsetY = 0f,
+                parentWidth = 0f,
+                parentHeight = 0f,
+                isEditing = true
+            ),
+            actionOnDelete = {},
+            onAction = {}
 
         )
     }

@@ -1,7 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,16 +11,18 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.impact
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.black
 import nl.codingwithlinda.mastermeme.ui.theme.schemes_error
 import nl.codingwithlinda.mastermeme.ui.theme.white
@@ -30,9 +31,9 @@ import org.jetbrains.compose.resources.Font
 @Composable
 fun MemeTextComponentActive(
     modifier: Modifier = Modifier,
-    text: String = "",
-    actionOnTapTwice: () -> Unit,
-    actionOnDelete: () -> Unit
+    text: MemeUiText,
+    actionOnDelete: () -> Unit,
+    onAction: (MemeCreatorAction) -> Unit,
 ) {
 
     Box(modifier = modifier,
@@ -43,11 +44,7 @@ fun MemeTextComponentActive(
         Box(modifier = Modifier
             .fillMaxWidth()
             .pointerInput(Unit) {
-                detectTapGestures(
-                    onDoubleTap = {
-                        actionOnTapTwice()
-                    },
-                )
+
             }
             .padding(top = 24.dp, end = 24.dp)
             .border(width = 2.dp, color = black)
@@ -57,15 +54,27 @@ fun MemeTextComponentActive(
                 modifier = Modifier.fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(
-                    text,
-                    modifier = Modifier.padding(8.dp),
-                    style = MaterialTheme.typography.headlineLarge,
-                    fontFamily = FontFamily(
-                        Font(Res.font.impact)
+
+                OutlinedTextField(
+                    value = text.text,
+                    onValueChange = {
+                        onAction(MemeCreatorAction.EditMemeText(text.id, it))
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                    ,
+                    singleLine = true,
+                    colors = OutlinedTextFieldDefaults.colors(
+                        unfocusedContainerColor = white,
+                        unfocusedTextColor = black,
+                        focusedContainerColor = white,
+                        focusedTextColor = black
                     ),
-                    textAlign = TextAlign.Justify,
-                    color = black
+                    textStyle = MaterialTheme.typography.headlineLarge.copy(
+                        fontFamily = FontFamily(
+                            Font(Res.font.impact)
+                        )
+                    )
                 )
             }
         }

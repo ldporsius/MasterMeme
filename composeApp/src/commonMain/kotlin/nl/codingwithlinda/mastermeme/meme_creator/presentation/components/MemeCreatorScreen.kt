@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.OutlinedTextField
@@ -42,16 +43,16 @@ fun MemeCreatorScreen(
 ) {
     Surface (modifier = modifier){
 
-        val offsetX = remember(state.selectedMemeTextIndex) {
+       /* val offsetX = remember(state.selectedMemeTextIndex) {
             mutableStateOf(0f)
         }
         val offsetY = remember(state.selectedMemeTextIndex) {
             mutableStateOf(0f)
-        }
+        }*/
         var size by remember {
             mutableStateOf(Size.Zero)
         }
-        val pointerInputModifier = Modifier
+      /*  val pointerInputModifier = Modifier
             .pointerInput(Unit) {
                 detectDragGestures(
                     onDragEnd = {
@@ -71,7 +72,7 @@ fun MemeCreatorScreen(
                     offsetX. value = newValue. x
                     offsetY. value = newValue. y
                 }
-            }
+            }*/
 
         Column {
             Spacer(modifier = Modifier.weight(1f))
@@ -94,53 +95,27 @@ fun MemeCreatorScreen(
 
                 state.memeImageUi.DrawImage()
 
-                val pointerOffset = IntOffset(offsetX.value.roundToInt(), offsetY.value.roundToInt())
-
-               /* state.newMemeText?.let {
-                    MemeTextComponentActive(
-                        modifier = Modifier
-                            .offset { pointerOffset }
-                            .width(size.width.dp)
-                            .then(pointerInputModifier),
-                        text = "Tap twice to edit",
-                        actionOnTapTwice = {
-                            onAction(MemeCreatorAction.StartEditing)
-                        },
-                        actionOnDelete = {
-                            onAction(MemeCreatorAction.DeleteMemeText(state.selectedMemeTextIndex))
-                        }
-                    )
-                }*/
                 state.memeTexts.onEach { memeText ->
                     val offset = IntOffset(
                         memeText.value.offsetX.roundToInt(),
                         memeText.value.offsetY.roundToInt()
                     )
                     if (memeText.value.isEditing) {
-                            OutlinedTextField(
-                                value = memeText.value.text,
-                                onValueChange = {
-                                    onAction(MemeCreatorAction.EditMemeText(it))
-                                },
-                                modifier = Modifier
-                                    .offset { offset }
-                                    .fillMaxWidth()
-                                //.then(pointerInputModifier)
-                                ,
-                                singleLine = true,
-                                colors = OutlinedTextFieldDefaults.colors(
-                                    unfocusedContainerColor = white,
-                                    focusedContainerColor = white,
-                                    focusedTextColor = black
-                                )
-                            )
+                        MemeTextComponentActive(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            text = memeText.value,
+                            actionOnDelete = {
+                                onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
+                            },
+                            onAction = onAction
+                        )
+
                     } else {
                         MemeTextComponent(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable {
-                                    //onAction(MemeCreatorAction.StartEditing(memeText.key))
-                                }
                                 ,
                             text = memeText.value,
                             parentSize = size,

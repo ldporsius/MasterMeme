@@ -37,10 +37,10 @@ fun MemeTextComponent(
     ) {
 
     val offsetX = remember() {
-        mutableStateOf(0f)
+        mutableStateOf(text.offsetX)
     }
     val offsetY = remember() {
-        mutableStateOf(0f)
+        mutableStateOf(text.offsetY)
     }
 
     val pointerInputModifier = Modifier
@@ -48,6 +48,9 @@ fun MemeTextComponent(
             detectTapGestures(
                 onTap = {
                     onAction(MemeCreatorAction.StartEditing(text.id))
+                },
+                onDoubleTap = {
+                    onAction(MemeCreatorAction.SelectMemeText(text.id))
                 }
             )
         }
@@ -56,6 +59,7 @@ fun MemeTextComponent(
                 onDragEnd = {
                     onAction(
                         MemeCreatorAction.PositionText(
+                            id = text.id,
                             parentWidth = parentSize.width,
                             parentHeight = parentSize.height,
                             offsetX = offsetX.value,
