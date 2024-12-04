@@ -18,6 +18,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.impact
@@ -106,6 +108,7 @@ fun MemeTextComponent(
                     fontFamily = FontFamily(
                         Font(Res.font.impact)
                     ),
+                    fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
                     textAlign = TextAlign.Justify,
                     color = black
                 )

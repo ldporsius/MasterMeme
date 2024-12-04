@@ -129,9 +129,13 @@ fun MemeCreatorScreen(
 
             when(state.isEditing){
                 true -> {
-                    EditTextSizeComponent(
-                        onAction = onAction
-                    )
+                    state.selectedMemeText?.let {
+                        EditTextSizeComponent(
+                            memeText = it,
+                            onAction = onAction
+                        )
+                    }
+
                 }
                 false -> {
                     CreatorButtonsComponent(

@@ -11,5 +11,5 @@ data class MemeCreatorViewState(
 
 ){
    val selectedMemeText: MemeUiText? = memeTexts[selectedMemeTextIndex]
-   val newMemeText: MemeUiText? = memeTexts.values.find { it.isEditing }
+   val editingMemeText: MemeUiText? = memeTexts.values.find { it.isEditing }
 }

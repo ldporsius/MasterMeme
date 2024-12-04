@@ -29,7 +29,8 @@ fun PreviewMemeTextComponent() {
                 offsetY = 0f,
                 parentWidth = 0f,
                 parentHeight = 0f,
-                isEditing = true
+                isEditing = true,
+                fontSize = 50f
             ),
             actionOnDelete = {},
             onAction = {}
@@ -52,6 +53,16 @@ fun PreviewMemeButtonsComponent() {
 fun PreviewMemeTextSizeComponent() {
     AppTheme {
         EditTextSizeComponent(
+            memeText = MemeUiText(
+                id = 0,
+                text = "Tap twice to edit",
+                offsetX = 0f,
+                offsetY = 0f,
+                parentWidth = 0f,
+                parentHeight = 0f,
+                isEditing = true,
+                fontSize = 50f
+            ),
             onAction = {}
         )
     }
