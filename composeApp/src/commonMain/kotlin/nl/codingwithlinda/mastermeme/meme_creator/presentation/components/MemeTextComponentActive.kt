@@ -30,6 +30,7 @@ import org.jetbrains.compose.resources.Font
 @Composable
 fun MemeTextComponentActive(
     modifier: Modifier = Modifier,
+    text: String = "",
     actionOnTapTwice: () -> Unit,
     actionOnDelete: () -> Unit
 ) {
@@ -57,7 +58,7 @@ fun MemeTextComponentActive(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    "Tap twice to edit",
+                    text,
                     modifier = Modifier.padding(8.dp),
                     style = MaterialTheme.typography.headlineLarge,
                     fontFamily = FontFamily(
@@ -67,7 +68,6 @@ fun MemeTextComponentActive(
                     color = black
                 )
             }
-
         }
 
         IconButton(
