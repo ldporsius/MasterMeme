@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import nl.codingwithlinda.mastermeme.core.presentation.contact_picker.ContactPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.TemplatesFromResources
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
 
@@ -21,6 +22,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCr
 @Composable
 fun MemeCreatorRoot(
     memeId: String,
+    contactPicker: ContactPicker,
     onBack: () -> Unit
 ) {
 
@@ -51,11 +53,13 @@ fun MemeCreatorRoot(
         }
     ){
         paddingValues ->
+
         MemeCreatorScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value,
+            contactPicker = contactPicker,
             onAction = viewModel::handleAction,
         )
     }

@@ -46,7 +46,7 @@ kotlin {
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.2")
+            implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
 
@@ -55,9 +55,6 @@ kotlin {
 }
 
 compose.resources {
-//    publicResClass = false
-//    packageOfResClass = "mastermeme.composeapp.generated.resources"
-//    generateResClass = auto
     customDirectory(
         sourceSetName = "memeTemplates",
         directoryProvider = provider { layout.projectDirectory.dir("memeTemplates") }
