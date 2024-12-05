@@ -26,7 +26,7 @@ fun CreatorButtonsComponent(
             Text(text = "Add text")
         }
         Spacer(modifier = Modifier.width(16.dp))
-        Button(onClick = { onAction(MemeCreatorAction.SaveMeme) }) {
+        Button(onClick = { onAction(MemeCreatorAction.StartSaveMeme) }) {
             Text(text = "Save meme")
         }
     }

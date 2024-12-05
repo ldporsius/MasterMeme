@@ -1,6 +1,8 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.state
 
 sealed interface MemeCreatorAction {
+    data object StartSaveMeme : MemeCreatorAction
+    data object CancelSaveMeme : MemeCreatorAction
     data object SaveMeme : MemeCreatorAction
     data object AddText : MemeCreatorAction
     data class PositionText(val id: Int, val parentWidth: Float, val parentHeight: Float, val offsetX: Float, val offsetY: Float) : MemeCreatorAction

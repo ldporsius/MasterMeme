@@ -7,7 +7,7 @@ data class MemeCreatorViewState(
    val memeImageUi: MemeImageUi,
    val memeTexts: Map<Int, MemeUiText> = emptyMap(),
    val selectedMemeTextIndex: Int = -1,
-
+   val isSaving: Boolean = false,
 ){
    val selectedMemeText: MemeUiText? = memeTexts[selectedMemeTextIndex]
    val editingMemeText: MemeUiText? = memeTexts.values.find { it.isEditing }

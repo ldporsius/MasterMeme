@@ -73,12 +73,6 @@ class MemeCreatorViewModel(
                positionText(action)
             }
 
-           /* is MemeCreatorAction.StartEditing -> {
-                setCurrentMemeTextEditing(action.index)
-                _selectedMemeIndex.update {
-                    action.index
-                }
-            }*/
             MemeCreatorAction.StopEditing -> {
                 setNotCurrentMemeTextEditing()
                 setNoneSelected()
@@ -125,7 +119,27 @@ class MemeCreatorViewModel(
                 restoreFromHistory(action.id)
             }
 
-            MemeCreatorAction.SaveMeme -> {}
+            MemeCreatorAction.StartSaveMeme -> {
+                _state.update {
+                    it.copy(
+                        isSaving = true
+                    )
+                }
+            }
+            MemeCreatorAction.CancelSaveMeme -> {
+                _state.update {
+                    it.copy(
+                        isSaving = false
+                    )
+                }
+            }
+            MemeCreatorAction.SaveMeme -> {
+                _state.update {
+                    it.copy(
+                        isSaving = false
+                    )
+                }
+            }
 
         }
     }
