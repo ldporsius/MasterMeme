@@ -48,7 +48,7 @@ fun PreviewMemeButtonsComponent() {
         )
     }
 }
-@Preview
+@Preview(showBackground = true, backgroundColor = 0xFF0E0000)
 @Composable
 fun PreviewMemeTextSizeComponent() {
     AppTheme {
