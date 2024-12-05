@@ -5,11 +5,11 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 
 data class MemeCreatorViewState(
    val memeImageUi: MemeImageUi,
-   val isEditing: Boolean = false,
    val memeTexts: Map<Int, MemeUiText> = emptyMap(),
    val selectedMemeTextIndex: Int = -1,
 
 ){
    val selectedMemeText: MemeUiText? = memeTexts[selectedMemeTextIndex]
    val editingMemeText: MemeUiText? = memeTexts.values.find { it.isEditing }
+   val isEditing: Boolean = memeTexts.values.any { it.isEditing }
 }

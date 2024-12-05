@@ -57,76 +57,36 @@ class MemeCreatorViewModel(
                     offsetY = 0f,
                     parentWidth = 0f,
                     parentHeight = 0f,
-                    isEditing = true,
                     fontSize = 50f
                 )
-                _memeTexts.update {
-                    it.mapValues {
-                        it.value.copy(
-                            isEditing = false
-                        )
-                    }
-                }
-
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
                 }
                 _selectedMemeIndex.update {
                     newIndex
                 }
+                setCurrentMemeTextEditing(newIndex)
 
             }
 
             is MemeCreatorAction.PositionText -> {
-
-                val updateMemeText = _memeTexts.value[action.id]?.copy(
-                    offsetX = action.offsetX,
-                    offsetY = action.offsetY,
-                    parentWidth = action.parentWidth,
-                    parentHeight = action.parentHeight
-                ) ?: return
-                _memeTexts.update {
-                    it.plus(action.id to updateMemeText)
-                }
+               positionText(action)
             }
-            MemeCreatorAction.SaveMeme -> {}
 
             is MemeCreatorAction.StartEditing -> {
-                val currentMemeText = _memeTexts.value[action.index] ?: throw Exception("Meme text not found")
-                currentMemeText.saveState().also {memento ->
-                    val caretaker = MementoCareTaker(currentMemeText)
-                    caretaker.saveState(memento)
-                    mementoCareTakers[action.index] = caretaker
-                }
+                setCurrentMemeTextEditing(action.index)
                 _selectedMemeIndex.update {
                     action.index
                 }
-                _state.update {
-                    it.copy(
-                        isEditing = true
-                    )
-                }
+
             }
             MemeCreatorAction.StopEditing -> {
-                _state.update {
-                    it.copy(
-                        isEditing = false
-                    )
-                }
-                _selectedMemeIndex.update {
-                    -1
-                }
-                _memeTexts.update {
-                    it.mapValues { entry ->
-                        entry.value.copy(
-                            isEditing = false
-                        )
-                    }
-                }
+                setNotCurrentMemeTextEditing()
+                setNoneSelected()
             }
-            is MemeCreatorAction.EditMemeText -> {
 
-                val currentMemeText = _memeTexts.value[action.id] ?: throw Exception("Meme text not found")
+            is MemeCreatorAction.EditMemeText -> {
+                val currentMemeText = getMemeText(action.id)
 
                 val updateMemeText = currentMemeText.copy(
                     text = action.text
@@ -134,7 +94,6 @@ class MemeCreatorViewModel(
                 _memeTexts.update {
                     it.plus(action.id to updateMemeText)
                 }
-
             }
 
             is MemeCreatorAction.DeleteMemeText -> {
@@ -142,37 +101,20 @@ class MemeCreatorViewModel(
                     it.minus(action.index)
                 }
 
-                _state.update {
-                    it.copy(
-                        isEditing = false
-                    )
-                }
-                _selectedMemeIndex.update {
-                    -1
-                }
+                setNotCurrentMemeTextEditing()
+                setNoneSelected()
             }
 
             is MemeCreatorAction.SelectMemeText -> {
-                val currentMemeText = _memeTexts.value[action.index] ?: throw Exception("Meme text not found")
-                currentMemeText.saveState().also {memento ->
+                putMemeTextInHistory(action.index)
 
-                    val caretaker = MementoCareTaker(currentMemeText)
-                    caretaker.saveState(memento)
-                    mementoCareTakers.toMutableMap().put(action.index, caretaker)
-                }
+                setCurrentMemeTextEditing(action.index)
 
-                _memeTexts.update {
-                    it.mapValues { entry ->
-                        entry.value.copy(
-                            isEditing = entry.key == action.index
-                        )
-                    }
-                }
                 _selectedMemeIndex.update { action.index }
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
-                val currentMemeText = _memeTexts.value[action.id] ?: throw Exception("Meme text not found")
+                val currentMemeText = getMemeText(action.id)
                 val updateMemeText = currentMemeText.copy(
                     fontSize = action.size
                 )
@@ -181,16 +123,73 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.UndoTextSize -> {
+                restoreFromHistory(action.id)
+            }
 
-                val currentMemeText = _memeTexts.value[action.id] ?: throw Exception("Meme text not found")
-                val careTaker = mementoCareTakers.get(action.id) ?: return
+            MemeCreatorAction.SaveMeme -> {}
 
-                currentMemeText.restoreState(careTaker).also {
-                    _memeTexts.update { memeTexts ->
-                        memeTexts.plus(action.id to it)
-                    }
-                }
+        }
+    }
 
+    private fun getMemeText(id: Int): MemeUiText {
+        return _memeTexts.value[id] ?: throw Exception("Meme text not found")
+    }
+
+    private fun setCurrentMemeTextEditing(id: Int) {
+        _memeTexts.update {
+            it.mapValues { entry ->
+                entry.value.copy(
+                    isEditing = entry.key == id
+                )
+            }
+        }
+    }
+    private fun setNotCurrentMemeTextEditing() {
+        _memeTexts.update {
+            it.mapValues { entry ->
+                entry.value.copy(
+                    isEditing = false
+                )
+            }
+        }
+    }
+
+    private fun setNoneSelected(){
+        _selectedMemeIndex.update {
+            -1
+        }
+    }
+
+    private fun positionText(action: MemeCreatorAction.PositionText){
+        val updateMemeText = getMemeText(action.id)?.copy(
+            offsetX = action.offsetX,
+            offsetY = action.offsetY,
+            parentWidth = action.parentWidth,
+            parentHeight = action.parentHeight
+        ) ?: return
+        _memeTexts.update {
+            it.plus(action.id to updateMemeText)
+        }
+    }
+
+    /* history */
+    private fun getCareTakerOrNew(id: Int): MementoCareTaker<MemeUiText> {
+        val caretaker = mementoCareTakers[id] ?: MementoCareTaker()
+        mementoCareTakers[id] = caretaker
+        return caretaker
+    }
+    private fun putMemeTextInHistory(id: Int) {
+        getMemeText(id).also {
+            getCareTakerOrNew(id).saveState(it.saveState())
+        }
+    }
+    private fun restoreFromHistory(id: Int) {
+        val currentMemeText = getMemeText(id)
+        val careTaker = getCareTakerOrNew(id)
+
+        currentMemeText.restoreState(careTaker).also {
+            _memeTexts.update { memeTexts ->
+                memeTexts.plus(id to it)
             }
         }
     }
