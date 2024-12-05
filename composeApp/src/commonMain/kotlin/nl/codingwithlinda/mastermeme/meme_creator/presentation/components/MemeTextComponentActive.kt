@@ -18,6 +18,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.impact
@@ -71,6 +73,7 @@ fun MemeTextComponentActive(
                         focusedTextColor = black
                     ),
                     textStyle = MaterialTheme.typography.headlineLarge.copy(
+                        fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
                         fontFamily = FontFamily(
                             Font(Res.font.impact)
                         )

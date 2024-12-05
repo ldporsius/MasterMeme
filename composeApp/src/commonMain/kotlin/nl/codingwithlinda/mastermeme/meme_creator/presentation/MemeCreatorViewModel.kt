@@ -73,13 +73,12 @@ class MemeCreatorViewModel(
                positionText(action)
             }
 
-            is MemeCreatorAction.StartEditing -> {
+           /* is MemeCreatorAction.StartEditing -> {
                 setCurrentMemeTextEditing(action.index)
                 _selectedMemeIndex.update {
                     action.index
                 }
-
-            }
+            }*/
             MemeCreatorAction.StopEditing -> {
                 setNotCurrentMemeTextEditing()
                 setNoneSelected()
