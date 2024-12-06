@@ -8,6 +8,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import nl.codingwithlinda.mastermeme.app.App
 import nl.codingwithlinda.mastermeme.core.presentation.contact_picker.ContactPickerFactory
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPickerFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,10 +18,11 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
 
         setContent {
-            val contactPicker = ContactPickerFactory().create()
+            val picker = ShareAppPickerFactory()
 
             App(
-                contactPicker = contactPicker
+                shareAppPicker = picker.create(),
+                imageConverter = ImageConverter(this)
             )
         }
     }

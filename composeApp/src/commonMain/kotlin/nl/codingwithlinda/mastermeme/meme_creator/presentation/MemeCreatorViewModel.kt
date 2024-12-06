@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import nl.codingwithlinda.mastermeme.core.domain.Templates
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesDeclaration
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
@@ -18,7 +19,8 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val templates: Templates
+    private val templates: Templates,
+    private val imageConverter: ImageConverter
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -125,6 +127,14 @@ class MemeCreatorViewModel(
                         isSaving = true
                     )
                 }
+
+                val uri = imageConverter.byteArrayToUri(ByteArray(0))
+
+                _state.update {
+                    it.copy(
+                        memeUri = uri
+                    )
+                }
             }
             MemeCreatorAction.CancelSaveMeme -> {
                 _state.update {
@@ -139,6 +149,10 @@ class MemeCreatorViewModel(
                         isSaving = false
                     )
                 }
+            }
+            is MemeCreatorAction.ShareMeme -> {
+
+
             }
 
         }

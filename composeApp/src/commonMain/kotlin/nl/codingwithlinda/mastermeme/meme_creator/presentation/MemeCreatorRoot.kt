@@ -14,23 +14,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import nl.codingwithlinda.mastermeme.core.presentation.contact_picker.ContactPicker
+import mastermeme.composeapp.generated.resources.Res
+import mastermeme.composeapp.generated.resources._0_2reqtg
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.TemplatesFromResources
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemeCreatorRoot(
     memeId: String,
-    contactPicker: ContactPicker,
-    onBack: () -> Unit
+    shareAppPicker: ShareAppPicker,
+    imageConverter: ImageConverter,
+    onBack: () -> Unit,
+
 ) {
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
             set("memeId", memeId)
         },
-        templates = TemplatesFromResources()
+        templates = TemplatesFromResources(),
+        imageConverter = imageConverter
     )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -59,8 +66,10 @@ fun MemeCreatorRoot(
                 .fillMaxSize()
                 .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value,
-            contactPicker = contactPicker,
-            onAction = viewModel::handleAction,
+            contactPicker = shareAppPicker,
+            onAction = {
+                viewModel.handleAction(it)
+            },
         )
     }
 }

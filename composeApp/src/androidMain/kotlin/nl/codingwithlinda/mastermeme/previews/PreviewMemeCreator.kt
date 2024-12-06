@@ -1,6 +1,5 @@
 package nl.codingwithlinda.mastermeme.previews
 
-import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
@@ -10,7 +9,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
-import nl.codingwithlinda.mastermeme.core.presentation.contact_picker.ContactPicker
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
@@ -81,7 +80,7 @@ AppTheme {
         state = MemeCreatorViewState(
             memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
         ),
-        contactPicker = ContactPicker(LocalContext.current as ComponentActivity),
+        contactPicker = ShareAppPicker(LocalContext.current),
         onAction = {},
     )
 }

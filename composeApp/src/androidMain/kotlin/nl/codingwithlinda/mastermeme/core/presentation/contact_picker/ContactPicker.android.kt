@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.core.presentation.contact_picker
 
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -12,7 +13,9 @@ actual class ContactPicker(
 
     @Composable
     actual fun registerPicker(onPickContact: (String?) -> Unit) {
-        launcher = activity.registerForActivityResult(ActivityResultContracts.PickContact()) {
+        launcher = rememberLauncherForActivityResult(
+            ActivityResultContracts.PickContact()
+        ) {
             it?.let {
                 activity.contentResolver?.openInputStream(it)?.use {
 
