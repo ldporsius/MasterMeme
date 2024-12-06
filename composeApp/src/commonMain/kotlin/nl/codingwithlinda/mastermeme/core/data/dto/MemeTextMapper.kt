@@ -11,7 +11,6 @@ fun MemeUiText.toDomain(): MemeText{
         offsetY = offsetY,
         parentWidth = parentWidth,
         parentHeight = parentHeight,
-        fontSize = fontSize
-
+        fontSize = fontSize,
     )
 }

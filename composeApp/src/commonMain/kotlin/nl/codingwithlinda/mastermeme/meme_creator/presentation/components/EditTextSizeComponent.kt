@@ -57,7 +57,7 @@ fun EditTextSizeComponent(
             Icon(imageVector = Icons.Default.Close, contentDescription = null)
         }
         Text("Aa",
-            style = androidx.compose.material3.MaterialTheme.typography.labelSmall)
+            style = MaterialTheme.typography.labelSmall)
 
         Slider(
             modifier = Modifier.weight(1f),
@@ -96,7 +96,7 @@ fun EditTextSizeComponent(
             }
         )
         Text("Aa",
-            style = androidx.compose.material3.MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyLarge,
             fontSize = TextUnit(28f, TextUnitType.Sp)
         )
 

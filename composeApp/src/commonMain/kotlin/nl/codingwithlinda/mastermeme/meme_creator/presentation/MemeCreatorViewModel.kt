@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
+import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

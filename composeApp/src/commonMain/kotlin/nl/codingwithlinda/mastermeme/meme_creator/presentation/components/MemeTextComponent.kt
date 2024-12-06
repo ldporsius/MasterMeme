@@ -92,7 +92,7 @@ fun MemeTextComponent(
                             parentWidth = parentSize.width,
                             parentHeight = parentSize.height,
                             offsetX = offsetX.value,
-                            offsetY = offsetY.value - textHeight
+                            offsetY = offsetY.value
                         )
                     )
                 },
