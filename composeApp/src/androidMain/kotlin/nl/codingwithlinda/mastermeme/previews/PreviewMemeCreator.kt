@@ -8,7 +8,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTextSizeComponent

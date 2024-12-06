@@ -1,28 +1,8 @@
-package nl.codingwithlinda.mastermeme.core.presentation.templates
+package nl.codingwithlinda.mastermeme.core.domain.model.templates
 
-//import mastermeme.composeapp.generated.resources.Res
-//import mastermeme.composeapp.generated.resources.
-//import mastermeme.composeapp.generated.resources.Res._1_49su9f
-//import mastermeme.composeapp.generated.resources.Res.vector_18
-//import mastermeme.composeapp.generated.resources._0_1otri4
-//import mastermeme.composeapp.generated.resources._1_49su9f
-import mastermeme.composeapp.generated.resources.Res
-import mastermeme.composeapp.generated.resources._1_49su9f
-import mastermeme.composeapp.generated.resources.vector_18
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+actual object MemeTemplatesDeclaration {
 
-object MemeTemplatesDeclaration{
-    val emptyTemplate = MemeTemplateUi(
-        id = "",
-        image = MemeImageUi.vectorImage(Res.drawable.vector_18)
-    )
-    private val templates: List<MemeTemplateUi> = listOf(
-           MemeTemplateUi(
-               id = "0",
-               image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
-           ),
-
-//        "0" to MemeImageUi.pngImage(Res.drawable._0_1otri4),
+    //        "0" to MemeImageUi.pngImage(Res.drawable._0_1otri4),
 //        "1" to MemeImageUi.pngImage(Res.drawable._0_2reqtg),
 //        "2" to MemeImageUi.pngImage(Res.drawable._0_3x8soh),
 //        "3" to MemeImageUi.pngImage(Res.drawable._0_8c9dbh),
@@ -51,6 +31,8 @@ object MemeTemplatesDeclaration{
 //        MemeImageUi.pngImage(Res.drawable._6_3f0mvv),
 //        MemeImageUi.pngImage(Res.drawable._6_21ajtl),
 //        MemeImageUi.pngImage(Res.drawable._6_boardroom_meeting_suggestion),
-        )
+    actual val templates: List<MemeImage>
+        get() = TODO("Not yet implemented")
+
 
 }

@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.core.presentation
+package nl.codingwithlinda.mastermeme.core.presentation.model
 
 data class MemeUi(
     val id: String,

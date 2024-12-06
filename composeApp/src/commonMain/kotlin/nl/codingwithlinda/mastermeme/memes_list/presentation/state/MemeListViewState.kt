@@ -1,7 +1,7 @@
 package nl.codingwithlinda.mastermeme.memes_list.presentation.state
 
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplateUi
-import nl.codingwithlinda.mastermeme.core.presentation.MemeUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 
 data class MemeListViewState(
     val memes: List<MemeUi> = emptyList(),

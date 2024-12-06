@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.core.presentation.share_application_picker
 
 import android.content.Context
+import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 
 actual class ImageConverter(
     private val context: Context
@@ -13,5 +14,12 @@ actual class ImageConverter(
         return nl.codingwithlinda.mastermeme.core.data.byteArrayToUri(byteArray, context)
     }
 
+    actual fun convert(memeDto: MemeDto): String {
+
+
+       canvasToByteArray(memeDto.imageRef).also {
+           return byteArrayToUri(it)
+       }
+    }
 
 }

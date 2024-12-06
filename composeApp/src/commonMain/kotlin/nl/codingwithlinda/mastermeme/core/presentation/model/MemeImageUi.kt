@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.core.presentation
+package nl.codingwithlinda.mastermeme.core.presentation.model
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize

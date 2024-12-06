@@ -7,8 +7,10 @@ import android.graphics.Canvas
 import androidx.annotation.DrawableRes
 import androidx.core.content.FileProvider
 import nl.codingwithlinda.mastermeme.R
+import org.jetbrains.compose.resources.DrawableResource
 import java.io.ByteArrayOutputStream
 import java.io.File
+
 
 fun canvasToByteArray(drawableRes: Int, context: Context): ByteArray {
     val bitmap = Bitmap.createBitmap(300, 300, Bitmap.Config.ARGB_8888)
@@ -32,17 +34,10 @@ fun byteArrayToUri(byteArray: ByteArray, context: Context): String {
     val path = context.filesDir
 
     val tmpFile = File(path, "meme.png")
-    //createTempFile("meme", ".png", path)
 
-    val bm = drawableResToBitmap(context, R.drawable.soh_20)
-    val array = bitMapToByteArray(bm, context)
-    tmpFile.writeBytes(array)
+    tmpFile.writeBytes(byteArray)
 
-    val uri = FileProvider.getUriForFile(
-        context,
-        "nl.codingwithlinda.mastermeme.fileprovider",
-        tmpFile
-    )
+
     return tmpFile.path
 }
 fun drawableResToBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap {

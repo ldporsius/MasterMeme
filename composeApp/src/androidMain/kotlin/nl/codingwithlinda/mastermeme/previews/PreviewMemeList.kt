@@ -8,8 +8,8 @@ import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources._1_49su9f
 import mastermeme.composeapp.generated.resources._4_scared
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
-import nl.codingwithlinda.mastermeme.core.presentation.MemeUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListAdaptiveLayout
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListItem

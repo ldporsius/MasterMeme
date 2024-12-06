@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.core.domain.model
+package nl.codingwithlinda.mastermeme.core.domain.model.templates
 
 import org.jetbrains.compose.resources.DrawableResource
 

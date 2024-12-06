@@ -8,10 +8,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import nl.codingwithlinda.mastermeme.core.domain.Templates
-import nl.codingwithlinda.mastermeme.core.presentation.MemeImageUi
+import kotlinx.coroutines.launch
+import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
-import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesDeclaration
+import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
@@ -19,7 +23,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val templates: Templates,
+    private val memeTemplates: MemeTemplates,
     private val imageConverter: ImageConverter
 ) : ViewModel() {
 
@@ -29,7 +33,7 @@ class MemeCreatorViewModel(
     private val _selectedMemeIndex = MutableStateFlow<Int>(-1)
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
-            memeImageUi =  MemeTemplatesDeclaration.emptyTemplate.image,
+            memeImageUi =  emptyTemplate.image,
         ))
     val state = combine(_state, _memeTexts, _selectedMemeIndex){ state, memeTexts , selectedMemeIndex ->
         state.copy(
@@ -39,13 +43,16 @@ class MemeCreatorViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
 
+    private var _template: MemeTemplate? = null
     init {
         val memeId = savedStateHandle.get<String>("memeId") ?: ""
+        val template = memeTemplates.getTemplate(memeId)
         _state.value = _state.value.copy(
             memeImageUi = MemeImageUi.pngImage(
-                templates.getTemplate(memeId).drawableResource
+                template.drawableResource
             )
         )
+        _template = template
     }
 
     fun handleAction(action: MemeCreatorAction){
@@ -128,13 +135,21 @@ class MemeCreatorViewModel(
                     )
                 }
 
-                val uri = imageConverter.byteArrayToUri(ByteArray(0))
+                viewModelScope.launch {
+                    val bytes = _template?.let {
 
-                _state.update {
-                    it.copy(
-                        memeUri = uri
-                    )
+                        templateToBytes(it.drawableResource)
+                    } ?: return@launch
+
+                    val uri = imageConverter.byteArrayToUri(bytes)
+
+                    _state.update {
+                        it.copy(
+                            memeUri = uri
+                        )
+                    }
                 }
+
             }
             MemeCreatorAction.CancelSaveMeme -> {
                 _state.update {
@@ -151,7 +166,11 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
-
+                _state.update {
+                    it.copy(
+                        isSaving = false
+                    )
+                }
 
             }
 

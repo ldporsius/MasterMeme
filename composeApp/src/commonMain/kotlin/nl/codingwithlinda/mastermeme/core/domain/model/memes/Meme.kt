@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.core.domain.model
+package nl.codingwithlinda.mastermeme.core.domain.model.memes
 
 data class Meme(
     val id: String,

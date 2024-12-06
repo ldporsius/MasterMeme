@@ -6,11 +6,11 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 
 
-class MemeImageImpl(
+class MemeImageAsBitmap(
      private val context: Context
- ): MemeImage<Bitmap> {
+ ){
 
-    override fun image(uri: String): Bitmap {
+   fun image(uri: String): Bitmap {
         val _uri = Uri.parse(uri)
         context.contentResolver.openInputStream(_uri)?.use {
             val bm = BitmapFactory.decodeStream(it)

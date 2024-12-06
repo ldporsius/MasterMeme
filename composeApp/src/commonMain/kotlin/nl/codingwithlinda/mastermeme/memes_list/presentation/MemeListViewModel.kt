@@ -10,21 +10,21 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
-import nl.codingwithlinda.mastermeme.core.domain.Templates
-import nl.codingwithlinda.mastermeme.core.presentation.templates.TemplatesFromResources
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.core.presentation.templates.toUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
 
 class MemeListViewModel(
-    templates: Templates
+    memeTemplates: MemeTemplates
 ): ViewModel() {
 
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state
         .onStart {
             _state.update {
-                it.copy(templates = templates.toUi())
+                it.copy(templates = memeTemplates.toUi())
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), _state.value)
 
@@ -53,7 +53,7 @@ class MemeListViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                val templates = TemplatesFromResources()
+                val templates = MemeTemplatesFromResources()
                 MemeListViewModel(templates)
             }
         }
