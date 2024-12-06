@@ -80,7 +80,7 @@ AppTheme {
         state = MemeCreatorViewState(
             memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
         ),
-        contactPicker = ShareAppPicker(LocalContext.current),
+        shareAppPicker = ShareAppPicker(LocalContext.current),
         onAction = {},
     )
 }

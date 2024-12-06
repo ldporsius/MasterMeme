@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
+import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
@@ -128,7 +129,7 @@ class MemeCreatorViewModel(
                 restoreFromHistory(action.id)
             }
 
-            MemeCreatorAction.StartSaveMeme -> {
+            is MemeCreatorAction.StartSaveMeme -> {
                 _state.update {
                     it.copy(
                         isSaving = true
@@ -137,11 +138,18 @@ class MemeCreatorViewModel(
 
                 viewModelScope.launch {
                     val bytes = _template?.let {
-
                         templateToBytes(it.drawableResource)
                     } ?: return@launch
 
-                    val uri = imageConverter.byteArrayToUri(bytes)
+
+                    val uri = imageConverter.convert(
+                        MemeDto(
+                            imageBytes = bytes,
+                            memeTexts = _memeTexts.value.values.map {
+                                it.toDomain()
+                            }
+                        )
+                    )
 
                     _state.update {
                         it.copy(
@@ -207,14 +215,24 @@ class MemeCreatorViewModel(
     }
 
     private fun positionText(action: MemeCreatorAction.PositionText){
-        val updateMemeText = getMemeText(action.id)?.copy(
+        val updateMemeText = getMemeText(action.id).copy(
             offsetX = action.offsetX,
             offsetY = action.offsetY,
             parentWidth = action.parentWidth,
             parentHeight = action.parentHeight
-        ) ?: return
+        )
         _memeTexts.update {
             it.plus(action.id to updateMemeText)
+        }
+
+        //update all texts to make sure they have the correct values for width and height
+        _memeTexts.update {
+            it.mapValues { entry ->
+                entry.value.copy(
+                    parentWidth = action.parentWidth,
+                    parentHeight = action.parentHeight
+                )
+            }
         }
     }
 

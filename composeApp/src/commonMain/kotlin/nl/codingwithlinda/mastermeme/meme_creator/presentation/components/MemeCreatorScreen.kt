@@ -23,7 +23,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
-import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
@@ -34,17 +33,15 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreator
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
     state: MemeCreatorViewState,
-    contactPicker: ShareAppPicker,
+    shareAppPicker: ShareAppPicker,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
 
-
-    contactPicker.registerPicker {
+    shareAppPicker.registerPicker {
         it.let {
-            println("Contact picked: $it")
+            println("Is This Called?: $it")
         }
     }
-
 
     Surface (modifier = modifier){
 
@@ -154,7 +151,7 @@ fun MemeCreatorScreen(
                             onClick = {
                                 state.memeUri?.let {
                                     println("MEME CREATOR SCREEN HAS URI: $it")
-                                    contactPicker.share(imageUri = state.memeUri)
+                                    shareAppPicker.share(imageUri = state.memeUri)
                                 }
                             }
                         )

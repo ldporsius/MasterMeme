@@ -49,9 +49,9 @@ fun MemeTextComponent(
         Font(Res.font.impact)
     )
 
-    val textMeasurer = rememberTextMeasurer(0)
+    val textMeasurer = rememberTextMeasurer()
 
-    val textWidth = remember(text.fontSize) {
+    val textSize = remember(text.fontSize) {
         println("MEME TEXT COMPONENT has new font size: ${text.fontSize}")
         textMeasurer.measure(
             text= text.text,
@@ -59,10 +59,11 @@ fun MemeTextComponent(
                 fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
                 fontFamily = fontFamily
             )
-        ).size.width
+        ).size
     }
 
-    //val textHeight = textLayoutResult.size.height
+    val textWidth = textSize.width
+    val textHeight = textSize.height
 
     val offsetX = remember() {
         mutableStateOf(text.offsetX)
@@ -91,15 +92,16 @@ fun MemeTextComponent(
                             parentWidth = parentSize.width,
                             parentHeight = parentSize.height,
                             offsetX = offsetX.value,
-                            offsetY = offsetY.value
-                        ))
+                            offsetY = offsetY.value - textHeight
+                        )
+                    )
                 },
             ) { _, dragAmount ->
                 val original = Offset(offsetX.value, offsetY. value)
                 val summed = original + dragAmount
                 val newValue = Offset(
                     x = summed.x.coerceIn(0f, parentSize.width - textWidth),
-                    y = summed.y.coerceIn(0f, parentSize.height - 50.dp.toPx())                     )
+                    y = summed.y.coerceIn(0f, parentSize.height - textHeight)                     )
                 offsetX. value = newValue. x
                 offsetY. value = newValue. y
             }

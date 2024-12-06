@@ -63,7 +63,7 @@ fun MemeCreatorRoot(
                 .fillMaxSize()
                 .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value,
-            contactPicker = shareAppPicker,
+            shareAppPicker = shareAppPicker,
             onAction = {
                 viewModel.handleAction(it)
             },
