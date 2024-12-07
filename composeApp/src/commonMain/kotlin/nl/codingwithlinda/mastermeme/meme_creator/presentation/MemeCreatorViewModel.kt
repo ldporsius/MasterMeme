@@ -45,6 +45,8 @@ class MemeCreatorViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
 
+    private var parentSize: Size = Size.Zero
+
     private var _template: MemeTemplate? = null
     init {
         val memeId = savedStateHandle.get<String>("memeId") ?: ""
@@ -80,6 +82,9 @@ class MemeCreatorViewModel(
 
             }
 
+            is MemeCreatorAction.SaveParentSize -> {
+                parentSize = Size(action.width, action.height)
+            }
             is MemeCreatorAction.PositionText -> {
                positionText(action)
             }
@@ -145,6 +150,8 @@ class MemeCreatorViewModel(
 
                     val uri = imageConverter.convert(
                         MemeDto(
+                            parentWidth = parentSize.width,
+                            parentHeight = parentSize.height,
                             imageBytes = bytes,
                             memeTexts = _memeTexts.value.values.map {
                                 it.toDomain()

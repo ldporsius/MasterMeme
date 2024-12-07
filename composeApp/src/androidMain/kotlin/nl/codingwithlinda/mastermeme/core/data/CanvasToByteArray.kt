@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
+import android.graphics.Rect
 import android.text.TextPaint
+import android.util.TypedValue
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -15,7 +17,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.scale
 import nl.codingwithlinda.mastermeme.R
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -24,11 +28,13 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.math.roundToInt
 
+
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun MemeCanvas(
     modifier: Modifier = Modifier,
-               memeDto: MemeDto,) {
+    memeDto: MemeDto,
+) {
     val bitmap = memeDto.imageBytes.decodeToImageBitmap()
     val textMeasurer = rememberTextMeasurer()
     Canvas(modifier = modifier.size(
@@ -49,22 +55,21 @@ fun MemeCanvas(
 }
 
 fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
+    val parentWidth = memeDto.parentWidth.roundToInt()
+    val parentHeight = memeDto.parentHeight.roundToInt()
+
+    println("PARENT WIDTH: $parentWidth")
+    println("PARENT HEIGHT: $parentHeight")
+
+
     val bitmapMeme = BitmapFactory.decodeByteArray(memeDto.imageBytes, 0, memeDto.imageBytes.size)
+        ?.scale(parentWidth, parentHeight) ?: throw Exception("Could not decode byte array")
 
     println("BITMAP MEME WIDTH: ${bitmapMeme.width}")
     println("BITMAP MEME HEIGHT: ${bitmapMeme.height}")
 
-    val originalWidth = memeDto.memeTexts.maxOfOrNull {
-        it.parentWidth.roundToInt()
-    } ?: 1080
-    val originalHeight = memeDto.memeTexts.maxOfOrNull {
-        it.parentHeight.roundToInt()
-    } ?: 1080
+    val bitmap = Bitmap.createBitmap(parentWidth, parentHeight, Bitmap.Config.ARGB_8888)
 
-    val widthScaleFactor = bitmapMeme.width.toFloat() / originalWidth.toFloat()
-    val heightScaleFactor = bitmapMeme.height.toFloat() / originalHeight.toFloat()
-
-    val bitmap = Bitmap.createBitmap(bitmapMeme.width, bitmapMeme.height, Bitmap.Config.ARGB_8888)
     println("BITMAP WIDTH: ${bitmap.width}")
     println("BITMAP HEIGHT: ${bitmap.height}")
 
@@ -73,38 +78,51 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
     println("CANVAS WIDTH: ${canvas.width}")
     println("CANVAS HEIGHT: ${canvas.height}")
 
-    canvas.setBitmap(bitmap)
-
-    println("CANVAS HEIGHT AFTER SET: ${canvas.height}")
+//    canvas.setBitmap(bitmap)
 
     canvas.drawBitmap(bitmapMeme, 0f, 0f, null)
 
     val typefaceImpact = ResourcesCompat.getFont(context, R.font.impact)
+    val sizeFactor  = 1.0f * canvas.width / parentWidth
 
     for(memeText in memeDto.memeTexts){
-        val sizeFactor  = canvas.width / memeText.parentWidth
-        val scaledFontSize = memeText.fontSize * sizeFactor
+
+        val spSize = (memeText.fontSize.sp).value
+        val scaledSizeInPixels = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_SP,
+            spSize, context.resources.displayMetrics
+        )
 
         val paint = TextPaint().apply {
             color = Color.BLACK
-            textSize = scaledFontSize
+            textSize = scaledSizeInPixels
             textAlign = Paint.Align.LEFT
             this.typeface = typefaceImpact
             isAntiAlias = true
+            density = canvas.density.toFloat()
         }
 
-        println("FONT SIZE: ${memeText.fontSize}")
-        println("FONT SIZE FACTOR: $sizeFactor")
-        println("FONT SIZE AFTER SCALE: $scaledFontSize")
+
+        val textBottom = paint.fontMetrics.bottom
+        val textTop = paint.fontMetrics.top
+        val textAscent = paint.fontMetrics.ascent
+        println("TEXTPAINT DENSITY: ${paint.density}")
+        println("TEXTPAINT BOTTOM: ${textBottom}")
+        println("TEXTPAINT TOP: ${textTop}")
+        println("TEXTPAINT ASCENT: ${textAscent}")
+
+        println("SIZE FACTOR: $sizeFactor")
+        println("FONT SIZE: ${spSize}")
+        println("FONT SIZE AFTER SCALE: $scaledSizeInPixels")
         println("OFFSET X: ${memeText.offsetX}")
         println("OFFSET Y: ${memeText.offsetY}")
-        println("PARENT HEIGHT: ${memeText.parentHeight}")
-        println("PARENT WIDTH: ${memeText.parentWidth}")
 
         val offsetX = (memeText.offsetX * sizeFactor)
         println("OFFSET X AFTER SCALE: $offsetX")
-        val offsetY = ((memeText.offsetY - ccc) * sizeFactor)
+
+        val offsetY = ((memeText.offsetY) * sizeFactor) - textTop
         println("OFFSET Y AFTER SCALE: $offsetY")
+
         canvas.drawText(memeText.text, offsetX, offsetY, paint)
     }
 

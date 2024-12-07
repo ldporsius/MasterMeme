@@ -76,7 +76,7 @@ fun MemeTextComponent(
         .pointerInput(Unit) {
             detectTapGestures(
                 onTap = {
-                   // onAction(MemeCreatorAction.StartEditing(text.id))
+                    // onAction(MemeCreatorAction.StartEditing(text.id))
                 },
                 onDoubleTap = {
                     onAction(MemeCreatorAction.SelectMemeText(text.id))
@@ -86,12 +86,13 @@ fun MemeTextComponent(
         .pointerInput(Unit) {
             detectDragGestures(
                 onDragEnd = {
+                    println("DRAG END. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
                     onAction(
                         MemeCreatorAction.PositionText(
                             id = text.id,
                             parentWidth = parentSize.width,
                             parentHeight = parentSize.height,
-                            offsetX = offsetX.value,
+                            offsetX = offsetX.value ,
                             offsetY = offsetY.value
                         )
                     )
@@ -111,22 +112,18 @@ fun MemeTextComponent(
         offsetX.value.roundToInt(),
         offsetY.value.roundToInt()
     )
-    Box(modifier = Modifier
-        .offset { pointerOffset }
-        .then(pointerInputModifier),
-        contentAlignment = Alignment.TopEnd
-    ){
 
-        Text(
-            text = text.text,
-            modifier = Modifier,
-            style = MaterialTheme.typography.headlineLarge,
-            fontFamily = FontFamily(
-                Font(Res.font.impact)
-            ),
-            fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
-            textAlign = TextAlign.Justify,
-            color = black
-        )
-    }
+    Text(
+        modifier = Modifier
+            .offset { pointerOffset }
+            .then(pointerInputModifier),
+        text = text.text,
+        fontFamily = FontFamily(
+            Font(Res.font.impact)
+        ),
+        fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
+        textAlign = TextAlign.Start,
+        color = black
+    )
+
 }

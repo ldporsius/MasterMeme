@@ -18,10 +18,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalViewConfiguration
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
@@ -29,6 +32,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_m
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
@@ -43,11 +47,14 @@ fun MemeCreatorScreen(
         }
     }
 
-    Surface (modifier = modifier){
+    Surface (modifier = modifier
+
+    ){
 
         var size by remember {
             mutableStateOf(Size.Zero)
         }
+
 
         Column {
             Spacer(modifier = Modifier.weight(1f))
@@ -57,6 +64,7 @@ fun MemeCreatorScreen(
                     .aspectRatio(1f)
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
+                        onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))
                     }
                     .pointerInput(Unit) {
                         detectTapGestures(
