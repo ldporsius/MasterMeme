@@ -82,8 +82,8 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
     val typefaceImpact = ResourcesCompat.getFont(context, R.font.impact)
 
     for(memeText in memeDto.memeTexts){
-        val fontSizeFactor  = memeText.fontSize/ canvas.width
-        val scaledFontSize = memeText.fontSize * fontSizeFactor
+        val sizeFactor  = canvas.width / memeText.parentWidth
+        val scaledFontSize = memeText.fontSize * sizeFactor
 
         val paint = TextPaint().apply {
             color = Color.BLACK
@@ -94,16 +94,16 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
         }
 
         println("FONT SIZE: ${memeText.fontSize}")
-        println("FONT SIZE FACTOR: $fontSizeFactor")
+        println("FONT SIZE FACTOR: $sizeFactor")
         println("FONT SIZE AFTER SCALE: $scaledFontSize")
         println("OFFSET X: ${memeText.offsetX}")
         println("OFFSET Y: ${memeText.offsetY}")
         println("PARENT HEIGHT: ${memeText.parentHeight}")
         println("PARENT WIDTH: ${memeText.parentWidth}")
 
-        val offsetX = (memeText.offsetX * widthScaleFactor)
+        val offsetX = (memeText.offsetX * sizeFactor)
         println("OFFSET X AFTER SCALE: $offsetX")
-        val offsetY = (memeText.offsetY * heightScaleFactor)
+        val offsetY = ((memeText.offsetY - ccc) * sizeFactor)
         println("OFFSET Y AFTER SCALE: $offsetY")
         canvas.drawText(memeText.text, offsetX, offsetY, paint)
     }
