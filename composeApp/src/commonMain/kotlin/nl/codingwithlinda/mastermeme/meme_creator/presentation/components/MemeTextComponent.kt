@@ -29,12 +29,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.impact
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.black
 import org.jetbrains.compose.resources.Font
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 @Composable
@@ -51,14 +53,17 @@ fun MemeTextComponent(
 
     val textMeasurer = rememberTextMeasurer()
 
+    val fontSize = text.fontSize.sp
+    val textStyle = TextStyle(
+        fontSize = TextUnit(fontSize.value, TextUnitType.Sp),
+        fontFamily = fontFamily,
+        lineHeight = TextUnit(fontSize.value, TextUnitType.Sp),
+    )
     val textSize = remember(text.fontSize) {
-        println("MEME TEXT COMPONENT has new font size: ${text.fontSize}")
+        println("MEME TEXT COMPONENT has new font size: ${fontSize}")
         textMeasurer.measure(
             text= text.text,
-            style = TextStyle(
-                fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
-                fontFamily = fontFamily
-            )
+            style = textStyle
         ).size
     }
 
@@ -76,7 +81,7 @@ fun MemeTextComponent(
         .pointerInput(Unit) {
             detectTapGestures(
                 onTap = {
-                    // onAction(MemeCreatorAction.StartEditing(text.id))
+                    onAction(MemeCreatorAction.StartEditing(text.id))
                 },
                 onDoubleTap = {
                     onAction(MemeCreatorAction.SelectMemeText(text.id))
@@ -110,19 +115,18 @@ fun MemeTextComponent(
 
     val pointerOffset = androidx.compose.ui.unit.IntOffset(
         offsetX.value.roundToInt(),
-        offsetY.value.roundToInt()
+        ceil( offsetY.value).roundToInt()
     )
 
     Text(
         modifier = Modifier
+            .wrapContentSize()
+            .padding(0.dp)
             .offset { pointerOffset }
             .then(pointerInputModifier),
         text = text.text,
-        fontFamily = FontFamily(
-            Font(Res.font.impact)
-        ),
-        fontSize = TextUnit(text.fontSize, TextUnitType.Sp),
-        textAlign = TextAlign.Start,
+        style = textStyle,
+        lineHeight = TextUnit(text.fontSize, TextUnitType.Sp),
         color = black
     )
 

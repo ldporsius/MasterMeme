@@ -26,6 +26,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 import java.io.ByteArrayOutputStream
 import java.io.File
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -78,8 +79,6 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
     println("CANVAS WIDTH: ${canvas.width}")
     println("CANVAS HEIGHT: ${canvas.height}")
 
-//    canvas.setBitmap(bitmap)
-
     canvas.drawBitmap(bitmapMeme, 0f, 0f, null)
 
     val typefaceImpact = ResourcesCompat.getFont(context, R.font.impact)
@@ -99,14 +98,16 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
             textAlign = Paint.Align.LEFT
             this.typeface = typefaceImpact
             isAntiAlias = true
-            density = canvas.density.toFloat()
         }
 
+        val textBounds = Rect()
+        paint.getTextBounds(memeText.text, 0, memeText.text.length, textBounds)
 
         val textBottom = paint.fontMetrics.bottom
         val textTop = paint.fontMetrics.top
         val textAscent = paint.fontMetrics.ascent
-        println("TEXTPAINT DENSITY: ${paint.density}")
+
+        println("TEXTPAINT BOUNDS: ${textBounds}")
         println("TEXTPAINT BOTTOM: ${textBottom}")
         println("TEXTPAINT TOP: ${textTop}")
         println("TEXTPAINT ASCENT: ${textAscent}")
@@ -120,10 +121,11 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
         val offsetX = (memeText.offsetX * sizeFactor)
         println("OFFSET X AFTER SCALE: $offsetX")
 
-        val offsetY = ((memeText.offsetY) * sizeFactor) - textTop
+        val offsetY = ((memeText.offsetY) * sizeFactor) - textBounds.top
         println("OFFSET Y AFTER SCALE: $offsetY")
 
         canvas.drawText(memeText.text, offsetX, offsetY, paint)
+
     }
 
     return bitMapToByteArray(bitmap, context)

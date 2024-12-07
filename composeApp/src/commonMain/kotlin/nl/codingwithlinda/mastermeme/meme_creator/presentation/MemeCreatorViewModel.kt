@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,7 +23,10 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCa
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 
+@OptIn(ExperimentalResourceApi::class)
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val memeTemplates: MemeTemplates,
@@ -49,14 +53,18 @@ class MemeCreatorViewModel(
 
     private var _template: MemeTemplate? = null
     init {
-        val memeId = savedStateHandle.get<String>("memeId") ?: ""
-        val template = memeTemplates.getTemplate(memeId)
-        _state.value = _state.value.copy(
-            memeImageUi = MemeImageUi.pngImage(
-                template.drawableResource
+        viewModelScope.launch {
+
+            val memeId = savedStateHandle.get<String>("memeId") ?: ""
+            val template = memeTemplates.getTemplate(memeId)
+            val bytes = templateToBytes(template.drawableResource)
+
+           val image = bytes.decodeToImageBitmap()
+            _state.value = _state.value.copy(
+                memeImageUi = MemeImageUi.bitmapImage(image)
             )
-        )
-        _template = template
+            _template = template
+        }
     }
 
     fun handleAction(action: MemeCreatorAction){
@@ -89,6 +97,10 @@ class MemeCreatorViewModel(
                positionText(action)
             }
 
+            is MemeCreatorAction.StartEditing -> {
+                putMemeTextInHistory(action.id)
+                _selectedMemeIndex.update { action.id }
+            }
             MemeCreatorAction.StopEditing -> {
                 setNotCurrentMemeTextEditing()
                 setNoneSelected()

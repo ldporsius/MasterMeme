@@ -1,11 +1,13 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -26,11 +28,14 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -55,13 +60,14 @@ fun MemeCreatorScreen(
             mutableStateOf(Size.Zero)
         }
 
-
-        Column {
+        Column(
+            modifier = Modifier.fillMaxSize()
+        ) {
             Spacer(modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .aspectRatio(1f)
+                    //.aspectRatio(1f)
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
                         onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))
@@ -75,6 +81,7 @@ fun MemeCreatorScreen(
                     }
 
             ) {
+
 
                 state.memeImageUi.DrawImage()
 

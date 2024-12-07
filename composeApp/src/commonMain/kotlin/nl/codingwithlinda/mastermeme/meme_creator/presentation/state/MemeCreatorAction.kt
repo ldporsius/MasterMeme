@@ -7,6 +7,7 @@ sealed interface MemeCreatorAction {
     data object ShareMeme : MemeCreatorAction
     data object AddText : MemeCreatorAction
     data class PositionText(val id: Int, val parentWidth: Float, val parentHeight: Float, val offsetX: Float, val offsetY: Float) : MemeCreatorAction
+    data class StartEditing(val id: Int) : MemeCreatorAction
     data object StopEditing : MemeCreatorAction
     data class EditMemeText(val id: Int, val text: String) : MemeCreatorAction
     data class SelectMemeText(val index: Int) : MemeCreatorAction

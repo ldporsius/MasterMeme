@@ -13,6 +13,7 @@ data class MemeUiText(
     val offsetY: Float,
     val parentWidth: Float,
     val parentHeight: Float,
+    val isSelected: Boolean = false,
     val isEditing: Boolean = false
 ) {
 
