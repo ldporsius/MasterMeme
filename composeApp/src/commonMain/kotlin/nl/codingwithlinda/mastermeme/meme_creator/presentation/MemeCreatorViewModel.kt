@@ -1,7 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +21,8 @@ import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.changeState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
@@ -36,15 +37,14 @@ class MemeCreatorViewModel(
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
 
     private val _memeTexts = MutableStateFlow<Map<Int, MemeUiText>>(emptyMap())
-    private val _selectedMemeIndex = MutableStateFlow<Int>(-1)
+    //private val _selectedMemeIndex = MutableStateFlow<Int>(-1)
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
             memeImageUi =  emptyTemplate.image,
         ))
-    val state = combine(_state, _memeTexts, _selectedMemeIndex){ state, memeTexts , selectedMemeIndex ->
+    val state = combine(_state, _memeTexts, ){ state, memeTexts , ->
         state.copy(
-            memeTexts = memeTexts,
-            selectedMemeTextIndex = selectedMemeIndex,
+            memeTexts = memeTexts
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
@@ -83,9 +83,7 @@ class MemeCreatorViewModel(
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
                 }
-                _selectedMemeIndex.update {
-                    newIndex
-                }
+
                 setCurrentMemeTextEditing(newIndex)
 
             }
@@ -99,7 +97,7 @@ class MemeCreatorViewModel(
 
             is MemeCreatorAction.StartEditing -> {
                 putMemeTextInHistory(action.id)
-                _selectedMemeIndex.update { action.id }
+                setCurrentMemeTextEditing(action.id)
             }
             MemeCreatorAction.StopEditing -> {
                 setNotCurrentMemeTextEditing()
@@ -119,7 +117,7 @@ class MemeCreatorViewModel(
 
             is MemeCreatorAction.DeleteMemeText -> {
                 _memeTexts.update {
-                    it.minus(action.index)
+                    it.minus(action.id)
                 }
 
                 setNotCurrentMemeTextEditing()
@@ -127,11 +125,11 @@ class MemeCreatorViewModel(
             }
 
             is MemeCreatorAction.SelectMemeText -> {
-                putMemeTextInHistory(action.index)
-
-                setCurrentMemeTextEditing(action.index)
-
-                _selectedMemeIndex.update { action.index }
+                putMemeTextInHistory(action.id)
+                _memeTexts.update {
+                    it.changeState(MemeTextState.Selecting, action.id)
+                }
+               // _selectedMemeIndex.update { action.id }
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
@@ -177,7 +175,6 @@ class MemeCreatorViewModel(
                         )
                     }
                 }
-
             }
             MemeCreatorAction.CancelSaveMeme -> {
                 _state.update {
@@ -199,9 +196,7 @@ class MemeCreatorViewModel(
                         isSaving = false
                     )
                 }
-
             }
-
         }
     }
 
@@ -211,26 +206,26 @@ class MemeCreatorViewModel(
 
     private fun setCurrentMemeTextEditing(id: Int) {
         _memeTexts.update {
-            it.mapValues { entry ->
-                entry.value.copy(
-                    isEditing = entry.key == id
-                )
-            }
+          it.changeState(MemeTextState.Editing, id)
         }
     }
     private fun setNotCurrentMemeTextEditing() {
         _memeTexts.update {
-            it.mapValues { entry ->
-                entry.value.copy(
-                    isEditing = false
-                )
-            }
+           it.mapValues {
+               it.value.copy(
+                   memeTextState = MemeTextState.Idle
+               )
+           }
         }
     }
 
     private fun setNoneSelected(){
-        _selectedMemeIndex.update {
-            -1
+        _memeTexts.update {
+            it.mapValues {
+                it.value.copy(
+                    memeTextState = MemeTextState.Idle
+                )
+            }
         }
     }
 

@@ -1,9 +1,9 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model
 
-import androidx.compose.ui.geometry.Size
 import nl.codingwithlinda.mastermeme.core.domain.Memento
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MemeTextMemento
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 
 data class MemeUiText(
     val id: Int,
@@ -13,9 +13,8 @@ data class MemeUiText(
     val offsetY: Float,
     val parentWidth: Float,
     val parentHeight: Float,
-    val isSelected: Boolean = false,
-    val isEditing: Boolean = false
-) {
+    val memeTextState: MemeTextState = MemeTextState.Idle,
+    ) {
 
     fun saveState(): Memento<MemeUiText> {
        return MemeTextMemento(this)

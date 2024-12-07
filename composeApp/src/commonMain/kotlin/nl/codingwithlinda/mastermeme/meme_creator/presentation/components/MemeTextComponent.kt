@@ -81,10 +81,10 @@ fun MemeTextComponent(
         .pointerInput(Unit) {
             detectTapGestures(
                 onTap = {
-                    onAction(MemeCreatorAction.StartEditing(text.id))
+                    onAction(MemeCreatorAction.SelectMemeText(text.id))
                 },
                 onDoubleTap = {
-                    onAction(MemeCreatorAction.SelectMemeText(text.id))
+                    onAction(MemeCreatorAction.StartEditing(text.id))
                 }
             )
         }

@@ -31,7 +31,6 @@ fun PreviewMemeTextComponent() {
                 offsetY = 0f,
                 parentWidth = 0f,
                 parentHeight = 0f,
-                isEditing = true,
                 fontSize = 50f
             ),
             actionOnDelete = {},
@@ -62,7 +61,6 @@ fun PreviewMemeTextSizeComponent() {
                 offsetY = 0f,
                 parentWidth = 0f,
                 parentHeight = 0f,
-                isEditing = true,
                 fontSize = 50f
             ),
             onAction = {}

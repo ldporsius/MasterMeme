@@ -35,6 +35,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_m
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -86,36 +87,55 @@ fun MemeCreatorScreen(
                 state.memeImageUi.DrawImage()
 
                 state.memeTexts.onEach { memeText ->
-                    if (memeText.value.isEditing) {
-                        MemeTextComponentActive(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            text = memeText.value,
-                            actionOnDelete = {
-                                onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
-                            },
-                            onAction = onAction
-                        )
-
-                    } else {
-                        MemeTextComponent(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                            ,
-                            text = memeText.value,
-                            parentSize = size,
-                            onAction = onAction
-                        )
+                    when(memeText.value.memeTextState){
+                        MemeTextState.Editing -> {
+                            MemeTextComponentActive(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(12.dp),
+                                text = memeText.value,
+                                actionOnDelete = {
+                                    onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
+                                },
+                                onAction = onAction
+                            )
+                        }
+                        MemeTextState.Idle -> {
+                            MemeTextComponent(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                ,
+                                text = memeText.value,
+                                parentSize = size,
+                                onAction = onAction
+                            )
+                        }
+                        MemeTextState.Selecting -> {
+                            MemeTextComponent(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                ,
+                                text = memeText.value,
+                                parentSize = size,
+                                onAction = onAction
+                            )
+                        }
                     }
                 }
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
-            when(state.isEditing){
+            when(state.shouldShowTextSizeTool){
                 true -> {
+
                     state.selectedMemeText?.let {
+                        EditTextSizeComponent(
+                            memeText = it,
+                            onAction = onAction
+                        )
+                    }
+                    state.editingMemeText?.let {
                         EditTextSizeComponent(
                             memeText = it,
                             onAction = onAction
