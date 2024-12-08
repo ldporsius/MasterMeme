@@ -11,6 +11,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -20,6 +24,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.ConfirmExitDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,9 +34,15 @@ fun MemeCreatorRoot(
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
-    onBack: () -> Unit,
-
+    onBack: @Composable ()-> Unit
     ) {
+
+
+    onBack()
+
+    var showConfirmExit by remember {
+        mutableStateOf(false)
+    }
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
@@ -51,7 +62,7 @@ fun MemeCreatorRoot(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            onBack()
+                           showConfirmExit = true
                         },
                         content = {
                             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -60,8 +71,18 @@ fun MemeCreatorRoot(
                 }
             )
         }
-    ){
-        paddingValues ->
+    ){ paddingValues ->
+
+        if(showConfirmExit){
+            ConfirmExitDialog(
+                onDismiss = {
+                    showConfirmExit = false
+                },
+                onConfirm = {
+                    showConfirmExit = false
+                }
+            )
+        }
 
         MemeCreatorScreen(
             modifier = Modifier

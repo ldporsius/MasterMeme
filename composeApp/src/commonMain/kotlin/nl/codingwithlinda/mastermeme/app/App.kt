@@ -12,6 +12,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.MemeCreatorRoot
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.BackHandler
 import nl.codingwithlinda.mastermeme.memes_list.presentation.MemesListRoot
 import nl.codingwithlinda.mastermeme.navigation.Route
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
@@ -44,7 +45,10 @@ fun App(
                         colorPicker = colorPicker,
                         fontPicker = fontPicker,
                         onBack = {
-                            navController.navigateUp()
+                            BackHandler {
+                                navController.navigateUp()
+                            }
+
                         }
                     )
                 }
