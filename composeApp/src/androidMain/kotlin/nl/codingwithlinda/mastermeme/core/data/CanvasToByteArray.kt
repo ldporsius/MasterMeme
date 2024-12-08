@@ -48,7 +48,7 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
             color = memeText.textColor.toArgb()
             textSize = scaledSizeInPixels
             textAlign = Paint.Align.LEFT
-            this.typeface = _typeface
+            typeface = _typeface
             isAntiAlias = true
         }
 
@@ -62,27 +62,21 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
         val offsetX = (memeText.offsetX * sizeFactor)
         println("OFFSET X AFTER SCALE: $offsetX")
 
-        val offsetY = (memeText.offsetY * sizeFactor) - textLayout.height
+        val offsetY = (memeText.offsetY * sizeFactor)
+        println("TEXT LAYOUT HEIGHT: ${textLayout.height}")
+        println("OFFSET Y AFTER SCALE: $offsetY")
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            textLayout.drawText(canvas)
-        }
-        else{
-            canvas.save()
-            canvas.translate(offsetX, offsetY)
-            textLayout.draw(canvas)
-            canvas.restore()
-        }
-
-
-        //canvas.drawText(text, offsetX, offsetY, paint)
+        canvas.save()
+        canvas.translate(offsetX, offsetY)
+        textLayout.draw(canvas)
+        canvas.restore()
 
     }
 
-    return bitMapToByteArray(bitmap, context)
+    return bitMapToByteArray(bitmap)
 }
 
-fun bitMapToByteArray(bitmap: Bitmap, context: Context): ByteArray {
+private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
     val stream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
     return stream.toByteArray()
