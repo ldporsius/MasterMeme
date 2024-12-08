@@ -8,9 +8,13 @@ class AndroidColorPicker: ColorPicker {
     override val colors: List<Color>
         get() = listOf(
             white,
-            Color.Blue,
-            Color.Red,
+            Color.Yellow,
             Color.Green,
+            Color.Blue,
+            Color.Magenta,
+            Color.Red,
             black,
         )
+
+
 }

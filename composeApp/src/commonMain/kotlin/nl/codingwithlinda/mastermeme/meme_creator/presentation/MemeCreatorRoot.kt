@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
@@ -27,6 +28,7 @@ fun MemeCreatorRoot(
     shareAppPicker: ShareAppPicker,
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
+    fontPicker: FontPicker,
     onBack: () -> Unit,
 
     ) {
@@ -36,7 +38,8 @@ fun MemeCreatorRoot(
             set("memeId", memeId)
         },
         memeTemplates = MemeTemplatesFromResources(),
-        imageConverter = imageConverter
+        imageConverter = imageConverter,
+        fontPicker = fontPicker
     )
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -67,6 +70,7 @@ fun MemeCreatorRoot(
             state = viewModel.state.collectAsStateWithLifecycle().value,
             colors = colorPicker.colors,
             shareAppPicker = shareAppPicker,
+            fonts = fontPicker.fontResources,
             onAction = {
                 viewModel.handleAction(it)
             },

@@ -47,7 +47,7 @@ fun MemeTextComponent(
 ) {
 
     val fontFamily = FontFamily(
-        Font(Res.font.impact)
+        text.fontResource.font
     )
 
     val textMeasurer = rememberTextMeasurer()

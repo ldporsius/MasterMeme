@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.AndroidColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.MemeCreatorRoot
@@ -19,7 +20,8 @@ import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 fun App(
     shareAppPicker: ShareAppPicker,
     imageConverter: ImageConverter,
-    colorPicker: ColorPicker
+    colorPicker: ColorPicker,
+    fontPicker: FontPicker
 ) {
 
     val navController = rememberNavController()
@@ -40,6 +42,7 @@ fun App(
                         shareAppPicker = shareAppPicker,
                         imageConverter = imageConverter,
                         colorPicker = colorPicker,
+                        fontPicker = fontPicker,
                         onBack = {
                             navController.navigateUp()
                         }

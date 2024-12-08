@@ -18,7 +18,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
@@ -27,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextFontComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
@@ -34,12 +34,14 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.touch_
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
+import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 
 @Composable
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
     state: MemeCreatorViewState,
     colors: List<androidx.compose.ui.graphics.Color>,
+    fonts: List<FontUi>,
     shareAppPicker: ShareAppPicker,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
@@ -79,7 +81,6 @@ fun MemeCreatorScreen(
                     }
 
             ) {
-
 
                 state.memeImageUi.DrawImage()
 
@@ -127,7 +128,12 @@ fun MemeCreatorScreen(
                     EditMemeBottomBar(
                         modifier = Modifier.fillMaxWidth(),
                         changeTextStyleComponent = {
-
+                            EditTextFontComponent(
+                                fonts = fonts,
+                                onFontSelected = {
+                                    onAction(MemeCreatorAction.EditMemeTextFont(state.selectedMemeText!!.id, it))
+                                }
+                            )
                         },
                         changeTextSizeComponent = {
                             EditTextSizeComponent(
@@ -137,6 +143,7 @@ fun MemeCreatorScreen(
                         },
                         changeTextColorComponent = {
                             EditTextColorComponent(
+                                modifier = Modifier.padding(16.dp),
                                 colors = colors,
                                 onColorSelected = {
                                     onAction(MemeCreatorAction.EditMemeTextColor(state.selectedMemeText!!.id, it))

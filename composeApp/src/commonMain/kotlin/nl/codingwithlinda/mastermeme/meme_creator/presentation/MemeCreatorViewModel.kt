@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,7 @@ import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
@@ -32,13 +34,14 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val memeTemplates: MemeTemplates,
-    private val imageConverter: ImageConverter
+    private val imageConverter: ImageConverter,
+    private val fontPicker: FontPicker
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
 
     private val _memeTexts = MutableStateFlow<Map<Int, MemeUiText>>(emptyMap())
-    //private val _selectedMemeIndex = MutableStateFlow<Int>(-1)
+
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
             memeImageUi =  emptyTemplate.image,
@@ -80,7 +83,8 @@ class MemeCreatorViewModel(
                     parentWidth = 0f,
                     parentHeight = 0f,
                     fontSize = 50f,
-                    textColor = black
+                    textColor = black,
+                    fontResource = fontPicker.fontResources[0]
                 )
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
@@ -142,8 +146,15 @@ class MemeCreatorViewModel(
                     it.plus(action.id to updateMemeText)
                 }
             }
-            is MemeCreatorAction.UndoTextSize -> {
-                restoreFromHistory(action.id)
+            is MemeCreatorAction.EditMemeTextFont -> {
+                putMemeTextInHistory(action.id)
+                val currentMemeText = getMemeText(action.id)
+                val updateMemeText = currentMemeText.copy(
+                    fontResource = fontPicker.fontResources.get(action.fontIndex)
+                )
+                _memeTexts.update {
+                    it.plus(action.id to updateMemeText)
+                }
             }
 
             is MemeCreatorAction.EditMemeTextColor -> {

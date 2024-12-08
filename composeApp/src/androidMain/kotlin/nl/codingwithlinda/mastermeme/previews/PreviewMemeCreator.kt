@@ -66,6 +66,9 @@ AppTheme {
             androidx.compose.ui.graphics.Color.Black,
             androidx.compose.ui.graphics.Color.White,
         ),
+        fonts = listOf(
+
+        ),
         shareAppPicker = ShareAppPicker(LocalContext.current),
         onAction = {},
     )

@@ -31,8 +31,8 @@ fun EditTextColorComponent(
            Spacer(
                modifier = Modifier
                    .background(color = color, shape = CircleShape)
-                   .border(width = Dp.Hairline, color = Color.White, shape = CircleShape)
-                   .size(48.dp)
+                   .border(width = 1.dp, color = Color.White.copy(.5f), shape = CircleShape)
+                   .size(40.dp)
                    .clickable {
                        onColorSelected(color)
                    }
