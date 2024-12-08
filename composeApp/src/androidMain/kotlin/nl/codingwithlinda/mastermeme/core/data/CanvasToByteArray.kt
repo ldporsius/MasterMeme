@@ -6,6 +6,9 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
+import android.os.Build
+import android.text.Layout
+import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.TypedValue
 import androidx.compose.ui.graphics.toArgb
@@ -49,23 +52,31 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
             isAntiAlias = true
         }
 
-        val texts = memeText.text.split("\n")
-        var summedHeight = 0f
-        for(text in texts){
-            val textBounds = Rect()
-            paint.getTextBounds(text, 0, text.length, textBounds)
+        val textBounds = Rect()
+        paint.getTextBounds(memeText.text, 0, memeText.text.length, textBounds)
 
-            val offsetX = (memeText.offsetX * sizeFactor)
-            println("OFFSET X AFTER SCALE: $offsetX")
+        val textLayout = StaticLayout(
+            memeText.text, paint, canvas.width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false
+        )
 
-            val offsetY = ((memeText.offsetY) * sizeFactor) - textBounds.top + summedHeight
-            println("OFFSET Y AFTER SCALE: $offsetY")
-            summedHeight += textBounds.height()
+        val offsetX = (memeText.offsetX * sizeFactor)
+        println("OFFSET X AFTER SCALE: $offsetX")
 
+        val offsetY = (memeText.offsetY * sizeFactor) - textLayout.height
 
-            canvas.drawText(text, offsetX, offsetY, paint)
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            textLayout.drawText(canvas)
         }
+        else{
+            canvas.save()
+            canvas.translate(offsetX, offsetY)
+            textLayout.draw(canvas)
+            canvas.restore()
+        }
+
+
+        //canvas.drawText(text, offsetX, offsetY, paint)
+
     }
 
     return bitMapToByteArray(bitmap, context)
