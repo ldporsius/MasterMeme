@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
@@ -50,12 +49,12 @@ fun EditTextSizeComponent(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
-        IconButton(onClick = {
+      /*  IconButton(onClick = {
             onAction(MemeCreatorAction.UndoTextSize(memeText.id))
             onAction(MemeCreatorAction.StopEditing)
         }) {
             Icon(imageVector = Icons.Default.Close, contentDescription = null)
-        }
+        }*/
         Text("Aa",
             style = MaterialTheme.typography.labelSmall)
 
@@ -100,10 +99,10 @@ fun EditTextSizeComponent(
             fontSize = TextUnit(28f, TextUnitType.Sp)
         )
 
-        IconButton(onClick = {
+       /* IconButton(onClick = {
             onAction(MemeCreatorAction.StopEditing)
         }) {
             Icon(imageVector = Icons.Default.Check, contentDescription = null)
-        }
+        }*/
     }
 }

@@ -11,7 +11,7 @@ import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.EditTextSizeComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeTextComponentActive
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState

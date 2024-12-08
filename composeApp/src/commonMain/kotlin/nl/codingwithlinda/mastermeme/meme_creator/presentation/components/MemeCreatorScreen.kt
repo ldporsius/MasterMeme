@@ -1,12 +1,10 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,19 +23,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalViewConfiguration
-import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
-import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.touch_interactions.PointerInput
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
-import org.jetbrains.compose.resources.painterResource
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -90,7 +85,6 @@ fun MemeCreatorScreen(
                 state.memeTexts.onEach { memeText ->
                     when(memeText.value.memeTextState){
                         MemeTextState.Editing -> {
-
                             PointerInput(
                                 text = memeText.value,
                                 parentSize = size,
@@ -105,8 +99,6 @@ fun MemeCreatorScreen(
                                     onAction = onAction
                                 )
                             }
-
-
                         }
                         MemeTextState.Idle -> {
                             MemeTextComponent(
@@ -118,7 +110,7 @@ fun MemeCreatorScreen(
                                 onAction = onAction
                             )
                         }
-                        MemeTextState.Selecting -> {
+                        MemeTextState.Selected -> {
                             MemeTextComponent(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -137,18 +129,22 @@ fun MemeCreatorScreen(
             when(state.shouldShowTextSizeTool){
                 true -> {
 
-                    state.selectedMemeText?.let {
-                        EditTextSizeComponent(
-                            memeText = it,
-                            onAction = onAction
-                        )
-                    }
-                    state.editingMemeText?.let {
-                        EditTextSizeComponent(
-                            memeText = it,
-                            onAction = onAction
-                        )
-                    }
+                    EditMemeBottomBar(
+                        modifier = Modifier.fillMaxWidth(),
+                        changeTextStyleComponent = {
+
+                        },
+                        changeTextSizeComponent = {
+                            EditTextSizeComponent(
+                                memeText = state.selectedMemeText!!,
+                                onAction = onAction
+                            )
+                        },
+                        changeTextColorComponent = {
+
+                        },
+                        onAction = onAction
+                    )
                 }
                 false -> {
                     CreatorButtonsComponent(

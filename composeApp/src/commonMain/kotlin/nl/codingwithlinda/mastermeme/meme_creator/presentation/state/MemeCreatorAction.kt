@@ -15,5 +15,6 @@ sealed interface MemeCreatorAction {
     data class SaveParentSize(val width: Float, val height: Float) : MemeCreatorAction
     data class AdjustTextSize(val id: Int, val size: Float) : MemeCreatorAction
     data class UndoTextSize(val id: Int) : MemeCreatorAction
+    data object Undo : MemeCreatorAction
 
 }

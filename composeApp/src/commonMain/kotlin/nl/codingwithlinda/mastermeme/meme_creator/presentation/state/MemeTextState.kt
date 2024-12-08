@@ -5,7 +5,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 sealed interface MemeTextState {
     data object Idle : MemeTextState
     data object Editing : MemeTextState
-    data object Selecting : MemeTextState
+    data object Selected : MemeTextState
 }
 fun Map<Int, MemeUiText>.changeState(state: MemeTextState, id: Int): Map<Int, MemeUiText>{
     return this.mapValues {

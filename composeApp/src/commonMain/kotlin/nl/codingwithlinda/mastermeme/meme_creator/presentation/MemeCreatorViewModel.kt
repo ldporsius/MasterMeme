@@ -127,9 +127,8 @@ class MemeCreatorViewModel(
             is MemeCreatorAction.SelectMemeText -> {
                 putMemeTextInHistory(action.id)
                 _memeTexts.update {
-                    it.changeState(MemeTextState.Selecting, action.id)
+                    it.changeState(MemeTextState.Selected, action.id)
                 }
-               // _selectedMemeIndex.update { action.id }
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
@@ -143,6 +142,13 @@ class MemeCreatorViewModel(
             }
             is MemeCreatorAction.UndoTextSize -> {
                 restoreFromHistory(action.id)
+            }
+
+            MemeCreatorAction.Undo -> {
+                getSelectedMemeText()?.let {
+                    restoreFromHistory(it.id)
+                }
+                setNoneSelected()
             }
 
             is MemeCreatorAction.StartSaveMeme -> {
@@ -200,6 +206,10 @@ class MemeCreatorViewModel(
         }
     }
 
+
+    private fun getSelectedMemeText(): MemeUiText? {
+        return _memeTexts.value.values.find { it.memeTextState == MemeTextState.Selected }
+    }
     private fun getMemeText(id: Int): MemeUiText {
         return _memeTexts.value[id] ?: throw Exception("Meme text not found")
     }
