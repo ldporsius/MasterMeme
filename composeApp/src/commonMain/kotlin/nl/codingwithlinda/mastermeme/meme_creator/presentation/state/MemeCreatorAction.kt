@@ -17,5 +17,6 @@ sealed interface MemeCreatorAction {
     data class EditMemeTextColor(val id: Int, val color: androidx.compose.ui.graphics.Color) : MemeCreatorAction
     data class EditMemeTextFont(val id: Int, val fontIndex: Int) : MemeCreatorAction
     data object Undo : MemeCreatorAction
+    data object UndoAll : MemeCreatorAction
 
 }

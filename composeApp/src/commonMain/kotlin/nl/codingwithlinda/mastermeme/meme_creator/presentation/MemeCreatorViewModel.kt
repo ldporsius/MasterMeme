@@ -42,6 +42,8 @@ class MemeCreatorViewModel(
 
     private val _memeTexts = MutableStateFlow<Map<Int, MemeUiText>>(emptyMap())
 
+
+
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
             memeImageUi =  emptyTemplate.image,
@@ -138,6 +140,7 @@ class MemeCreatorViewModel(
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
+                putMemeTextInHistory(action.id)
                 val currentMemeText = getMemeText(action.id)
                 val updateMemeText = currentMemeText.copy(
                     fontSize = action.size
@@ -170,6 +173,12 @@ class MemeCreatorViewModel(
             MemeCreatorAction.Undo -> {
                 getSelectedMemeText()?.let {
                     restoreFromHistory(it.id)
+                }
+                setNoneSelected()
+            }
+            MemeCreatorAction.UndoAll -> {
+                getSelectedMemeText()?.let {
+                    undoAll(it.id)
                 }
                 setNoneSelected()
             }
@@ -294,6 +303,15 @@ class MemeCreatorViewModel(
         getMemeText(id).also {
             getCareTakerOrNew(id).saveState(it.saveState())
         }
+    }
+    private fun undoAll(id: Int) {
+        val careTaker = getCareTakerOrNew(id)
+
+        val firstState = careTaker.undoAll() ?: return
+        _memeTexts.update { memeTexts ->
+            memeTexts.plus(id to firstState)
+        }
+
     }
     private fun restoreFromHistory(id: Int) {
         val currentMemeText = getMemeText(id)

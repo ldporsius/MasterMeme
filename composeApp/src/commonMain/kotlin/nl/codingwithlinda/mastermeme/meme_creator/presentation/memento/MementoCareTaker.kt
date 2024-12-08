@@ -12,4 +12,9 @@ class MementoCareTaker<T>{
         return previousState?.restoreState()
 
     }
+    fun undoAll(): T?{
+        val firstMemento = history.firstOrNull() ?: return null
+        history.clear()
+        return firstMemento.restoreState()
+    }
 }

@@ -63,7 +63,7 @@ fun EditMemeBottomBar(
             IconButton(
                 onClick = {
                     editComponentOption = null
-                    onAction(MemeCreatorAction.Undo)
+                    onAction(MemeCreatorAction.UndoAll)
                     onAction(MemeCreatorAction.StopEditing)
                 }
             ){
