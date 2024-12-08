@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
@@ -25,9 +26,10 @@ fun MemeCreatorRoot(
     memeId: String,
     shareAppPicker: ShareAppPicker,
     imageConverter: ImageConverter,
+    colorPicker: ColorPicker,
     onBack: () -> Unit,
 
-) {
+    ) {
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
@@ -63,6 +65,7 @@ fun MemeCreatorRoot(
                 .fillMaxSize()
                 .padding(paddingValues),
             state = viewModel.state.collectAsStateWithLifecycle().value,
+            colors = colorPicker.colors,
             shareAppPicker = shareAppPicker,
             onAction = {
                 viewModel.handleAction(it)

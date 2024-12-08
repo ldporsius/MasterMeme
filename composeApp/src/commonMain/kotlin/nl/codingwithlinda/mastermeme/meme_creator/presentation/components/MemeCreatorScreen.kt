@@ -26,6 +26,7 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
@@ -34,11 +35,11 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreator
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
     state: MemeCreatorViewState,
+    colors: List<androidx.compose.ui.graphics.Color>,
     shareAppPicker: ShareAppPicker,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
@@ -102,9 +103,6 @@ fun MemeCreatorScreen(
                         }
                         MemeTextState.Idle -> {
                             MemeTextComponent(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                ,
                                 text = memeText.value,
                                 parentSize = size,
                                 onAction = onAction
@@ -112,9 +110,6 @@ fun MemeCreatorScreen(
                         }
                         MemeTextState.Selected -> {
                             MemeTextComponent(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                ,
                                 text = memeText.value,
                                 parentSize = size,
                                 onAction = onAction
@@ -141,7 +136,12 @@ fun MemeCreatorScreen(
                             )
                         },
                         changeTextColorComponent = {
-
+                            EditTextColorComponent(
+                                colors = colors,
+                                onColorSelected = {
+                                    onAction(MemeCreatorAction.EditMemeTextColor(state.selectedMemeText!!.id, it))
+                                }
+                            )
                         },
                         onAction = onAction
                     )

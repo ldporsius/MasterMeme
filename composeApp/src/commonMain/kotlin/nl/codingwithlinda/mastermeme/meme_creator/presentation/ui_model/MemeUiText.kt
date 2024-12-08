@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model
 
+import androidx.compose.ui.graphics.Color
 import nl.codingwithlinda.mastermeme.core.domain.Memento
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MemeTextMemento
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
@@ -9,6 +10,7 @@ data class MemeUiText(
     val id: Int,
     val text: String,
     val fontSize: Float,
+    val textColor: Color,
     val offsetX: Float,
     val offsetY: Float,
     val parentWidth: Float,

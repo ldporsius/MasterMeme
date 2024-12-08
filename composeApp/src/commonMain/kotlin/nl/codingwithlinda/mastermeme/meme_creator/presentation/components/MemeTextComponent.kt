@@ -41,7 +41,6 @@ import kotlin.math.roundToInt
 
 @Composable
 fun MemeTextComponent(
-    modifier: Modifier = Modifier,
     text: MemeUiText,
     parentSize: Size,
     onAction: (MemeCreatorAction) -> Unit,
@@ -127,7 +126,7 @@ fun MemeTextComponent(
             .then(pointerInputModifier),
         text = text.text,
         style = textStyle,
-        color = black
+        color = text.textColor,
     )
 
 }

@@ -24,6 +24,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreator
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.changeState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
+import nl.codingwithlinda.mastermeme.ui.theme.black
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 
@@ -78,7 +79,8 @@ class MemeCreatorViewModel(
                     offsetY = 0f,
                     parentWidth = 0f,
                     parentHeight = 0f,
-                    fontSize = 50f
+                    fontSize = 50f,
+                    textColor = black
                 )
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
@@ -144,6 +146,16 @@ class MemeCreatorViewModel(
                 restoreFromHistory(action.id)
             }
 
+            is MemeCreatorAction.EditMemeTextColor -> {
+                putMemeTextInHistory(action.id)
+                val currentMemeText = getMemeText(action.id)
+                val updateMemeText = currentMemeText.copy(
+                    textColor = action.color
+                )
+                _memeTexts.update {
+                    it.plus(action.id to updateMemeText)
+                }
+            }
             MemeCreatorAction.Undo -> {
                 getSelectedMemeText()?.let {
                     restoreFromHistory(it.id)

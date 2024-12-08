@@ -24,15 +24,7 @@ fun PreviewMemeTextComponent() {
     AppTheme {
         MemeTextComponentActive(
             modifier = Modifier.fillMaxWidth(),
-            text = MemeUiText(
-                id = 0,
-                text = "Tap twice to edit",
-                offsetX = 0f,
-                offsetY = 0f,
-                parentWidth = 0f,
-                parentHeight = 0f,
-                fontSize = 50f
-            ),
+            text = fakeMemeTextUI(),
             actionOnDelete = {},
             onAction = {}
 
@@ -54,15 +46,7 @@ fun PreviewMemeButtonsComponent() {
 fun PreviewMemeTextSizeComponent() {
     AppTheme {
         EditTextSizeComponent(
-            memeText = MemeUiText(
-                id = 0,
-                text = "Tap twice to edit",
-                offsetX = 0f,
-                offsetY = 0f,
-                parentWidth = 0f,
-                parentHeight = 0f,
-                fontSize = 50f
-            ),
+            memeText = fakeMemeTextUI(),
             onAction = {}
         )
     }
@@ -77,6 +61,10 @@ AppTheme {
         modifier = Modifier.fillMaxSize(),
         state = MemeCreatorViewState(
             memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
+        ),
+        colors = listOf(
+            androidx.compose.ui.graphics.Color.Black,
+            androidx.compose.ui.graphics.Color.White,
         ),
         shareAppPicker = ShareAppPicker(LocalContext.current),
         onAction = {},
