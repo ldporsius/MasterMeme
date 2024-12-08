@@ -7,6 +7,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
+import android.os.Environment
 import android.text.TextPaint
 import android.util.TypedValue
 import androidx.compose.foundation.Canvas
@@ -100,31 +101,23 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
             isAntiAlias = true
         }
 
-        val textBounds = Rect()
-        paint.getTextBounds(memeText.text, 0, memeText.text.length, textBounds)
+        val texts = memeText.text.split("\n")
+        var summedHeight = 0f
+        for(text in texts){
+            val textBounds = Rect()
+            paint.getTextBounds(text, 0, text.length, textBounds)
 
-        val textBottom = paint.fontMetrics.bottom
-        val textTop = paint.fontMetrics.top
-        val textAscent = paint.fontMetrics.ascent
+            val offsetX = (memeText.offsetX * sizeFactor)
+            println("OFFSET X AFTER SCALE: $offsetX")
 
-        println("TEXTPAINT BOUNDS: ${textBounds}")
-        println("TEXTPAINT BOTTOM: ${textBottom}")
-        println("TEXTPAINT TOP: ${textTop}")
-        println("TEXTPAINT ASCENT: ${textAscent}")
+            val offsetY = ((memeText.offsetY) * sizeFactor) - textBounds.top + summedHeight
+            println("OFFSET Y AFTER SCALE: $offsetY")
+            summedHeight += textBounds.height()
 
-        println("SIZE FACTOR: $sizeFactor")
-        println("FONT SIZE: ${spSize}")
-        println("FONT SIZE AFTER SCALE: $scaledSizeInPixels")
-        println("OFFSET X: ${memeText.offsetX}")
-        println("OFFSET Y: ${memeText.offsetY}")
 
-        val offsetX = (memeText.offsetX * sizeFactor)
-        println("OFFSET X AFTER SCALE: $offsetX")
+            canvas.drawText(text, offsetX, offsetY, paint)
 
-        val offsetY = ((memeText.offsetY) * sizeFactor) - textBounds.top
-        println("OFFSET Y AFTER SCALE: $offsetY")
-
-        canvas.drawText(memeText.text, offsetX, offsetY, paint)
+        }
 
     }
 

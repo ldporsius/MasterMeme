@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.impact
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.black
 import nl.codingwithlinda.mastermeme.ui.theme.schemes_error
@@ -42,13 +43,9 @@ fun MemeTextComponentActive(
         contentAlignment = Alignment.TopEnd
     ){
 
-
         Box(modifier = Modifier
             .fillMaxWidth()
-            .pointerInput(Unit) {
-
-            }
-            .padding(top = 24.dp, end = 24.dp)
+            .padding(24.dp)
             .border(width = 2.dp, color = black)
             ) {
 
@@ -65,11 +62,11 @@ fun MemeTextComponentActive(
                     modifier = Modifier
                         .fillMaxWidth()
                     ,
-                    singleLine = true,
+                    singleLine = false,
                     colors = OutlinedTextFieldDefaults.colors(
                         unfocusedContainerColor = white,
                         unfocusedTextColor = black,
-                        focusedContainerColor = white,
+                        focusedContainerColor = white.copy(alpha = 0.5f),
                         focusedTextColor = black
                     ),
                     textStyle = MaterialTheme.typography.headlineLarge.copy(
@@ -82,20 +79,22 @@ fun MemeTextComponentActive(
             }
         }
 
-        IconButton(
-            onClick = { actionOnDelete() },
-            modifier = Modifier.align(Alignment.TopEnd),
-            colors = IconButtonDefaults.iconButtonColors(
-                containerColor = schemes_error
-            )
-        ) {
-            Icon(
-                imageVector = Icons.Default.Close,
-                contentDescription = null,
-                modifier = Modifier
-                    .size(24.dp),
-                tint = white
-            )
+        if (text.memeTextState == MemeTextState.Editing) {
+            IconButton(
+                onClick = { actionOnDelete() },
+                modifier = Modifier.align(Alignment.TopEnd),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = schemes_error
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(24.dp),
+                    tint = white
+                )
+            }
         }
     }
 }

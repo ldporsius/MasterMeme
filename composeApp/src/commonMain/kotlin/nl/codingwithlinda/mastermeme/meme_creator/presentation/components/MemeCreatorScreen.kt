@@ -33,6 +33,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.touch_interactions.PointerInput
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
@@ -89,16 +90,23 @@ fun MemeCreatorScreen(
                 state.memeTexts.onEach { memeText ->
                     when(memeText.value.memeTextState){
                         MemeTextState.Editing -> {
-                            MemeTextComponentActive(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
+
+                            PointerInput(
                                 text = memeText.value,
-                                actionOnDelete = {
-                                    onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
-                                },
+                                parentSize = size,
                                 onAction = onAction
-                            )
+                            ) {
+                                MemeTextComponentActive(
+                                    modifier = Modifier,
+                                    text = memeText.value,
+                                    actionOnDelete = {
+                                        onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
+                                    },
+                                    onAction = onAction
+                                )
+                            }
+
+
                         }
                         MemeTextState.Idle -> {
                             MemeTextComponent(
