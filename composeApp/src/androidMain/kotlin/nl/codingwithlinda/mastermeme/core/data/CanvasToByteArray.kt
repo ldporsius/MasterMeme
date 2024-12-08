@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
@@ -94,7 +95,7 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
         )
 
         val paint = TextPaint().apply {
-            color = Color.BLACK
+            color = memeText.textColor.toArgb()
             textSize = scaledSizeInPixels
             textAlign = Paint.Align.LEFT
             this.typeface = typefaceImpact
