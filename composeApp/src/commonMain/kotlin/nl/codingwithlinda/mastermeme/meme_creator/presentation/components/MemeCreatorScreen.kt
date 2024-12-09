@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,14 +30,12 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.E
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextFontComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.touch_interactions.PointerInput
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
@@ -82,9 +82,14 @@ fun MemeCreatorScreen(
                 state.memeImageUi.DrawImage()
 
                 state.memeTexts.onEach { memeText ->
-                    when(memeText.value.memeTextState){
+                    MemeTextComponent(
+                        text = memeText.value,
+                        parentSize = size,
+                        onAction = onAction
+                    )
+                  /*  when(memeText.value.memeTextState){
                         MemeTextState.Editing -> {
-                            PointerInput(
+                           *//* PointerInput(
                                 text = memeText.value,
                                 parentSize = size,
                                 onAction = onAction
@@ -97,7 +102,7 @@ fun MemeCreatorScreen(
                                     },
                                     onAction = onAction
                                 )
-                            }
+                            }*//*
                         }
                         MemeTextState.Idle -> {
                             MemeTextComponent(
@@ -113,7 +118,7 @@ fun MemeCreatorScreen(
                                 onAction = onAction
                             )
                         }
-                    }
+                    }*/
                 }
             }
 
@@ -153,14 +158,40 @@ fun MemeCreatorScreen(
                 false -> {
                     CreatorButtonsComponent(
                         modifier = Modifier.fillMaxWidth(),
+                        fontUi = fonts[0],
+                        isAdding = state.isAddingText,
                         onAction = onAction
                     )
                 }
             }
         }
 
+        AnimatedVisibility(state.editingMemeText != null){
+            val _text = state.editingMemeText ?: return@AnimatedVisibility
+            ModalBottomSheet(
+                onDismissRequest = {
+                    onAction(MemeCreatorAction.UndoEditing(_text.id))
+                },
+                content = {
+                    MemeTextInput(
+                        text = _text.text,
+                        setText = {
+                            onAction(MemeCreatorAction.EditMemeText(_text.id, it))
+                        },
+                        fontUi = _text.fontResource,
+                        actionOnDismiss = {
+                            onAction(MemeCreatorAction.UndoEditing(_text.id))
+                        },
+                        actionOnConfirm = {
+                            onAction(MemeCreatorAction.StopEditing)
+                        },
+
+                    )
+                }
+            )
+        }
         AnimatedVisibility(state.isSaving){
-            SaveMemeBottomSheet(
+            MemeBottomSheet(
                 onDismiss = {
                     onAction(MemeCreatorAction.CancelSaveMeme)
                 },

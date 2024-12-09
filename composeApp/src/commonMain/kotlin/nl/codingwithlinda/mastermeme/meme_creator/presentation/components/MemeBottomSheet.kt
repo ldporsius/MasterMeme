@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -11,7 +11,7 @@ import androidx.compose.ui.Modifier
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SaveMemeBottomSheet(
+fun MemeBottomSheet(
     modifier: Modifier = Modifier,
     onDismiss: () -> Unit,
     content: @Composable () -> Unit

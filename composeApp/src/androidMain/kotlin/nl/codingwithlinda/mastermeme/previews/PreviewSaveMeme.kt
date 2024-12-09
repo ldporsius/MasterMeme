@@ -7,7 +7,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 
 @Preview
@@ -27,7 +27,7 @@ fun PreviewSaveMemeOption() {
 @Preview
 @Composable
 fun PreviewSaveMemeBottomSheet(){
-    SaveMemeBottomSheet(
+    MemeBottomSheet(
         onDismiss = {},
         content = {
             SaveMemeOption(

@@ -42,8 +42,6 @@ class MemeCreatorViewModel(
 
     private val _memeTexts = MutableStateFlow<Map<Int, MemeUiText>>(emptyMap())
 
-
-
     private val _state = MutableStateFlow(
         MemeCreatorViewState(
             memeImageUi =  emptyTemplate.image,
@@ -75,11 +73,11 @@ class MemeCreatorViewModel(
 
     fun handleAction(action: MemeCreatorAction){
         when(action){
-            is MemeCreatorAction.AddText -> {
+            is MemeCreatorAction.CreateText -> {
                 val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
                 val newMemeText =  MemeUiText(
                     id = newIndex,
-                    text = "",
+                    text = action.text,
                     offsetX = 0f,
                     offsetY = 0f,
                     parentWidth = 0f,
@@ -92,8 +90,21 @@ class MemeCreatorViewModel(
                     it.plus(newIndex to newMemeText)
                 }
 
-                setCurrentMemeTextEditing(newIndex)
+                putMemeTextInHistory(newIndex)
 
+                _state.update {
+                    it.copy(
+                        isAddingText = false
+                    )
+                }
+            }
+
+            is MemeCreatorAction.AddText -> {
+                _state.update {
+                    it.copy(
+                        isAddingText = true
+                    )
+                }
             }
 
             is MemeCreatorAction.SaveParentSize -> {
@@ -110,6 +121,9 @@ class MemeCreatorViewModel(
             MemeCreatorAction.StopEditing -> {
                 setNotCurrentMemeTextEditing()
                 setNoneSelected()
+            }
+            is MemeCreatorAction.UndoEditing -> {
+                restoreFromHistory(action.id)
             }
 
             is MemeCreatorAction.EditMemeText -> {
@@ -133,10 +147,9 @@ class MemeCreatorViewModel(
             }
 
             is MemeCreatorAction.SelectMemeText -> {
+                mementoCareTakers.remove(action.id)
                 putMemeTextInHistory(action.id)
-                _memeTexts.update {
-                    it.changeState(MemeTextState.Selected, action.id)
-                }
+               setSelected(action.id)
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
@@ -238,7 +251,6 @@ class MemeCreatorViewModel(
         }
     }
 
-
     private fun getSelectedMemeText(): MemeUiText? {
         return _memeTexts.value.values.find { it.memeTextState == MemeTextState.Selected }
     }
@@ -261,6 +273,11 @@ class MemeCreatorViewModel(
         }
     }
 
+    private fun setSelected(id: Int) {
+        _memeTexts.update {
+            it.changeState(MemeTextState.Selected, id)
+        }
+    }
     private fun setNoneSelected(){
         _memeTexts.update {
             it.mapValues {
@@ -311,7 +328,6 @@ class MemeCreatorViewModel(
         _memeTexts.update { memeTexts ->
             memeTexts.plus(id to firstState)
         }
-
     }
     private fun restoreFromHistory(id: Int) {
         val currentMemeText = getMemeText(id)
@@ -323,4 +339,5 @@ class MemeCreatorViewModel(
             }
         }
     }
+
 }

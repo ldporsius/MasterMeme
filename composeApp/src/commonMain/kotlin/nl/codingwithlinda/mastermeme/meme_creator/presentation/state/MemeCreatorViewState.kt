@@ -6,13 +6,14 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 data class MemeCreatorViewState(
     val memeImageUi: MemeImageUi,
     val memeTexts: Map<Int, MemeUiText> = emptyMap(),
+    val isAddingText: Boolean = false,
     val isSaving: Boolean = false,
     val memeUri: String? = null
 ){
     val selectedMemeText: MemeUiText? = memeTexts.values.find { it.memeTextState == MemeTextState.Selected }
     val editingMemeText: MemeUiText? = memeTexts.values.find { it.memeTextState == MemeTextState.Editing }
 
-    val isEditing: Boolean = editingMemeText != null
+    //val isEditing: Boolean = editingMemeText != null
     val isSelecting: Boolean = selectedMemeText != null
 
     val shouldShowEditTextOption = isSelecting
