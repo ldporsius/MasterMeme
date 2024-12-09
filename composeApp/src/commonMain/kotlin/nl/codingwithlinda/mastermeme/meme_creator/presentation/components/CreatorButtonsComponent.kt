@@ -2,8 +2,10 @@ package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -36,19 +38,23 @@ fun CreatorButtonsComponent(
 
     AnimatedVisibility (isAdding) {
         ModalBottomSheet(onDismissRequest = { onAction(MemeCreatorAction.StopEditing) },
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+
         ) {
-            MemeTextInput(
-                text = text,
-                setText = {
-                    text = it
-                },
-                fontUi = fontUi,
-                actionOnDismiss = { onAction(MemeCreatorAction.StopEditing) },
-                actionOnConfirm = {
-                    onAction(MemeCreatorAction.CreateText(it))
-                }
-            )
+            Box(modifier = Modifier.padding(16.dp)) {
+                MemeTextInput(
+                    text = text,
+                    setText = {
+                        text = it
+                    },
+                    fontUi = fontUi,
+                    actionOnDismiss = { onAction(MemeCreatorAction.StopEditing) },
+                    actionOnConfirm = {
+                        onAction(MemeCreatorAction.CreateText(it))
+                    }
+                )
+            }
         }
     }
 
