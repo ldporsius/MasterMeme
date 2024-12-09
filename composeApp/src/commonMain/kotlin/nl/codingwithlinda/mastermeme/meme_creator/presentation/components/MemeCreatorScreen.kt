@@ -52,9 +52,7 @@ fun MemeCreatorScreen(
         }
     }
 
-    Surface (modifier = modifier
-
-    ){
+    Surface (modifier = modifier){
 
         var size by remember {
             mutableStateOf(Size.Zero)
@@ -67,7 +65,6 @@ fun MemeCreatorScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    //.aspectRatio(1f)
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
                         onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))
@@ -122,7 +119,7 @@ fun MemeCreatorScreen(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            when(state.shouldShowTextSizeTool){
+            when(state.shouldShowEditTextOption){
                 true -> {
 
                     EditMemeBottomBar(

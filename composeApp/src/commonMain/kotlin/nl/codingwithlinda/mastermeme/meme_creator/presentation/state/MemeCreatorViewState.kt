@@ -15,7 +15,7 @@ data class MemeCreatorViewState(
     val isEditing: Boolean = editingMemeText != null
     val isSelecting: Boolean = selectedMemeText != null
 
-    val shouldShowTextSizeTool = isSelecting
+    val shouldShowEditTextOption = isSelecting
 
 
 }
