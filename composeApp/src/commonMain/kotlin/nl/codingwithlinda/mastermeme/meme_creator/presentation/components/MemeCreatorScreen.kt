@@ -7,12 +7,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -20,10 +25,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
@@ -34,6 +41,9 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_m
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
+import nl.codingwithlinda.mastermeme.ui.theme.schemes_error
+import nl.codingwithlinda.mastermeme.ui.theme.white
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,9 +57,7 @@ fun MemeCreatorScreen(
 ) {
 
     shareAppPicker.registerPicker {
-        it.let {
-            println("Is This Called?: $it")
-        }
+        println("Is This Called?: $it")
     }
 
     Surface (modifier = modifier){
@@ -87,38 +95,6 @@ fun MemeCreatorScreen(
                         parentSize = size,
                         onAction = onAction
                     )
-                  /*  when(memeText.value.memeTextState){
-                        MemeTextState.Editing -> {
-                           *//* PointerInput(
-                                text = memeText.value,
-                                parentSize = size,
-                                onAction = onAction
-                            ) {
-                                MemeTextComponentActive(
-                                    modifier = Modifier,
-                                    text = memeText.value,
-                                    actionOnDelete = {
-                                        onAction(MemeCreatorAction.DeleteMemeText(memeText.key))
-                                    },
-                                    onAction = onAction
-                                )
-                            }*//*
-                        }
-                        MemeTextState.Idle -> {
-                            MemeTextComponent(
-                                text = memeText.value,
-                                parentSize = size,
-                                onAction = onAction
-                            )
-                        }
-                        MemeTextState.Selected -> {
-                            MemeTextComponent(
-                                text = memeText.value,
-                                parentSize = size,
-                                onAction = onAction
-                            )
-                        }
-                    }*/
                 }
             }
 

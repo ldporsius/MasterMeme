@@ -20,7 +20,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.ui.theme.black
 import nl.codingwithlinda.mastermeme.ui.theme.white
 

@@ -13,8 +13,7 @@ data class MemeCreatorViewState(
     val selectedMemeText: MemeUiText? = memeTexts.values.find { it.memeTextState == MemeTextState.Selected }
     val editingMemeText: MemeUiText? = memeTexts.values.find { it.memeTextState == MemeTextState.Editing }
 
-    //val isEditing: Boolean = editingMemeText != null
-    val isSelecting: Boolean = selectedMemeText != null
+    private val isSelecting: Boolean = selectedMemeText != null
 
     val shouldShowEditTextOption = isSelecting
 

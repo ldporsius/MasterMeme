@@ -35,6 +35,7 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+
         }
         commonMain.dependencies {
             implementation(compose.runtime)
@@ -48,6 +49,7 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
+
 
         }
     }
@@ -95,7 +97,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.constraintlayout.compose.android)
     debugImplementation(compose.uiTooling)
     implementation("androidx.core:core-splashscreen:1.0.1")
+   
 }
 
