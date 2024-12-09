@@ -45,10 +45,7 @@ fun App(
                         colorPicker = colorPicker,
                         fontPicker = fontPicker,
                         onBack = {
-                            BackHandler {
-                                navController.navigateUp()
-                            }
-
+                              navController.navigateUp()
                         }
                     )
                 }

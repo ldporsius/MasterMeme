@@ -6,10 +6,12 @@ import androidx.compose.runtime.Composable
 
 @Composable
 actual fun BackHandler(
-    onCancel: () -> Unit,
-    onConfirm: () -> Unit
+    enabled: Boolean,
+    onBackPressed: () -> Unit
 ) {
     BackHandler {
-
+        if (enabled) {
+            onBackPressed()
+        }
     }
 }

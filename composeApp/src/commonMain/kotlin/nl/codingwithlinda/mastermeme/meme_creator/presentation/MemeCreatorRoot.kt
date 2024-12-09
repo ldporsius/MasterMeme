@@ -18,12 +18,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import kotlinx.serialization.json.JsonNull.content
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.BackHandler
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.ConfirmExitDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,15 +36,19 @@ fun MemeCreatorRoot(
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
-    onBack: @Composable ()-> Unit
+    onBack: () -> Unit,
     ) {
-
-
-    onBack()
 
     var showConfirmExit by remember {
         mutableStateOf(false)
     }
+
+    BackHandler(
+        enabled = true,
+        onBackPressed = {
+           showConfirmExit = true
+        }
+    )
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
@@ -62,7 +68,7 @@ fun MemeCreatorRoot(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                           showConfirmExit = true
+                            showConfirmExit = true
                         },
                         content = {
                             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -79,7 +85,7 @@ fun MemeCreatorRoot(
                     showConfirmExit = false
                 },
                 onConfirm = {
-                    showConfirmExit = false
+                   onBack()
                 }
             )
         }

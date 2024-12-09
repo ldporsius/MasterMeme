@@ -4,6 +4,6 @@ import androidx.compose.runtime.Composable
 
 @Composable
 expect fun BackHandler(
-    onCancel: () -> Unit,
-    onConfirm: () -> Unit
+  enabled: Boolean = true,
+    onBackPressed: () -> Unit
 )
