@@ -1,4 +1,4 @@
-package local_storage
+package nl.codingwithlinda.mastermeme.core.data.local_storage
 
 import kotlinx.coroutines.flow.Flow
 import nl.codingwithlinda.mastermeme.core.domain.util.MemeError

@@ -1,10 +1,10 @@
-package local_storage.room.database
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room.database
 
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import local_storage.room.model.MemeEntity
-import local_storage.room.model.MemeTextEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.model.MemeEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.model.MemeTextEntity
 import nl.codingwithlinda.mastermeme.core.data.local_cache.MemeDatabaseConstructor
 
 

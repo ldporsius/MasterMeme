@@ -1,13 +1,13 @@
-package local_storage.room
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import local_storage.StorageInteractor
-import local_storage.room.database.MemeDatabase
-import local_storage.room.dto.toDomain
-import local_storage.room.dto.toMeme
-import local_storage.room.dto.toMemeEntity
-import local_storage.room.dto.toMemeTextEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.database.MemeDatabase
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto.toDomain
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto.toMeme
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto.toMemeEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto.toMemeTextEntity
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.util.LocalCacheError
 import nl.codingwithlinda.mastermeme.core.domain.util.MemeError

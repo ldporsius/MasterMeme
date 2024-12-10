@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import local_storage.StorageInteractor
+import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme

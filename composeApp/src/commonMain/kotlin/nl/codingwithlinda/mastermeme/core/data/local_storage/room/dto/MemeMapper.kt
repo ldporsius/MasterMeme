@@ -1,6 +1,6 @@
-package local_storage.room.dto
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto
 
-import local_storage.room.model.MemeEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.model.MemeEntity
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 

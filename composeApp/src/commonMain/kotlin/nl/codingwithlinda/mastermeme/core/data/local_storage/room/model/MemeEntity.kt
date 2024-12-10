@@ -1,4 +1,4 @@
-package local_storage.room.model
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

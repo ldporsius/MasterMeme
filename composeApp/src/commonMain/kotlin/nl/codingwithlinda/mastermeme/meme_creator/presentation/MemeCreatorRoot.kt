@@ -18,8 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.serialization.json.JsonNull.content
-import local_storage.StorageInteractor
+import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker

@@ -1,4 +1,4 @@
-package local_storage.room.model
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -17,5 +17,5 @@ data class MemeTextEntity(
     val parentHeight: Float,
 
     ){
-    @PrimaryKey (autoGenerate = true) var primaryKey: Int = 0
+    @PrimaryKey (autoGenerate = true) var pKey: Int = 0
 }

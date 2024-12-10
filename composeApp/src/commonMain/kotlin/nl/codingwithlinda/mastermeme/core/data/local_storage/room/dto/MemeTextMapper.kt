@@ -1,8 +1,8 @@
-package local_storage.room.dto
+package nl.codingwithlinda.mastermeme.core.data.local_storage.room.dto
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
-import local_storage.room.model.MemeTextEntity
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.model.MemeTextEntity
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 
 fun MemeText.toMemeTextEntity(
@@ -24,7 +24,7 @@ fun MemeText.toMemeTextEntity(
 
 fun MemeTextEntity.toDomain(): MemeText{
     return MemeText(
-        id = primaryKey,
+        id = pKey,
         text = text,
         fontResource = fontResource,
         fontSize = fontSize,

@@ -1,8 +1,9 @@
-package local_storage.room.database
+package nl.codingwithlinda.mastermeme.core.data.local_cache
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import nl.codingwithlinda.mastermeme.core.data.local_storage.room.database.MemeDatabase
 
 actual class DatabaseFactory(
     private val context: Context
