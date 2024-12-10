@@ -39,7 +39,7 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
     for(memeText in memeDto.memeTexts){
         val _typeface = ResourcesCompat.getFont(context, memeText.fontResource)
 
-        val spSize = (memeText.fontSize.sp).value
+        val spSize = (memeText.fontSize)
         println("SP SIZE: $spSize")
 
         val sizeInPixels = TypedValue.applyDimension(
