@@ -48,6 +48,7 @@ fun MemeTextComponent(
         text.fontResource.font
     )
     val fontSize = text.fontSize.sp
+    val iconButtonSize = 24.dp
 
     val textStyle = androidx.compose.material3.LocalTextStyle.current.merge(
         fontSize = fontSize,
@@ -153,15 +154,23 @@ fun MemeTextComponent(
         }
     )
 
+    val iconButtonModifier = Modifier.
+    offset {
+        IntOffset(
+            x = (pointerOffset.x + textWidth - iconButtonSize.roundToPx())
+                .coerceAtMost(parentSize.toDpSize().width.roundToPx() -  2 * iconButtonSize.roundToPx()),
+            y = pointerOffset.y - iconButtonSize.roundToPx()
+        )
+    }
+
     if (text.memeTextState == MemeTextState.Selected){
         IconButton(
             onClick = {
                 onAction(MemeCreatorAction.DeleteMemeText(text.id))
             },
-            modifier = Modifier.
-            offset {
-                pointerOffset.copy(x = pointerOffset.x + textWidth - 24.dp.roundToPx(), y = pointerOffset.y - 24.dp.roundToPx())
-            }.then(pointerInputModifier)
+            modifier =
+                iconButtonModifier
+                .then(pointerInputModifier)
             ,
             colors = IconButtonDefaults.iconButtonColors(
                 containerColor = schemes_error
@@ -171,7 +180,7 @@ fun MemeTextComponent(
                 imageVector = Icons.Default.Close,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(24.dp),
+                    .size(iconButtonSize),
                 tint = white
             )
         }
