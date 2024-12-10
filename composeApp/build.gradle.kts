@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.jetbrains.kotlin.serialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 
 }
 
@@ -49,18 +51,20 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.room.runtime)
+            implementation(libs.sqlite.bundled)
 
 
         }
     }
 }
 
-compose.resources {
+/*compose.resources {
     customDirectory(
         sourceSetName = "memeTemplates",
         directoryProvider = provider { layout.projectDirectory.dir("memeTemplates") }
     )
-}
+}*/
 
 android {
     namespace = "nl.codingwithlinda.mastermeme"
@@ -96,10 +100,14 @@ android {
     }
 }
 
+room{
+    schemaDirectory("$projectDir/schemas")
+}
 dependencies {
     implementation(libs.androidx.constraintlayout.compose.android)
     debugImplementation(compose.uiTooling)
     implementation("androidx.core:core-splashscreen:1.0.1")
+    ksp(libs.room.compiler)
    
 }
 

@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import local_storage.StorageInteractor
+import local_storage.room.RoomStorageInteractor
+import local_storage.room.model.MemeEntity
+import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
+import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.core.presentation.templates.toUi
@@ -17,8 +22,10 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListActio
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
 
 class MemeListViewModel(
-    memeTemplates: MemeTemplates
+    memeTemplates: MemeTemplates,
+    private val storageInteractor: StorageInteractor<Meme>,
 ): ViewModel() {
+
 
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state
@@ -46,15 +53,6 @@ class MemeListViewModel(
                     showMemePicker = true
                 )
 
-            }
-        }
-    }
-
-    companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                val templates = MemeTemplatesFromResources()
-                MemeListViewModel(templates)
             }
         }
     }
