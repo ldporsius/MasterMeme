@@ -121,6 +121,6 @@ val templates: List<MemeTemplate> = drawableNames.map {
     )
 }
 val emptyMemeTemplate = MemeTemplate(
-    id = "",
+    id = Res.drawable.vector_18.toString(),
     drawableResource = Res.drawable.vector_18
 )

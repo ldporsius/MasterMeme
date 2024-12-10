@@ -66,7 +66,7 @@ class RoomStorageInteractor(
     override suspend fun update(item: Meme): Result<Meme, MemeError> {
        try {
            val texts = item.texts.map {
-               it.toMemeTextEntity(item.imageUri)
+               it.toMemeTextEntity(item.id)
            }
            texts.forEach {
                textDao.delete(it.id.toString())

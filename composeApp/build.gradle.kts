@@ -51,20 +51,15 @@ kotlin {
             implementation(libs.lifecycle.viewmodel.compose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.room.runtime)
+            implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)
-
-
+        }
+        dependencies {
+            ksp(libs.androidx.room.compiler)
         }
     }
 }
 
-/*compose.resources {
-    customDirectory(
-        sourceSetName = "memeTemplates",
-        directoryProvider = provider { layout.projectDirectory.dir("memeTemplates") }
-    )
-}*/
 
 android {
     namespace = "nl.codingwithlinda.mastermeme"
@@ -107,7 +102,6 @@ dependencies {
     implementation(libs.androidx.constraintlayout.compose.android)
     debugImplementation(compose.uiTooling)
     implementation("androidx.core:core-splashscreen:1.0.1")
-    ksp(libs.room.compiler)
-   
+
 }
 

@@ -5,7 +5,6 @@ import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 
 interface MemeFactory {
     fun createMeme(
-        id: String,
         name : String = "",
         imageUri: String,
         isFavorite: Boolean,

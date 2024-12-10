@@ -34,6 +34,7 @@ fun App(
                 composable<Route.MemeList>(){
                     MemesListRoot(
                         storageInteractor = localCache.storageInteractor(),
+                        imageConverter = imageConverter,
                         navToMemeCreator = {
                             navController.navigate(Route.MemeCreator(it))
                         }

@@ -240,10 +240,10 @@ class MemeCreatorViewModel(
             }
             MemeCreatorAction.SaveMeme -> {
                 viewModelScope.launch {
+                    val imageUri = _template?.id ?: return@launch
                     val meme = memeFactory.createMeme(
-                        id = _template?.id ?: "",
                         name = "",
-                        imageUri = _state.value.memeUri ?: "",
+                        imageUri = imageUri,
                         isFavorite = false,
                         texts = _memeTexts.value.values.map {
                             it.toDomain()

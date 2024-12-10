@@ -2,7 +2,8 @@ package local_storage.room.database
 
 import androidx.room.RoomDatabaseConstructor
 
-/*
-expect class MemeDataBaseConstructor: RoomDatabaseConstructor<MemeDatabase> {
 
-}*/
+@Suppress("NO_ACTUAL_FOR_EXPECT")
+expect object MemeDatabaseConstructor: RoomDatabaseConstructor<MemeDatabase> {
+    override fun initialize(): MemeDatabase
+}

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
+import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListScreen
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
@@ -16,6 +17,7 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListActio
 @Composable
 fun MemesListRoot(
     storageInteractor: StorageInteractor<Meme>,
+    imageConverter: ImageConverter,
     navToMemeCreator: (id: String) -> Unit
 ) {
     val Factory: ViewModelProvider.Factory = viewModelFactory {
@@ -23,6 +25,7 @@ fun MemesListRoot(
             val templates = MemeTemplatesFromResources()
             MemeListViewModel(
                 memeTemplates = templates,
+                imageConverter = imageConverter,
                 storageInteractor = storageInteractor
             )
         }

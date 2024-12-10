@@ -12,7 +12,7 @@ data class MemeTextEntity(
     val text: String,
     val fontResource: Int,
     val fontSize: Float,
-    val textColor: Color,
+    val textColor: Int,
     val offsetX: Float,
     val offsetY: Float,
     val parentWidth: Float,

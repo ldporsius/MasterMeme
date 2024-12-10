@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import local_storage.room.database.DatabaseFactory
 import nl.codingwithlinda.mastermeme.app.App
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.contact_picker.ContactPickerFactory
@@ -25,13 +26,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val picker = ShareAppPickerFactory()
+            val databaseFactory = DatabaseFactory(this.applicationContext)
 
             App(
                 shareAppPicker = picker.create(),
                 imageConverter = ImageConverter(this),
                 colorPicker = AndroidColorPicker(),
                 fontPicker = FontPicker(),
-                localCache = LocalCache(this.applicationContext),
+                localCache = LocalCache(databaseFactory),
                 memeFactory = AndroidMemeFactory(DateTimeUtils())
             )
         }
