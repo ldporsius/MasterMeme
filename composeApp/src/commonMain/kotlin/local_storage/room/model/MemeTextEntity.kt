@@ -1,14 +1,12 @@
 package local_storage.room.model
 
-import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
-@Entity(
-    primaryKeys = ["imageUri", "id"]
-)
+@Entity
 data class MemeTextEntity(
+    val memeId: String,
     val imageUri: String,
-    val id: Int,
     val text: String,
     val fontResource: Int,
     val fontSize: Float,
@@ -18,4 +16,6 @@ data class MemeTextEntity(
     val parentWidth: Float,
     val parentHeight: Float,
 
-    )
+    ){
+    @PrimaryKey (autoGenerate = true) var primaryKey: Int = 0
+}

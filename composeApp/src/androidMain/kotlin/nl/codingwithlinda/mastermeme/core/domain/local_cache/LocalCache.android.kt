@@ -11,7 +11,9 @@ actual class LocalCache(
 ) {
     actual fun storageInteractor(): StorageInteractor<Meme> {
 
-        val db: MemeDatabase =  databaseFactory.create().build()
+        val db: MemeDatabase =  databaseFactory.create()
+            .fallbackToDestructiveMigration(dropAllTables = false)
+            .build()
 
         val storageInteractor = RoomStorageInteractor(db)
         return storageInteractor

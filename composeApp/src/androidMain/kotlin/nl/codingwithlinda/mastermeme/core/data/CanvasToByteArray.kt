@@ -34,15 +34,23 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
     canvas.drawBitmap(bitmapMeme, 0f, 0f, null)
 
     val sizeFactor  = 1.0f * canvas.width / parentWidth
+    println("SIZE FACTOR: $sizeFactor")
 
     for(memeText in memeDto.memeTexts){
         val _typeface = ResourcesCompat.getFont(context, memeText.fontResource)
 
         val spSize = (memeText.fontSize.sp).value
-        val scaledSizeInPixels = TypedValue.applyDimension(
+        println("SP SIZE: $spSize")
+
+        val sizeInPixels = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_SP,
-            spSize, context.resources.displayMetrics
+            spSize,
+            context.resources.displayMetrics
         )
+
+        println("SIZE IN PIXELS: $sizeInPixels")
+        val scaledSizeInPixels = spSize * sizeFactor
+        println("SCALED SIZE IN PIXELS: $scaledSizeInPixels")
 
         val paint = TextPaint().apply {
             color = memeText.textColor.toArgb()

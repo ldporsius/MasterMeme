@@ -1,8 +1,8 @@
 {
   "formatVersion": 1,
   "database": {
-    "version": 1,
-    "identityHash": "42ee27dd914f4b93b49ecf4d4ef51716",
+    "version": 3,
+    "identityHash": "424e0a7000856895777564f95af1a01e",
     "entities": [
       {
         "tableName": "MemeEntity",
@@ -48,18 +48,18 @@
       },
       {
         "tableName": "MemeTextEntity",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`imageUri` TEXT NOT NULL, `id` INTEGER NOT NULL, `text` TEXT NOT NULL, `fontResource` INTEGER NOT NULL, `fontSize` REAL NOT NULL, `textColor` INTEGER NOT NULL, `offsetX` REAL NOT NULL, `offsetY` REAL NOT NULL, `parentWidth` REAL NOT NULL, `parentHeight` REAL NOT NULL, PRIMARY KEY(`imageUri`, `id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`memeId` TEXT NOT NULL, `imageUri` TEXT NOT NULL, `text` TEXT NOT NULL, `fontResource` INTEGER NOT NULL, `fontSize` REAL NOT NULL, `textColor` INTEGER NOT NULL, `offsetX` REAL NOT NULL, `offsetY` REAL NOT NULL, `parentWidth` REAL NOT NULL, `parentHeight` REAL NOT NULL, `primaryKey` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "imageUri",
-            "columnName": "imageUri",
+            "fieldPath": "memeId",
+            "columnName": "memeId",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
+            "fieldPath": "imageUri",
+            "columnName": "imageUri",
+            "affinity": "TEXT",
             "notNull": true
           },
           {
@@ -109,20 +109,25 @@
             "columnName": "parentHeight",
             "affinity": "REAL",
             "notNull": true
+          },
+          {
+            "fieldPath": "primaryKey",
+            "columnName": "primaryKey",
+            "affinity": "INTEGER",
+            "notNull": true
           }
         ],
         "primaryKey": {
-          "autoGenerate": false,
+          "autoGenerate": true,
           "columnNames": [
-            "imageUri",
-            "id"
+            "primaryKey"
           ]
         }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '42ee27dd914f4b93b49ecf4d4ef51716')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '424e0a7000856895777564f95af1a01e')"
     ]
   }
 }

@@ -5,11 +5,12 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import local_storage.room.model.MemeEntity
 import local_storage.room.model.MemeTextEntity
+import nl.codingwithlinda.mastermeme.core.data.local_cache.MemeDatabaseConstructor
 
 
 @Database(
     entities = [MemeEntity::class, MemeTextEntity::class],
-    version = 1
+    version = 3
 )
 @ConstructedBy(MemeDatabaseConstructor::class)
 abstract class MemeDatabase: RoomDatabase() {

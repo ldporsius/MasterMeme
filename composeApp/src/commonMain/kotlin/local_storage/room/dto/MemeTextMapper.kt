@@ -5,10 +5,12 @@ import androidx.compose.ui.graphics.toArgb
 import local_storage.room.model.MemeTextEntity
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 
-fun MemeText.toMemeTextEntity(imageUrl: String): MemeTextEntity {
+fun MemeText.toMemeTextEntity(
+    memeId: String,
+    imageUri: String): MemeTextEntity {
     return MemeTextEntity(
-        imageUri = imageUrl,
-        id = id,
+        memeId = memeId,
+        imageUri = imageUri,
         text = text,
         fontResource = fontResource,
         fontSize = fontSize,
@@ -18,12 +20,11 @@ fun MemeText.toMemeTextEntity(imageUrl: String): MemeTextEntity {
         parentWidth = parentWidth,
         parentHeight = parentHeight
     )
-
 }
 
 fun MemeTextEntity.toDomain(): MemeText{
     return MemeText(
-        id = id,
+        id = primaryKey,
         text = text,
         fontResource = fontResource,
         fontSize = fontSize,
