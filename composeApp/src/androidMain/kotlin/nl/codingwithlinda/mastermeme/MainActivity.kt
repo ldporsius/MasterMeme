@@ -13,6 +13,9 @@ import nl.codingwithlinda.mastermeme.core.presentation.create_meme.AndroidColorP
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPickerFactory
+import nl.codingwithlinda.mastermeme.core.presentation.util.DateTimeUtils
+import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.meme_factory.AndroidMemeFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,8 @@ class MainActivity : ComponentActivity() {
                 imageConverter = ImageConverter(this),
                 colorPicker = AndroidColorPicker(),
                 fontPicker = FontPicker(),
-                localCache = LocalCache(this.applicationContext)
+                localCache = LocalCache(this.applicationContext),
+                memeFactory = AndroidMemeFactory(DateTimeUtils())
             )
         }
     }

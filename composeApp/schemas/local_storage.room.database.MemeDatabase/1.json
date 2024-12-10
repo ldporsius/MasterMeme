@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "b470485db5ef1ca734a268f57cbbf76c",
+    "identityHash": "42ee27dd914f4b93b49ecf4d4ef51716",
     "entities": [
       {
         "tableName": "MemeEntity",
@@ -45,11 +45,84 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "MemeTextEntity",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`imageUri` TEXT NOT NULL, `id` INTEGER NOT NULL, `text` TEXT NOT NULL, `fontResource` INTEGER NOT NULL, `fontSize` REAL NOT NULL, `textColor` INTEGER NOT NULL, `offsetX` REAL NOT NULL, `offsetY` REAL NOT NULL, `parentWidth` REAL NOT NULL, `parentHeight` REAL NOT NULL, PRIMARY KEY(`imageUri`, `id`))",
+        "fields": [
+          {
+            "fieldPath": "imageUri",
+            "columnName": "imageUri",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "text",
+            "columnName": "text",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fontResource",
+            "columnName": "fontResource",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "fontSize",
+            "columnName": "fontSize",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "textColor",
+            "columnName": "textColor",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetX",
+            "columnName": "offsetX",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "offsetY",
+            "columnName": "offsetY",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentWidth",
+            "columnName": "parentWidth",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentHeight",
+            "columnName": "parentHeight",
+            "affinity": "REAL",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "imageUri",
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b470485db5ef1ca734a268f57cbbf76c')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '42ee27dd914f4b93b49ecf4d4ef51716')"
     ]
   }
 }

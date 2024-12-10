@@ -6,11 +6,12 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Rect
-import android.os.Build
 import android.text.Layout
 import android.text.StaticLayout
 import android.text.TextPaint
 import android.util.TypedValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.sp
 import androidx.core.content.res.ResourcesCompat
@@ -20,8 +21,7 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.math.roundToInt
 
-
-fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
+fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
     val parentWidth = memeDto.parentWidth.roundToInt()
     val parentHeight = memeDto.parentHeight.roundToInt()
 
@@ -73,6 +73,12 @@ fun canvasToByteArray(memeDto: MemeDto, context: Context): ByteArray {
 
     }
 
+    return bitmap
+}
+
+fun memeDtoToByteArray(memeDto: MemeDto, context: Context): ByteArray {
+
+    val bitmap = memeDtoToBitmap(memeDto, context)
     return bitMapToByteArray(bitmap)
 }
 
@@ -82,6 +88,14 @@ private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
     return stream.toByteArray()
 }
 
+fun byteArrayToBitmap(byteArray: ByteArray): ImageBitmap {
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size).asImageBitmap()
+}
+
+fun memeDtoToImageBitmap(memeDto: MemeDto, context: Context): ImageBitmap {
+    val bitmap = memeDtoToBitmap(memeDto, context)
+    return bitmap.asImageBitmap()
+}
 fun byteArrayToUri(byteArray: ByteArray, context: Context): String {
     val path = context.filesDir
 

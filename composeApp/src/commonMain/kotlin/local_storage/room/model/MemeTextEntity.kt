@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 
 @Entity(
-    primaryKeys = ["imageUrl", "id"]
+    primaryKeys = ["imageUri", "id"]
 )
 data class MemeTextEntity(
     val imageUri: String,

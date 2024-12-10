@@ -1,7 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,8 +10,10 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
+import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
@@ -20,6 +21,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
+import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
@@ -35,7 +37,9 @@ class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
     private val memeTemplates: MemeTemplates,
     private val imageConverter: ImageConverter,
-    private val fontPicker: FontPicker
+    private val fontPicker: FontPicker,
+    private val storageInteractor: StorageInteractor<Meme>,
+    private val memeFactory: MemeFactory
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -235,10 +239,23 @@ class MemeCreatorViewModel(
                 }
             }
             MemeCreatorAction.SaveMeme -> {
-                _state.update {
-                    it.copy(
-                        isSaving = false
+                viewModelScope.launch {
+                    val meme = memeFactory.createMeme(
+                        id = _template?.id ?: "",
+                        name = "",
+                        imageUri = _state.value.memeUri ?: "",
+                        isFavorite = false,
+                        texts = _memeTexts.value.values.map {
+                            it.toDomain()
+                        }
                     )
+                    storageInteractor.create(meme)
+
+                    _state.update {
+                        it.copy(
+                            isSaving = false
+                        )
+                    }
                 }
             }
             is MemeCreatorAction.ShareMeme -> {

@@ -19,11 +19,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.serialization.json.JsonNull.content
+import local_storage.StorageInteractor
+import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
+import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.BackHandler
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.ConfirmExitDialog
@@ -36,6 +39,8 @@ fun MemeCreatorRoot(
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
+    storageInteractor: StorageInteractor<Meme>,
+    memeFactory: MemeFactory,
     onBack: () -> Unit,
     ) {
 
@@ -56,7 +61,9 @@ fun MemeCreatorRoot(
         },
         memeTemplates = MemeTemplatesFromResources(),
         imageConverter = imageConverter,
-        fontPicker = fontPicker
+        fontPicker = fontPicker,
+        storageInteractor = storageInteractor,
+        memeFactory = memeFactory
     )
     Scaffold(
         modifier = Modifier.fillMaxSize(),

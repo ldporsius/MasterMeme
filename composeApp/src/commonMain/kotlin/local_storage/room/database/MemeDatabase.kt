@@ -14,4 +14,8 @@ abstract class MemeDatabase: RoomDatabase() {
     abstract fun memeDao(): MemeDao
     abstract fun memeTextDao(): MemeTextDao
 
+    companion object {
+        const val DATABASE_NAME = "meme_db"
+    }
+
 }

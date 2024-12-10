@@ -11,6 +11,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
+import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.MemeCreatorRoot
 import nl.codingwithlinda.mastermeme.memes_list.presentation.MemesListRoot
 import nl.codingwithlinda.mastermeme.navigation.Route
@@ -22,7 +23,8 @@ fun App(
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
-    localCache: LocalCache
+    localCache: LocalCache,
+    memeFactory: MemeFactory
 ) {
 
     val navController = rememberNavController()
@@ -45,6 +47,8 @@ fun App(
                         imageConverter = imageConverter,
                         colorPicker = colorPicker,
                         fontPicker = fontPicker,
+                        storageInteractor = localCache.storageInteractor(),
+                        memeFactory = memeFactory,
                         onBack = {
                               navController.navigateUp()
                         }

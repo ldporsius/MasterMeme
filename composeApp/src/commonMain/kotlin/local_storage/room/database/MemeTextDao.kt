@@ -17,8 +17,8 @@ interface MemeTextDao {
     @Query("SELECT * FROM MemeTextEntity WHERE id = :id")
     suspend fun read(id: String): MemeTextEntity?
 
-    @Query("SELECT * FROM MemeTextEntity WHERE imageUrl = :imageUrl")
-    suspend fun readByImageUri(imageUrl: String): List<MemeTextEntity>
+    @Query("SELECT * FROM MemeTextEntity WHERE imageUri = :imageUri")
+    suspend fun readByImageUri(imageUri: String): List<MemeTextEntity>
 
     @Update
     suspend fun update(memeText: MemeTextEntity)

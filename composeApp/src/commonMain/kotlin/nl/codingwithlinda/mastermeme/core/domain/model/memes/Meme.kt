@@ -6,6 +6,5 @@ data class Meme(
     val imageUri: String,
     val dateCreated: Long,
     val isFavorite: Boolean,
-    val texts: List<MemeText>
-
+    val texts: List<MemeText>,
 )
