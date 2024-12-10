@@ -25,7 +25,6 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -60,8 +59,8 @@ fun MemeTextComponent(
             trim = LineHeightStyle.Trim.Both,
         ),
     )
-    val textSize = remember(text) {
-        println("MEME TEXT COMPONENT has new font size: ${fontSize}")
+    var textLayoutResult = remember(text) {
+        println("MEME TEXT COMPONENT has new text: ${text.text}")
         textMeasurer.measure(
             text = text.text,
             style = textStyle,
@@ -73,8 +72,8 @@ fun MemeTextComponent(
         )
     }
 
-    val textWidth = textSize.size.width
-    val textHeight = textSize.size.height
+    val textWidth = textLayoutResult.size.width
+    val textHeight = textLayoutResult.size.height
 
     val offsetX = remember() {
         mutableStateOf(text.offsetX)
@@ -84,7 +83,7 @@ fun MemeTextComponent(
     }
 
     val pointerInputModifier = Modifier
-        .pointerInput(Unit) {
+        .pointerInput(textLayoutResult) {
             detectTapGestures(
                 onTap = {
                     onAction(MemeCreatorAction.SelectMemeText(text.id))
@@ -94,7 +93,7 @@ fun MemeTextComponent(
                 }
             )
         }
-        .pointerInput(Unit) {
+        .pointerInput(textLayoutResult) {
             detectDragGestures(
                 onDragEnd = {
                     println("DRAG END. parentWidth: ${parentSize.width}, parentHeight: ${parentSize.height}")
@@ -130,7 +129,6 @@ fun MemeTextComponent(
     )
 
     val border: Modifier = remember(text.memeTextState) {
-
         if (text.memeTextState == MemeTextState.Selected)
             Modifier
                 .border(width = 2.dp, color = white)
@@ -151,6 +149,7 @@ fun MemeTextComponent(
         color = text.textColor,
         onTextLayout = {
             println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
+            textLayoutResult = it
         }
     )
 
