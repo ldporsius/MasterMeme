@@ -19,13 +19,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
@@ -47,18 +51,18 @@ fun MemeTextComponent(
     val fontFamily = FontFamily(
         text.fontResource.font
     )
-    val fontSize = text.fontSize.sp
+    val _fontSize = TextUnit(text.fontSize, TextUnitType.Sp)
     val iconButtonSize = 24.dp
 
     val textStyle = androidx.compose.material3.LocalTextStyle.current.merge(
-        fontSize = fontSize,
+        fontSize = _fontSize,
         fontFamily = fontFamily,
-        lineHeight = fontSize,
-        //platformStyle = PlatformTextStyle(includeFontPadding = false),
-        lineHeightStyle = LineHeightStyle(
-            alignment = LineHeightStyle.Alignment.Top,
-            trim = LineHeightStyle.Trim.Both,
-        ),
+        lineHeight = _fontSize,
+        //platformStyle = PlatformTextStyle.(includeFontPadding = false),
+//        lineHeightStyle = LineHeightStyle(
+//            alignment = LineHeightStyle.Alignment.Center,
+//            trim = LineHeightStyle.Trim.Both,
+//        ),
     )
     var textLayoutResult = remember(text) {
         println("MEME TEXT COMPONENT has new text: ${text.text}")
@@ -75,6 +79,7 @@ fun MemeTextComponent(
 
     val textWidth = textLayoutResult.size.width
     val textHeight = textLayoutResult.size.height
+    val firstBaseline = textLayoutResult.firstBaseline
 
     val offsetX = remember() {
         mutableStateOf(text.offsetX)
@@ -117,7 +122,7 @@ fun MemeTextComponent(
                 val maxY = (parentSize.height - textHeight).coerceAtLeast(0f)
                 val newValue = Offset(
                     x = summed.x.coerceIn(0f, maxX),
-                    y = summed.y.coerceIn(0f, maxY)
+                    y = summed.y.coerceIn(-firstBaseline, maxY)
                 )
                 offsetX.value = newValue.x
                 offsetY.value = newValue.y
@@ -126,7 +131,7 @@ fun MemeTextComponent(
 
     val pointerOffset = IntOffset(
         offsetX.value.roundToInt(),
-        ceil(offsetY.value).roundToInt()
+        (offsetY.value).roundToInt()
     )
 
     val border: Modifier = remember(text.memeTextState) {
@@ -134,7 +139,7 @@ fun MemeTextComponent(
             Modifier
                 .border(width = 2.dp, color = white)
                 .padding(4.dp)
-        else Modifier
+        else Modifier.border(width = 0.dp, color = Color.Green)
 
     }
 
@@ -150,7 +155,7 @@ fun MemeTextComponent(
         color = text.textColor,
         onTextLayout = {
             println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
-            textLayoutResult = it
+            //textLayoutResult = it
         }
     )
 

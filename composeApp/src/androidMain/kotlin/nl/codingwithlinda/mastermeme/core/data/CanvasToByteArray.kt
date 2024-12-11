@@ -49,7 +49,7 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
         )
 
         println("SIZE IN PIXELS: $sizeInPixels")
-        val scaledSizeInPixels = spSize * sizeFactor
+        val scaledSizeInPixels = sizeInPixels * sizeFactor
         println("SCALED SIZE IN PIXELS: $scaledSizeInPixels")
 
         val paint = TextPaint().apply {
@@ -63,9 +63,15 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
         val textBounds = Rect()
         paint.getTextBounds(memeText.text, 0, memeText.text.length, textBounds)
 
-        val textLayout = StaticLayout(
-            memeText.text, paint, canvas.width, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false
-        )
+        val textLayout = StaticLayout.Builder.obtain(
+            memeText.text,
+            0,
+            memeText.text.length,
+            paint,
+            canvas.width
+
+        ).build()
+
 
         val offsetX = (memeText.offsetX * sizeFactor)
         println("OFFSET X AFTER SCALE: $offsetX")
@@ -85,7 +91,6 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
 }
 
 fun memeDtoToByteArray(memeDto: MemeDto, context: Context): ByteArray {
-
     val bitmap = memeDtoToBitmap(memeDto, context)
     return bitMapToByteArray(bitmap)
 }
