@@ -49,12 +49,7 @@ fun EditTextSizeComponent(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
-      /*  IconButton(onClick = {
-            onAction(MemeCreatorAction.UndoTextSize(memeText.id))
-            onAction(MemeCreatorAction.StopEditing)
-        }) {
-            Icon(imageVector = Icons.Default.Close, contentDescription = null)
-        }*/
+
         Text("Aa",
             style = MaterialTheme.typography.labelSmall)
 
@@ -65,7 +60,7 @@ fun EditTextSizeComponent(
                 sliderValue = it
             },
             steps = 0,
-            valueRange = 4f..100f,
+            valueRange = 14f..100f,
             onValueChangeFinished = {
                 onAction(MemeCreatorAction.AdjustTextSize(memeText.id, sliderValue))
             },

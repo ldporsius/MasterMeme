@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Close
@@ -72,7 +73,7 @@ fun MemeCreatorScreen(
             Spacer(modifier = Modifier.weight(1f))
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .wrapContentSize()
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
                         onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))

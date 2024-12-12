@@ -86,7 +86,7 @@ class MemeCreatorViewModel(
                     offsetY = 0f,
                     parentWidth = 0f,
                     parentHeight = 0f,
-                    fontSize = 50f,
+                    fontSize = 57f,
                     textColor = black,
                     fontResource = fontPicker.fontResources[0]
                 )

@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
@@ -35,17 +38,17 @@ sealed interface MemeImageUi{
                 contentScale = ContentScale.FillBounds
             )
             is bitmapImage -> {
-                val h = image.height.toFloat()
-                val w = image.width.toFloat()
+                val h = image.height.dp
+                val w = image.width.dp
                 Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(w/h)
+                    .width(w)
+                    .height(h)
                 ){
                     Image(
                         bitmap = image,
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.FillBounds
+                        contentScale = ContentScale.Fit
                     )
                 }
 
