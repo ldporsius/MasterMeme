@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -41,28 +43,19 @@ sealed interface MemeImageUi{
                 contentScale = ContentScale.FillBounds
             )
             is bitmapImage -> {
+                val density = LocalDensity.current.density
                 val h = image.height.dp
                 val w = image.width.dp
+
                 Box(modifier = Modifier
-                    .width(w)
-                    .height(h)
+                    .requiredSize(w, h)
                 ){
                     Image(
-                        painter = BitmapPainter(
-                            image,
-                            IntOffset(0, 0),
-                            IntSize(image.width, image.height)
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier,
-                        contentScale = ContentScale.Inside
-                    )
-                    /*Image(
                         bitmap = image,
                         contentDescription = null,
-                        modifier = Modifier,
+                        modifier = Modifier.matchParentSize(),
                         contentScale = ContentScale.Fit
-                    )*/
+                    )
                 }
 
             }

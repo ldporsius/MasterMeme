@@ -18,6 +18,7 @@ import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
@@ -79,7 +80,10 @@ class MemeCreatorViewModel(
         when(action){
             is MemeCreatorAction.CreateText -> {
                 val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
-                val newMemeText =  memeFactory.defaultMemeUiText()
+                val newMemeText =  memeFactory.defaultMemeUiText().copy(
+                    id = newIndex,
+                    text = action.text
+                )
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
                 }
@@ -214,11 +218,11 @@ class MemeCreatorViewModel(
                         )
                     )
 
-                    _state.update {
+                   /* _state.update {
                         it.copy(
                             memeUri = uri
                         )
-                    }
+                    }*/
                 }
             }
             MemeCreatorAction.CancelSaveMeme -> {
@@ -249,9 +253,12 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
+                val uri = imageConverter.share(action.byteArray)
+                println("MEME CREATOR VIEWMODEL HAS SHARED MEME: $uri")
                 _state.update {
                     it.copy(
-                        isSaving = false
+                        memeUri = uri,
+                        //isSaving = false
                     )
                 }
             }

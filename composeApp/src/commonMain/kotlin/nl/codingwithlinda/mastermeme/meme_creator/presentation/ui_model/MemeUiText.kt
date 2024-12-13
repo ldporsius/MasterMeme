@@ -16,8 +16,6 @@ data class MemeUiText(
     val textColor: Color,
     val offsetX: Float,
     val offsetY: Float,
-//    val parentWidth: Float,
-//    val parentHeight: Float,
     val memeTextState: MemeTextState = MemeTextState.Idle,
     ) {
 

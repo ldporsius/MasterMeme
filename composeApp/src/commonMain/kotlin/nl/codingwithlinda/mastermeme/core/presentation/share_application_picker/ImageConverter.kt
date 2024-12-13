@@ -10,5 +10,7 @@ expect class ImageConverter {
     fun imageWidth(imageBitmap: ImageBitmap): Float
     fun memeDtoToUi(memeDto: MemeDto): MemeImageUi
     fun convert(memeDto: MemeDto): String
+    fun share(bytes: ByteArray): String
+
 
 }

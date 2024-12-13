@@ -31,5 +31,9 @@ actual class ImageConverter(
         return  image
 
     }
+    actual fun share(bytes: ByteArray): String {
+        return byteArrayToUri(bytes)
+    }
+
 
 }

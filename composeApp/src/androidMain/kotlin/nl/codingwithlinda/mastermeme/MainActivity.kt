@@ -33,7 +33,8 @@ class MainActivity : ComponentActivity() {
                 memeFactory = AndroidMemeFactory(
                     dateTimeUtils = DateTimeUtils(),
                     fontPicker = FontPicker()
-                )
+                ),
+                ourPlatformTextStyle = nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle()
             )
         }
     }

@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
@@ -24,6 +25,7 @@ fun App(
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
     localCache: LocalCache,
+    ourPlatformTextStyle: nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle,
     memeFactory: MemeFactory
 ) {
 
@@ -50,6 +52,7 @@ fun App(
                         fontPicker = fontPicker,
                         storageInteractor = localCache.storageInteractor(),
                         memeFactory = memeFactory,
+                        ourPlatformTextStyle = ourPlatformTextStyle,
                         onBack = {
                               navController.navigateUp()
                         }

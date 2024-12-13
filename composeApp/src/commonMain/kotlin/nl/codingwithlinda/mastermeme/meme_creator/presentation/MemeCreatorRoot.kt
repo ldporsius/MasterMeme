@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,19 +17,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeCreatorScreen
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeTextComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.BackHandler
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confirm_exit.ConfirmExitDialog
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +46,7 @@ fun MemeCreatorRoot(
     fontPicker: FontPicker,
     storageInteractor: StorageInteractor<Meme>,
     memeFactory: MemeFactory,
+    ourPlatformTextStyle: OurPlatformTextStyle,
     onBack: () -> Unit,
     ) {
 
@@ -64,6 +71,8 @@ fun MemeCreatorRoot(
         storageInteractor = storageInteractor,
         memeFactory = memeFactory
     )
+
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -96,6 +105,8 @@ fun MemeCreatorRoot(
             )
         }
 
+        val state = viewModel.state.collectAsStateWithLifecycle().value
+
         MemeCreatorScreen(
             modifier = Modifier
                 .fillMaxSize()
@@ -104,6 +115,19 @@ fun MemeCreatorRoot(
             colors = colorPicker.colors,
             shareAppPicker = shareAppPicker,
             fonts = fontPicker.fontResources,
+            platformTextStyle = ourPlatformTextStyle,
+            pictureDrawer = {
+                PictureDrawer(
+                   state = state,
+                    ourPlatformTextStyle = ourPlatformTextStyle,
+                    onAction = {
+                        //viewModel.handleAction(it)
+                    },
+                    onSave = {
+                        viewModel.handleAction(MemeCreatorAction.ShareMeme(it))
+                    }
+                )
+            },
             onAction = {
                 viewModel.handleAction(it)
             },

@@ -46,6 +46,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            //implementation(libs.androidx.core.ktx)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.lifecycle.viewmodel.compose)
@@ -53,6 +54,8 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.room.runtime)
             implementation(libs.sqlite.bundled)
+            implementation ("androidx.compose.ui:ui:1.6.0-alpha03")
+
         }
         dependencies {
             ksp(libs.androidx.room.compiler)

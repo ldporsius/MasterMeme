@@ -3,6 +3,7 @@ package nl.codingwithlinda.mastermeme.meme_creator.presentation.meme_factory
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.util.DateTimeUtils
 import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
@@ -44,4 +45,7 @@ class AndroidMemeFactory(
 
         )
     }
+
+
+
 }

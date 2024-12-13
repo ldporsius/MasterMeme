@@ -53,26 +53,3 @@ fun PreviewMemeTextSizeComponent() {
         )
     }
 }
-
-@Preview
-@Composable
-fun PreviewMemeCreator() {
-
-AppTheme {
-    MemeCreatorScreen(
-        modifier = Modifier.fillMaxSize(),
-        state = MemeCreatorViewState(
-            memeImageUi = MemeImageUi.vectorImage(Res.drawable.vector_18),
-        ),
-        colors = listOf(
-            androidx.compose.ui.graphics.Color.Black,
-            androidx.compose.ui.graphics.Color.White,
-        ),
-        fonts = listOf(
-
-        ),
-        shareAppPicker = ShareAppPicker(LocalContext.current),
-        onAction = {},
-    )
-}
-}
