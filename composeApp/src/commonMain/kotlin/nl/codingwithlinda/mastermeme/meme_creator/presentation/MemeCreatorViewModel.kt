@@ -79,17 +79,7 @@ class MemeCreatorViewModel(
         when(action){
             is MemeCreatorAction.CreateText -> {
                 val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
-                val newMemeText =  MemeUiText(
-                    id = newIndex,
-                    text = action.text,
-                    offsetX = 0f,
-                    offsetY = 0f,
-                    parentWidth = 0f,
-                    parentHeight = 0f,
-                    fontSize = 57f,
-                    textColor = black,
-                    fontResource = fontPicker.fontResources[0]
-                )
+                val newMemeText =  memeFactory.defaultMemeUiText()
                 _memeTexts.update {
                     it.plus(newIndex to newMemeText)
                 }
@@ -309,21 +299,9 @@ class MemeCreatorViewModel(
         val updateMemeText = getMemeText(action.id).copy(
             offsetX = action.offsetX,
             offsetY = action.offsetY,
-            parentWidth = action.parentWidth,
-            parentHeight = action.parentHeight
         )
         _memeTexts.update {
             it.plus(action.id to updateMemeText)
-        }
-
-        //update all texts to make sure they have the correct values for width and height
-        _memeTexts.update {
-            it.mapValues { entry ->
-                entry.value.copy(
-                    parentWidth = action.parentWidth,
-                    parentHeight = action.parentHeight
-                )
-            }
         }
     }
 

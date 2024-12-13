@@ -22,8 +22,6 @@ fun fakeMemeTextUI(): MemeUiText{
         textColor = androidx.compose.ui.graphics.Color.Black,
         offsetX = 0f,
         offsetY = 0f,
-        parentWidth = 0f,
-        parentHeight = 0f
 
 
     )

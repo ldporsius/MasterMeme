@@ -11,7 +11,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.resources.DrawableResource
@@ -45,11 +48,21 @@ sealed interface MemeImageUi{
                     .height(h)
                 ){
                     Image(
+                        painter = BitmapPainter(
+                            image,
+                            IntOffset(0, 0),
+                            IntSize(image.width, image.height)
+                        ),
+                        contentDescription = null,
+                        modifier = Modifier,
+                        contentScale = ContentScale.Inside
+                    )
+                    /*Image(
                         bitmap = image,
                         contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier,
                         contentScale = ContentScale.Fit
-                    )
+                    )*/
                 }
 
             }

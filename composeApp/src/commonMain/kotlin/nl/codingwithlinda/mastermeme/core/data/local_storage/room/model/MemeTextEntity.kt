@@ -13,9 +13,6 @@ data class MemeTextEntity(
     val textColor: Int,
     val offsetX: Float,
     val offsetY: Float,
-    val parentWidth: Float,
-    val parentHeight: Float,
-
     ){
     @PrimaryKey (autoGenerate = true) var pKey: Int = 0
 }

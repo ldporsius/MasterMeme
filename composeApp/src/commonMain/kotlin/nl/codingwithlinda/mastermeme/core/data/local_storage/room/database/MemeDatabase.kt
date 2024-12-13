@@ -10,7 +10,7 @@ import nl.codingwithlinda.mastermeme.core.data.local_cache.MemeDatabaseConstruct
 
 @Database(
     entities = [MemeEntity::class, MemeTextEntity::class],
-    version = 3
+    version = 4
 )
 @ConstructedBy(MemeDatabaseConstructor::class)
 abstract class MemeDatabase: RoomDatabase() {

@@ -30,7 +30,10 @@ class MainActivity : ComponentActivity() {
                 colorPicker = AndroidColorPicker(),
                 fontPicker = FontPicker(),
                 localCache = LocalCache(databaseFactory),
-                memeFactory = AndroidMemeFactory(DateTimeUtils())
+                memeFactory = AndroidMemeFactory(
+                    dateTimeUtils = DateTimeUtils(),
+                    fontPicker = FontPicker()
+                )
             )
         }
     }
