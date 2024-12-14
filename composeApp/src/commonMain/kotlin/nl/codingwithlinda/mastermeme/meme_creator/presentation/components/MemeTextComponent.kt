@@ -102,7 +102,6 @@ fun MemeTextComponent(
 
     val textWidth = textLayoutResult.size.width
     val textHeight = textLayoutResult.size.height
-    //val firstBaseline = textLayoutResult.firstBaseline
 
     val offsetX = remember() {
         mutableStateOf(text.offsetX)

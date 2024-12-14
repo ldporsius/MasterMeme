@@ -47,8 +47,7 @@ fun MemeCreatorScreen(
     fonts: List<FontUi>,
     platformTextStyle: OurPlatformTextStyle,
     shareAppPicker: ShareAppPicker,
-    pictureDrawer: @Composable (
-    ) -> Unit,
+    pictureDrawer: @Composable () -> Unit,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
 
