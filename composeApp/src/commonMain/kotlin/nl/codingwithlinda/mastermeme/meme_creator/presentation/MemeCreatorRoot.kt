@@ -65,9 +65,7 @@ fun MemeCreatorRoot(
         fontPicker = fontPicker,
         storageInteractor = storageInteractor,
         memeFactory = memeFactory,
-        onSave = {
 
-        }
     )
 
 

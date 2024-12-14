@@ -48,7 +48,7 @@ sealed interface MemeImageUi{
                 val w = image.width.dp
 
                 Box(modifier = Modifier
-                    .requiredSize(w, h)
+                    .size(w, h)
                 ){
                     Image(
                         bitmap = image,

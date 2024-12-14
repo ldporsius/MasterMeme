@@ -1,6 +1,7 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.meme_factory
 
 import androidx.compose.ui.graphics.Color
+import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
@@ -62,6 +63,4 @@ class AndroidMemeFactory(
             offsetY = memeText.offsetY,
         )
     }
-
-
 }

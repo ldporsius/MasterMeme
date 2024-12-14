@@ -8,7 +8,7 @@ expect class ImageConverter {
 
     suspend fun memeDtoToUi(memeDto: MemeDto): MemeImageUi
     suspend fun convert(memeDto: MemeDto): String
-    fun share(bytes: ByteArray): String
+    fun share(bytes: ByteArray, name: String): String
 
 
 }

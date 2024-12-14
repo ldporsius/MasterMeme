@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
+import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
@@ -41,7 +42,6 @@ class MemeCreatorViewModel(
     private val fontPicker: FontPicker,
     private val storageInteractor: StorageInteractor<Meme>,
     private val memeFactory: MemeFactory,
-    private val onSave: (memeDto: MemeDto) -> Unit
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -196,31 +196,44 @@ class MemeCreatorViewModel(
             }
 
             is MemeCreatorAction.StartSaveMeme -> {
+
                 _state.update {
                     it.copy(
                         isSaving = true
                     )
                 }
-
             }
             MemeCreatorAction.CancelSaveMeme -> {
                 _state.update {
                     it.copy(
+                        memeUri = null,
                         isSaving = false
                     )
                 }
             }
-            MemeCreatorAction.SaveMeme -> {
+            is MemeCreatorAction.CreateMemeUri -> {
+                _state.update {
+                    it.copy(
+                        memeUri = imageConverter.share(action.byteArray, "meme")
+                    )
+                }
+            }
+            is MemeCreatorAction.SaveMeme -> {
                 viewModelScope.launch {
+
                     val imageUri = _template?.id ?: return@launch
+                    val uri = state.value.memeUri ?: imageUri
+
+
                     val meme = memeFactory.createMeme(
-                        name = "",
-                        imageUri = imageUri,
+                        name = "meme",
+                        imageUri = uri,
                         isFavorite = false,
                         texts = _memeTexts.value.values.map {
                             it.toDomain()
                         }
                     )
+
                     storageInteractor.create(meme)
 
                     _state.update {
@@ -231,8 +244,8 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
-                val uri = imageConverter.share(action.byteArray)
-                println("MEME CREATOR VIEWMODEL HAS SHARED MEME: $uri")
+                val uri = imageConverter.share(action.byteArray, "meme")
+
                 _state.update {
                     it.copy(
                         memeUri = uri,

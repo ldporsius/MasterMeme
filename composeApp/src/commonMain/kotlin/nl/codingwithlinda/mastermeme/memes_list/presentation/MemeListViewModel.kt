@@ -12,6 +12,7 @@ import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
+import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
@@ -29,6 +30,7 @@ class MemeListViewModel(
     memeTemplates: MemeTemplates,
     imageConverter: ImageConverter,
     private val storageInteractor: StorageInteractor<Meme>,
+    private val internalStorageInteractor: InternalStorageInteractor
 ): ViewModel() {
 
     private val savedMemes = storageInteractor.readAll()
@@ -39,21 +41,15 @@ class MemeListViewModel(
         val memes =  savedMemes.map {meme ->
            val memeUI =  try {
 
-                val template = memeTemplates.getTemplate(meme.imageUri)
-                val bytes = templateToBytes(template.drawableResource)
+               val uri = meme.imageUri
+               println("MEME LIST VIEWMODEL HAS IMAGE uri: $uri")
 
-                val image = bytes.decodeToImageBitmap()
+                val image = internalStorageInteractor.read(uri).decodeToImageBitmap()
 
-                println("MEME SAVED HAS TEXTS: ${meme.texts}")
-                val dto = MemeDto(
-                    imageUri = meme.imageUri,
-                    memeTexts = meme.texts,
-                    parentWidth = image.width.toFloat(),
-                    parentHeight = image.height.toFloat()
-                )
-                val imageUi = imageConverter.memeDtoToUi(dto)
+                val imageUi =  MemeImageUi.bitmapImage(image)
                 meme.toUi(imageUi)
             }catch (e: Exception){
+                e.printStackTrace()
                 val image = MemeImageUi.vectorImage(Res.drawable.vector_18)
                 MemeUi(
                     id = meme.id,

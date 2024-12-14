@@ -85,7 +85,7 @@ fun MemeCreatorScreen(
                         memeImageUi = state.memeImageUi,
                         memeTexts = state.memeTexts.values.toList(),
                         onSave = {
-                            onAction(MemeCreatorAction.ShareMeme(it))
+                            onAction(MemeCreatorAction.CreateMemeUri(it))
                         }
                     )
                 }

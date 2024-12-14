@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                     fontPicker = FontPicker(),
                     ourPlatformTextStyle = nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle()
                 ),
+                internalStorageInteractor = nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor(this)
                )
         }
     }

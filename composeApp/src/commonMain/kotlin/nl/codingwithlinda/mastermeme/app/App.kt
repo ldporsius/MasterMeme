@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
@@ -26,7 +27,8 @@ fun App(
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
     localCache: LocalCache,
-    memeFactory: MemeFactory
+    memeFactory: MemeFactory,
+    internalStorageInteractor: InternalStorageInteractor
 ) {
 
     val navController = rememberNavController()
@@ -36,6 +38,7 @@ fun App(
                 composable<Route.MemeList>(){
                     MemesListRoot(
                         storageInteractor = localCache.storageInteractor(),
+                        internalStorageInteractor = internalStorageInteractor,
                         imageConverter = imageConverter,
                         navToMemeCreator = {
                             navController.navigate(Route.MemeCreator(it))

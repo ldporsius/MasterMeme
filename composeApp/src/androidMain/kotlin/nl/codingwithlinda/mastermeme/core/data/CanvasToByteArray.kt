@@ -162,10 +162,10 @@ private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
     return stream.toByteArray()
 }
 
-fun byteArrayToUri(byteArray: ByteArray, context: Context): String {
+fun byteArrayToUri(byteArray: ByteArray, name: String,context: Context): String {
     val path = context.filesDir
 
-    val tmpFile = File(path, "meme.png")
+    val tmpFile = File(path, "$name.png")
 
     tmpFile.writeBytes(byteArray)
 

@@ -13,8 +13,8 @@ actual class ImageConverter(
     private val templates: MemeTemplates
 ) {
 
-    private fun byteArrayToUri(byteArray: ByteArray): String {
-        return nl.codingwithlinda.mastermeme.core.data.byteArrayToUri(byteArray, context)
+    private fun byteArrayToUri(byteArray: ByteArray, name: String): String {
+        return nl.codingwithlinda.mastermeme.core.data.byteArrayToUri(byteArray, name, context)
     }
 
     actual suspend fun convert(memeDto: MemeDto): String {
@@ -22,7 +22,7 @@ actual class ImageConverter(
         val template = templates.getTemplate(memeDto.imageUri)
         val byteArray = templateToBytes(template.drawableResource)
 
-        return byteArrayToUri(byteArray)
+        return byteArrayToUri(byteArray, memeDto.imageUri)
     }
 
     actual suspend fun memeDtoToUi(memeDto: MemeDto): MemeImageUi {
@@ -34,8 +34,8 @@ actual class ImageConverter(
         return  image
 
     }
-    actual fun share(bytes: ByteArray): String {
-        return byteArrayToUri(bytes)
+    actual fun share(bytes: ByteArray, name: String): String {
+        return byteArrayToUri(bytes, name)
     }
 
 
