@@ -44,12 +44,3 @@ actual class ShareAppPicker(
 
     }
 }
-//    val intent = Intent().apply {
-//        action = Intent.ACTION_SEND
-//        putExtra(Intent.EXTRA_STREAM, uri)
-//        type = "image/*"
-//    }
-//    //intent.setDataAndType(uri, "image/*")
-//    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION and Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-//    val shareIntent = Intent.createChooser(intent, "Share meme")
-//    launcher.launch(shareIntent)

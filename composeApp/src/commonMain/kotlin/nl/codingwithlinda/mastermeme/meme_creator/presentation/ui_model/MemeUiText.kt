@@ -3,6 +3,7 @@ package nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Typeface
 import nl.codingwithlinda.mastermeme.core.domain.Memento
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MemeTextMemento
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.memento.MementoCareTaker
@@ -14,6 +15,7 @@ data class MemeUiText(
     val fontResource: FontUi,
     val fontSize: Float,
     val textColor: Color,
+    val platformTextStyle: OurPlatformTextStyle,
     val offsetX: Float,
     val offsetY: Float,
     val memeTextState: MemeTextState = MemeTextState.Idle,

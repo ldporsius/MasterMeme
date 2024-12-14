@@ -14,7 +14,8 @@ import kotlin.uuid.Uuid
 
 class AndroidMemeFactory(
     private val dateTimeUtils: DateTimeUtils,
-    private val fontPicker: FontPicker
+    private val fontPicker: FontPicker,
+    private val ourPlatformTextStyle: OurPlatformTextStyle,
 ): MemeFactory {
     @OptIn(ExperimentalUuidApi::class)
     override fun createMeme(
@@ -40,6 +41,7 @@ class AndroidMemeFactory(
             fontResource = fontPicker.fontResources[0],
             fontSize = 57f,
             textColor = black,
+            platformTextStyle = ourPlatformTextStyle,
             offsetX = 0f,
             offsetY = 0f,
 

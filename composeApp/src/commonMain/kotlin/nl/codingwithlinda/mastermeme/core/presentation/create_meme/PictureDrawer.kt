@@ -6,8 +6,6 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreator
 
 @Composable
 expect fun PictureDrawer(
-    state: MemeCreatorViewState,
-    ourPlatformTextStyle: OurPlatformTextStyle,
-    onAction: (MemeCreatorAction) -> Unit,
+    content: @Composable () -> Unit,
     onSave: (ByteArray) -> Unit,
 )

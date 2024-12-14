@@ -5,16 +5,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 
-actual class ShareAppPickerFactory(
-
-) {
+actual class ShareAppPickerFactory() {
     @Composable
     actual fun create(): ShareAppPicker {
         val activity: ComponentActivity = LocalContext.current as ComponentActivity
         return remember(activity) {
             ShareAppPicker(activity)
         }
-
     }
 
 }

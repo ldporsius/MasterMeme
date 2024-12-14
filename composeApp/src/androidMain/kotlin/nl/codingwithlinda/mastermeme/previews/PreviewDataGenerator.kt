@@ -2,6 +2,7 @@ package nl.codingwithlinda.mastermeme.previews
 
 import androidx.compose.ui.text.font.Font
 import nl.codingwithlinda.mastermeme.R
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 
@@ -20,6 +21,7 @@ fun fakeMemeTextUI(): MemeUiText{
         ),
         fontSize = 20f,
         textColor = androidx.compose.ui.graphics.Color.Black,
+        platformTextStyle = OurPlatformTextStyle(),
         offsetX = 0f,
         offsetY = 0f,
 

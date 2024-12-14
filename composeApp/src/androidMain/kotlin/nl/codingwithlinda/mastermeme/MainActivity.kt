@@ -32,10 +32,10 @@ class MainActivity : ComponentActivity() {
                 localCache = LocalCache(databaseFactory),
                 memeFactory = AndroidMemeFactory(
                     dateTimeUtils = DateTimeUtils(),
-                    fontPicker = FontPicker()
+                    fontPicker = FontPicker(),
+                    ourPlatformTextStyle = nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle()
                 ),
-                ourPlatformTextStyle = nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle()
-            )
+               )
         }
     }
 }

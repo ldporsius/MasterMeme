@@ -25,7 +25,6 @@ fun App(
     colorPicker: ColorPicker,
     fontPicker: FontPicker,
     localCache: LocalCache,
-    ourPlatformTextStyle: nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle,
     memeFactory: MemeFactory
 ) {
 
@@ -52,7 +51,6 @@ fun App(
                         fontPicker = fontPicker,
                         storageInteractor = localCache.storageInteractor(),
                         memeFactory = memeFactory,
-                        ourPlatformTextStyle = ourPlatformTextStyle,
                         onBack = {
                               navController.navigateUp()
                         }

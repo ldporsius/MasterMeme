@@ -45,9 +45,7 @@ fun MemeCreatorScreen(
     state: MemeCreatorViewState,
     colors: List<androidx.compose.ui.graphics.Color>,
     fonts: List<FontUi>,
-    platformTextStyle: OurPlatformTextStyle,
     shareAppPicker: ShareAppPicker,
-    pictureDrawer: @Composable () -> Unit,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
 
@@ -81,10 +79,11 @@ fun MemeCreatorScreen(
                     }
 
             ) {
-                if (state.isSaving){
-                    pictureDrawer()
-                }
-                else {
+                state.PictureDrawerContent(
+                    modifier = Modifier,
+                    onAction = onAction
+                )
+                /*
                     BoxWithConstraints(
                         modifier = Modifier
                     ) {
@@ -100,8 +99,7 @@ fun MemeCreatorScreen(
                                 onAction = onAction
                             )
                         }
-                    }
-                }
+                    }*/
 
             }
 
