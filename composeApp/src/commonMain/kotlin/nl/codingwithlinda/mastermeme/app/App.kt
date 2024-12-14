@@ -14,6 +14,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.MemeCreatorRoot
+import nl.codingwithlinda.mastermeme.meme_save.presentation.MemeSaveRoot
 import nl.codingwithlinda.mastermeme.memes_list.presentation.MemesListRoot
 import nl.codingwithlinda.mastermeme.navigation.Route
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
@@ -53,8 +54,22 @@ fun App(
                         memeFactory = memeFactory,
                         onBack = {
                               navController.navigateUp()
+                        },
+                        onSave = {
+                            navController.navigate(Route.MemeSave(
+                               memeId = memeId
+                            )
+                            )
                         }
                     )
+                }
+
+                composable<Route.MemeSave>(){entry ->
+                    val memeId = entry.toRoute<Route.MemeSave>().memeId
+                    MemeSaveRoot(
+                        memeId = memeId,
+                        imageConverter = imageConverter,
+                        memeFactory = memeFactory)
                 }
             }
         }

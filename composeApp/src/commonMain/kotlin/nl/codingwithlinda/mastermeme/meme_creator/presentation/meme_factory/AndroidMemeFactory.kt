@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.meme_factory
 
+import androidx.compose.ui.graphics.Color
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
@@ -17,6 +18,7 @@ class AndroidMemeFactory(
     private val fontPicker: FontPicker,
     private val ourPlatformTextStyle: OurPlatformTextStyle,
 ): MemeFactory {
+
     @OptIn(ExperimentalUuidApi::class)
     override fun createMeme(
         name: String,
@@ -48,6 +50,18 @@ class AndroidMemeFactory(
         )
     }
 
+    override fun memeTextToUI(memeText: MemeText): MemeUiText {
+        return MemeUiText(
+            id = memeText.id,
+            text = memeText.text,
+            fontResource = fontPicker.fontResources.first { it.ref == memeText.fontResource },
+            fontSize = memeText.fontSize,
+            textColor = Color(memeText.textColor),
+            platformTextStyle = ourPlatformTextStyle,
+            offsetX = memeText.offsetX,
+            offsetY = memeText.offsetY,
+        )
+    }
 
 
 }

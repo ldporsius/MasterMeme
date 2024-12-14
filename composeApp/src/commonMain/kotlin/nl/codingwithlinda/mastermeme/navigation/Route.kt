@@ -14,4 +14,10 @@ sealed interface Route {
     data class MemeCreator(
         val memeId: String
     ): Route
+
+    @Serializable
+    data class MemeSave(
+        val memeId: String,
+    ): Route
+
 }

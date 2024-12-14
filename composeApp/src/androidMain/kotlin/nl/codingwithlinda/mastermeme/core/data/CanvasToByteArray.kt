@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.toComposeRect
 import androidx.core.content.res.ResourcesCompat
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.templates
 import java.io.ByteArrayOutputStream
 import java.io.File
 import kotlin.math.roundToInt
@@ -39,7 +40,7 @@ fun pictureToBitmap(picture: Picture): Bitmap {
     canvas.drawPicture(picture)
     return bitmap
 }
-fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
+fun memeDtoToBitmap(memeDto: MemeDto, imageBytes: ByteArray, context: Context): Bitmap {
     val parentWidth = memeDto.parentWidth.roundToInt()
     val parentHeight = memeDto.parentHeight.roundToInt()
 
@@ -49,7 +50,8 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
     val density  = context.resources.displayMetrics.density
     //println("DENSITY: $density")
 
-    val bitmapMeme = BitmapFactory.decodeByteArray(memeDto.imageBytes, 0, memeDto.imageBytes.size)
+
+    val bitmapMeme = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
          ?: throw Exception("Could not decode byte array")
 
 //    val memeWidth = bitmapMeme.width * density
@@ -97,7 +99,7 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
 
 
         val paint = TextPaint().apply {
-            color = memeText.textColor.toArgb()
+            color = memeText.textColor
             textSize = sizeInPixels
             textAlign = Paint.Align.LEFT
             typeface = _typeface
@@ -153,10 +155,6 @@ fun memeDtoToBitmap(memeDto: MemeDto, context: Context): Bitmap {
     return scaledMeme
 }
 
-fun memeDtoToByteArray(memeDto: MemeDto, context: Context): ByteArray {
-    val bitmap = memeDtoToBitmap(memeDto, context)
-    return bitMapToByteArray(bitmap)
-}
 
 private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
     val stream = ByteArrayOutputStream()
@@ -164,14 +162,6 @@ private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
     return stream.toByteArray()
 }
 
-fun byteArrayToBitmap(byteArray: ByteArray): ImageBitmap {
-    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size).asImageBitmap()
-}
-
-fun memeDtoToImageBitmap(memeDto: MemeDto, context: Context): ImageBitmap {
-    val bitmap = memeDtoToBitmap(memeDto, context)
-    return bitmap.asImageBitmap()
-}
 fun byteArrayToUri(byteArray: ByteArray, context: Context): String {
     val path = context.filesDir
 

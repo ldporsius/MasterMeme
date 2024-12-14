@@ -40,7 +40,8 @@ class MemeCreatorViewModel(
     private val imageConverter: ImageConverter,
     private val fontPicker: FontPicker,
     private val storageInteractor: StorageInteractor<Meme>,
-    private val memeFactory: MemeFactory
+    private val memeFactory: MemeFactory,
+    private val onSave: (memeDto: MemeDto) -> Unit
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -201,29 +202,6 @@ class MemeCreatorViewModel(
                     )
                 }
 
-                viewModelScope.launch {
-                    val bytes = _template?.let {
-                        templateToBytes(it.drawableResource)
-                    } ?: return@launch
-
-
-                    val uri = imageConverter.convert(
-                        MemeDto(
-                            parentWidth = parentSize.width,
-                            parentHeight = parentSize.height,
-                            imageBytes = bytes,
-                            memeTexts = _memeTexts.value.values.map {
-                                it.toDomain()
-                            }
-                        )
-                    )
-
-                   /* _state.update {
-                        it.copy(
-                            memeUri = uri
-                        )
-                    }*/
-                }
             }
             MemeCreatorAction.CancelSaveMeme -> {
                 _state.update {

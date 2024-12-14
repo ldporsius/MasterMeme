@@ -13,5 +13,4 @@ actual class ShareAppPickerFactory() {
             ShareAppPicker(activity)
         }
     }
-
 }

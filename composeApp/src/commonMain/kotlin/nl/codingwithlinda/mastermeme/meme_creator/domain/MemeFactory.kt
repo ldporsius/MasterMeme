@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.domain
 
+import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
@@ -15,4 +16,5 @@ interface MemeFactory {
 
     fun defaultMemeUiText(): MemeUiText
 
+    fun memeTextToUI(memeText: MemeText): MemeUiText
 }

@@ -46,7 +46,7 @@ class MemeListViewModel(
 
                 println("MEME SAVED HAS TEXTS: ${meme.texts}")
                 val dto = MemeDto(
-                    imageBytes = bytes,
+                    imageUri = meme.imageUri,
                     memeTexts = meme.texts,
                     parentWidth = image.width.toFloat(),
                     parentHeight = image.height.toFloat()

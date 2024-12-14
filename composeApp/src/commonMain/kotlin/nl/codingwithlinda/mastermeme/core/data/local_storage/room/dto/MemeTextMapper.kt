@@ -14,7 +14,7 @@ fun MemeText.toMemeTextEntity(
         text = text,
         fontResource = fontResource,
         fontSize = fontSize,
-        textColor = textColor.toArgb(),
+        textColor = textColor,
         offsetX = offsetX,
         offsetY = offsetY,
 
@@ -27,7 +27,7 @@ fun MemeTextEntity.toDomain(): MemeText{
         text = text,
         fontResource = fontResource,
         fontSize = fontSize,
-        textColor = Color(textColor),
+        textColor = textColor,
         offsetX = offsetX,
         offsetY = offsetY,
 

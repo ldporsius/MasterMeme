@@ -37,6 +37,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.E
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
+import nl.codingwithlinda.mastermeme.meme_save.presentation.components.PictureDrawerImpl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,28 +80,22 @@ fun MemeCreatorScreen(
                     }
 
             ) {
-                state.PictureDrawerContent(
-                    modifier = Modifier,
-                    onAction = onAction
-                )
-                /*
-                    BoxWithConstraints(
-                        modifier = Modifier
-                    ) {
-                        state.memeImageUi.DrawImage()
-                        state.memeTexts.onEach { memeText ->
-                            MemeTextComponent(
-                                text = memeText.value,
-                                platformTextStyle = platformTextStyle,
-                                parentSize = Size(
-                                    constraints.maxWidth.toFloat(),
-                                    constraints.maxHeight.toFloat()
-                                ),
-                                onAction = onAction
-                            )
+                if (state.isSaving){
+                    PictureDrawerImpl(
+                        memeImageUi = state.memeImageUi,
+                        memeTexts = state.memeTexts.values.toList(),
+                        onSave = {
+                            onAction(MemeCreatorAction.ShareMeme(it))
                         }
-                    }*/
-
+                    )
+                }
+                else {
+                    MemeTextsBox(
+                        memeImageUi = state.memeImageUi,
+                        memeTexts = state.memeTexts.values.toList(),
+                        onAction = onAction
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.weight(1f))

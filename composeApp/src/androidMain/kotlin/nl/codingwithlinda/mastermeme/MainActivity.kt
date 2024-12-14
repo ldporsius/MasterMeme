@@ -7,10 +7,12 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import nl.codingwithlinda.mastermeme.core.data.local_cache.DatabaseFactory
 import nl.codingwithlinda.mastermeme.app.App
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.AndroidColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPickerFactory
+import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.core.presentation.util.DateTimeUtils
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.meme_factory.AndroidMemeFactory
 
@@ -26,7 +28,10 @@ class MainActivity : ComponentActivity() {
 
             App(
                 shareAppPicker = picker.create(),
-                imageConverter = ImageConverter(this),
+                imageConverter = ImageConverter(
+                    context = this,
+                    templates = MemeTemplatesFromResources()
+                ),
                 colorPicker = AndroidColorPicker(),
                 fontPicker = FontPicker(),
                 localCache = LocalCache(databaseFactory),

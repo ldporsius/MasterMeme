@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.core.data.dto
 
+import androidx.compose.ui.graphics.toArgb
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.MemeText
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 
@@ -11,6 +12,6 @@ fun MemeUiText.toDomain(): MemeText{
         offsetY = offsetY,
         fontResource = fontResource.ref,
         fontSize = fontSize,
-        textColor = textColor
+        textColor = textColor.toArgb()
     )
 }

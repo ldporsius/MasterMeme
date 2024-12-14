@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
@@ -41,6 +42,7 @@ fun MemeCreatorRoot(
     storageInteractor: StorageInteractor<Meme>,
     memeFactory: MemeFactory,
     onBack: () -> Unit,
+    onSave: (memeDto: MemeDto) -> Unit
     ) {
 
     var showConfirmExit by remember {
@@ -62,7 +64,10 @@ fun MemeCreatorRoot(
         imageConverter = imageConverter,
         fontPicker = fontPicker,
         storageInteractor = storageInteractor,
-        memeFactory = memeFactory
+        memeFactory = memeFactory,
+        onSave = {
+
+        }
     )
 
 
