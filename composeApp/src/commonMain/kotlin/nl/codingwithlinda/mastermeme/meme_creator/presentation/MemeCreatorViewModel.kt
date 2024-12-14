@@ -260,7 +260,6 @@ class MemeCreatorViewModel(
                 _state.update {
                     it.copy(
                         memeUri = uri,
-                        //isSaving = false
                     )
                 }
             }

@@ -88,7 +88,6 @@ fun MemeTextComponent(
 
     )
     var textLayoutResult = remember(text) {
-        println("MEME TEXT COMPONENT has new text: ${text.text}")
         textMeasurer.measure(
             text = text.text,
             style = textStyle,
@@ -164,7 +163,7 @@ fun MemeTextComponent(
             Modifier
                 .border(width = 2.dp, color = white)
                 .padding(4.dp)
-        else Modifier.border(width = 1.dp, color = Color.Green)
+        else Modifier
 
     }
 
