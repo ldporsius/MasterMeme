@@ -212,9 +212,21 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.CreateMemeUri -> {
+               //use factory to create meme with date. In CMP no easy way to do that. Date is used to create unique name
+                val meme = memeFactory.createMeme(
+                    name = "meme",
+                    imageUri = "",
+                    isFavorite = false,
+                    texts = _memeTexts.value.values.map {
+                        it.toDomain()
+                    }
+                )
+
+                val uri = imageConverter.share(action.byteArray, "${meme.name}_${meme.dateCreated}")
+
                 _state.update {
                     it.copy(
-                        memeUri = imageConverter.share(action.byteArray, "meme")
+                        memeUri = uri
                     )
                 }
             }
@@ -223,7 +235,6 @@ class MemeCreatorViewModel(
 
                     val imageUri = _template?.id ?: return@launch
                     val uri = state.value.memeUri ?: imageUri
-
 
                     val meme = memeFactory.createMeme(
                         name = "meme",
