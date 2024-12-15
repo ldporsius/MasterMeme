@@ -94,7 +94,7 @@ sealed interface MemeImageUi{
                     Image(
                         bitmap = image,
                         contentDescription = null,
-                        modifier = Modifier.matchParentSize(),
+                        modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.FillBounds
                     )
                 }

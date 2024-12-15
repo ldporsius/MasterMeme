@@ -26,7 +26,7 @@ fun MemeListItem(
 
     ){
         Box(modifier = Modifier.fillMaxSize()){
-            memeUi.image.DrawImage()
+            memeUi.image.DrawThumbnail()
         }
     }
 }
