@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.memes_list.presentation.components
+package nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,14 +11,13 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import mastermeme.composeapp.generated.resources.Res
-import mastermeme.composeapp.generated.resources.your_memes
+import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
+import nl.codingwithlinda.mastermeme.memes_list.presentation.templates.MemeTemplatePicker
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.SortMemesTopBar
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
-import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -26,12 +25,10 @@ fun MemeListScreen(
     state: MemeListViewState,
     onAction: (MemeListAction) -> Unit,
 
-
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize().safeContentPadding(),
-        bottomBar = {
-        },
+
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 onAction(MemeListAction.ShowMemePicker)
@@ -47,7 +44,8 @@ fun MemeListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            Text(text = stringResource(Res.string.your_memes))
+            SortMemesTopBar()
+
             if(state.memes.isEmpty()){
                 EmptyListComponent(
                     modifier = Modifier.fillMaxSize()
@@ -56,7 +54,10 @@ fun MemeListScreen(
             MemeListAdaptiveLayout(
                 memes = state.memes,
                 onMemeClick = {
-
+                    onAction(MemeListAction.MemeClicked(it))
+                },
+                onMemeLongPress = {
+                    onAction(MemeListAction.MemeLongPressed(it))
                 }
             )
         }

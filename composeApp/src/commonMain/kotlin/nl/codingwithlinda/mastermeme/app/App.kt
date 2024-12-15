@@ -10,12 +10,11 @@ import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageIntera
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
-import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.domain.MemeFactory
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.MemeCreatorRoot
-import nl.codingwithlinda.mastermeme.meme_save.presentation.MemeSaveRoot
+import nl.codingwithlinda.mastermeme.meme_select.presentation.MemeSelectRoot
 import nl.codingwithlinda.mastermeme.memes_list.presentation.MemesListRoot
 import nl.codingwithlinda.mastermeme.navigation.Route
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
@@ -39,9 +38,11 @@ fun App(
                     MemesListRoot(
                         storageInteractor = localCache.storageInteractor(),
                         internalStorageInteractor = internalStorageInteractor,
-                        imageConverter = imageConverter,
                         navToMemeCreator = {
                             navController.navigate(Route.MemeCreator(it))
+                        },
+                        navToMemeSelector = {
+                            navController.navigate(Route.MemeSelect(it))
                         }
                     )
                 }
@@ -58,21 +59,17 @@ fun App(
                         onBack = {
                               navController.navigateUp()
                         },
-                        onSave = {
-                            navController.navigate(Route.MemeSave(
-                               memeId = memeId
-                            )
-                            )
-                        }
+
                     )
                 }
 
-                composable<Route.MemeSave>(){entry ->
-                    val memeId = entry.toRoute<Route.MemeSave>().memeId
-                    MemeSaveRoot(
+                composable<Route.MemeSelect>(){entry ->
+                    val memeId = entry.toRoute<Route.MemeSelect>().memeId
+                    MemeSelectRoot(
                         memeId = memeId,
                         imageConverter = imageConverter,
-                        memeFactory = memeFactory)
+                        storageInteractor = localCache.storageInteractor()
+                    )
                 }
             }
         }

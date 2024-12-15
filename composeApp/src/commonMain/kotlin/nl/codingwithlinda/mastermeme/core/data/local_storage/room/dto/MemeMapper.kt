@@ -10,7 +10,7 @@ fun Meme.toMemeEntity(): MemeEntity {
         name = this.name,
         imageUri = this.imageUri,
         dateCreated = this.dateCreated,
-        isFavorite = false
+        isFavorite = this.isFavorite
     )
 }
 

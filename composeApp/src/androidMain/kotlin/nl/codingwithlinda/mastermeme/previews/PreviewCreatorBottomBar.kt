@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
+import nl.codingwithlinda.mastermeme.previews.data_generator.fakeMemeTextUI
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 import nl.codingwithlinda.mastermeme.ui.theme.black
 

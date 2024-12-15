@@ -11,8 +11,9 @@ import mastermeme.composeapp.generated.resources._4_scared
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
-import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListAdaptiveLayout
-import nl.codingwithlinda.mastermeme.memes_list.presentation.components.MemeListItem
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.MemeListAdaptiveLayout
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.MemeListItem
+import nl.codingwithlinda.mastermeme.previews.data_generator.fakeMemeUi
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 
 @Preview
@@ -29,13 +30,10 @@ fun MemesListItemPreview() {
     AppTheme {
         MemeListItem(
             modifier = Modifier.size(200.dp),
-            memeUi = MemeUi(
-                id = "1",
-                name = "meme1",
-                dateCreated = 123456789,
-                image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
-            )
-        ) { }
+            memeUi = fakeMemeUi(),
+            onLongPress = {},
+            onClick = {}
+        )
     }
 }
 
@@ -47,21 +45,12 @@ fun MemesListPreview() {
         MemeListAdaptiveLayout(
             modifier = Modifier,
             memes = listOf(
-                MemeUi(
-                    id = "1",
-                    name = "meme1",
-                    dateCreated = 123456789,
-                    image = MemeImageUi.pngImage(Res.drawable._1_49su9f)
-
-                ),
-                MemeUi(
-                    id = "2",
-                    name = "meme2",
-                    dateCreated = 123456789,
-                    image = MemeImageUi.pngImage(Res.drawable._4_scared)
-                )
+                fakeMemeUi(),
+               fakeMemeUi()
             ),
-            onMemeClick = {}
+            onMemeClick = {},
+            onMemeLongPress = {}
+
         )
     }
 }

@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.memes_list.presentation.components
+package nl.codingwithlinda.mastermeme.memes_list.presentation.templates
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

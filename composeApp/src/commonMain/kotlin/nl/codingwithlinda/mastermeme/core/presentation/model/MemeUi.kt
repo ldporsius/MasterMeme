@@ -4,5 +4,7 @@ data class MemeUi(
     val id: String,
     val name: String,
     val image: MemeImageUi,
-    val dateCreated: Long
+    val dateCreated: Long,
+    val isFavorite: Boolean,
+
 )

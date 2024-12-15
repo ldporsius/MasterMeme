@@ -16,7 +16,7 @@ sealed interface Route {
     ): Route
 
     @Serializable
-    data class MemeSave(
+    data class MemeSelect(
         val memeId: String,
     ): Route
 

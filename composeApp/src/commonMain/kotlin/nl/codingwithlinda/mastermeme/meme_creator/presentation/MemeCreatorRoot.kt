@@ -42,7 +42,6 @@ fun MemeCreatorRoot(
     storageInteractor: StorageInteractor<Meme>,
     memeFactory: MemeFactory,
     onBack: () -> Unit,
-    onSave: (memeDto: MemeDto) -> Unit
     ) {
 
     var showConfirmExit by remember {

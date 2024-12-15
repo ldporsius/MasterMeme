@@ -9,7 +9,7 @@ fun Meme.toUi(imageUi: MemeImageUi): MemeUi{
        id = this.id,
         name = this.name,
         image = imageUi,
-        dateCreated = this.dateCreated
+        dateCreated = this.dateCreated,
+        isFavorite = this.isFavorite
     )
-
 }

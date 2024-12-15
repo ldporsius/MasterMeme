@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.memes_list.presentation.components
+package nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +16,8 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 fun MemeListAdaptiveLayout(
     modifier: Modifier = Modifier,
     memes: List<MemeUi>,
-    onMemeClick: (id: String) -> Unit
+    onMemeClick: (id: String) -> Unit,
+    onMemeLongPress: (id: String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 176.dp),
@@ -33,7 +34,8 @@ fun MemeListAdaptiveLayout(
                     .aspectRatio(1f)
                 ,
                 memeUi = it,
-                onClick = onMemeClick
+                onClick = onMemeClick,
+                onLongPress = onMemeLongPress
             )
         }
     }

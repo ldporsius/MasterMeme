@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_save.presentation.components
+package nl.codingwithlinda.mastermeme.meme_select.presentation.components
 
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.runtime.Composable
