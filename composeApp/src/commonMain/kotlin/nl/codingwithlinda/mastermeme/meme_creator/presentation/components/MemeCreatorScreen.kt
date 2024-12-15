@@ -6,9 +6,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -80,6 +82,9 @@ fun MemeCreatorScreen(
                     }
 
             ) {
+                val h = state.memeImageUi.height().toFloat()
+                val w = state.memeImageUi.width().toFloat()
+
                 if (state.isSaving){
                     PictureDrawerImpl(
                         memeImageUi = state.memeImageUi,
@@ -91,9 +96,11 @@ fun MemeCreatorScreen(
                 }
                 else {
                     MemeTextsBox(
-                        memeImageUi = state.memeImageUi,
+                        memeTemplate = state.memeImageUi,
                         memeTexts = state.memeTexts.values.toList(),
-                        onAction = onAction
+                        onAction = onAction,
+                        modifier = Modifier
+                            .fillMaxWidth()
                     )
                 }
             }

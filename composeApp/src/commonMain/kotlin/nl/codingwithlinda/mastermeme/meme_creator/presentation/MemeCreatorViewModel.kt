@@ -17,6 +17,7 @@ import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageIntera
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.emptyMemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
