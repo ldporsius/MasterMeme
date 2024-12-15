@@ -1,8 +1,8 @@
 package nl.codingwithlinda.mastermeme.meme_select.presentation.state
 
-import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 
 data class MemeSelectViewState(
-    val memeImageUi: MemeImageUi? = null,
+    val memes: List<MemeUi> = emptyList(),
 
-)
+    )

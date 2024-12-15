@@ -67,7 +67,7 @@ fun App(
                     val memeId = entry.toRoute<Route.MemeSelect>().memeId
                     MemeSelectRoot(
                         memeId = memeId,
-                        imageConverter = imageConverter,
+                        internalStorageInteractor = internalStorageInteractor,
                         storageInteractor = localCache.storageInteractor()
                     )
                 }

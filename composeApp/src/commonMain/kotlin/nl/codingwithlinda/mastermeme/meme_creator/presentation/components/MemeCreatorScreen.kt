@@ -35,7 +35,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.E
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
-import nl.codingwithlinda.mastermeme.meme_select.presentation.components.PictureDrawerImpl
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.PictureDrawerImpl
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
