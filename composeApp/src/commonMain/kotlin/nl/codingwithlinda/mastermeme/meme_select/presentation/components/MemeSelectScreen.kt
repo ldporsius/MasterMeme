@@ -9,7 +9,7 @@ fun MemeSelectScreen(
    viewState: MemeSelectViewState
 ) {
 
-   MemeListAdaptiveLayout(
+   MemeSelectAdaptiveLayout(
        memes = viewState.memes,
        onMemeClick = {},
        onMemeLongPress = {}

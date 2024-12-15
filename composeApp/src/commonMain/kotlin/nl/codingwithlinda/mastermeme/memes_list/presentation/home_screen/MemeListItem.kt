@@ -22,7 +22,6 @@ fun MemeListItem(
     onClick: (String) -> Unit
 ) {
 
-    println("memeUi.isFavorite: ${memeUi.isFavorite}")
     val iconTint = if(memeUi.isFavorite){
         androidx.compose.ui.graphics.Color.Red
     }else{
