@@ -59,7 +59,7 @@ fun MemeListScreen(
                 )
             }
             MemeListAdaptiveLayout(
-                memes = state.memes,
+                memes = state.sortedMemes,
                 onMemeClick = {
                     onAction(MemeListAction.MemeClicked(it))
                 },

@@ -16,4 +16,17 @@ data class MemeListViewState(
     val selectedSortOption: MemeSortOption = MemeSortOption.FavoritesFirst
 ){
     val sortOptions = MemeSortOption.entries.toList()
+
+    val sortedMemes: List<MemeUi> = when(selectedSortOption){
+        MemeSortOption.FavoritesFirst -> {
+            memes.sortedByDescending { it.isFavorite }
+        }
+        MemeSortOption.NewestFirst -> {
+            memes.sortedByDescending { it.dateCreated}
+        }
+        MemeSortOption.Both -> {
+            memes.filter { it.isFavorite }.sortedByDescending { it.dateCreated }
+                .plus(memes.filterNot { it.isFavorite }.sortedByDescending { it.dateCreated })
+        }
+    }
 }
