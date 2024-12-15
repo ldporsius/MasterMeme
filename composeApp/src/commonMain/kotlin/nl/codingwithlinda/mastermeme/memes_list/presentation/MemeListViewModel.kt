@@ -84,13 +84,11 @@ class MemeListViewModel(
             }
             is MemeListAction.MemeClicked -> {
                 viewModelScope.launch {
-                    println("MemeListViewModel: MemeClicked: ${action.id}")
-                    println("MemeListViewModel: MemeClicked: _state.value.memes: ${state.value.memes}")
                     memeListRepository.toggleFavorite(action.id)
+
                     val item = state.value.memes.find { it.id == action.id } ?: return@launch
                     val update = state.value.memes.minus(item).plus(item.copy(isFavorite = !item.isFavorite))
 
-                    println("MemeListViewModel: MemeClicked: update: $update")
                     _state.update {
                         it.copy(
                             memes = update
@@ -101,6 +99,14 @@ class MemeListViewModel(
 
             is MemeListAction.MemeLongPressed -> {
                 navToMemeSelect(action.id)
+            }
+
+            is MemeListAction.SortMemes -> {
+                _state.update {
+                    it.copy(
+                        selectedSortOption = action.sortOption
+                    )
+                }
             }
         }
     }

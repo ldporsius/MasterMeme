@@ -44,7 +44,14 @@ fun MemeListScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            SortMemesTopBar()
+            SortMemesTopBar(
+                sortOptions = state.sortOptions,
+                selectedSortOption = state.selectedSortOption,
+                selectSortOption = {
+                    onAction(MemeListAction.SortMemes(it))
+                }
+
+            )
 
             if(state.memes.isEmpty()){
                 EmptyListComponent(
