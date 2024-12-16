@@ -41,8 +41,8 @@ fun App(
                         navToMemeCreator = {
                             navController.navigate(Route.MemeCreator(it))
                         },
-                        navToMemeSelector = {
-                            navController.navigate(Route.MemeSelect(it))
+                        navToMemeSelector = {id, sortOption ->
+                            navController.navigate(Route.MemeSelect(id, sortOption))
                         }
                     )
                 }
@@ -65,8 +65,10 @@ fun App(
 
                 composable<Route.MemeSelect>(){entry ->
                     val memeId = entry.toRoute<Route.MemeSelect>().memeId
+                    val sortOption = entry.toRoute<Route.MemeSelect>().sortOption
                     MemeSelectRoot(
                         memeId = memeId,
+                        sortOption = sortOption,
                         internalStorageInteractor = internalStorageInteractor,
                         storageInteractor = localCache.storageInteractor(),
                         onBackNav = {

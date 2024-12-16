@@ -13,6 +13,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
 import nl.codingwithlinda.mastermeme.memes_list.data.MemeListRepoImpl
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.MemeListScreen
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.MemeSortOption
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 
 @Composable
@@ -20,7 +21,7 @@ fun MemesListRoot(
     storageInteractor: StorageInteractor<Meme>,
     internalStorageInteractor: InternalStorageInteractor,
     navToMemeCreator: (id: String) -> Unit,
-    navToMemeSelector: (id: String) -> Unit
+    navToMemeSelector: (id: String, sortOption: MemeSortOption) -> Unit
 ) {
 
     val  repo = MemeListRepoImpl(storageInteractor)

@@ -22,13 +22,15 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectAction
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectViewState
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.MemeSortOption
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 
 class MemeSelectViewmodel(
     private val storageInteractor: StorageInteractor<Meme>,
     private val internalStorageInteractor: InternalStorageInteractor,
-    private val memeId: String
+    private val memeId: String,
+    private val sortOption: MemeSortOption
 ): ViewModel() {
 
     private val savedMemes = storageInteractor.readAll()
@@ -54,7 +56,8 @@ class MemeSelectViewmodel(
     private val _state = MutableStateFlow(MemeSelectViewState())
     val state = combine(_state, _selectedMemes) { state, selectedMemes ->
         state.copy(
-            selectedMemes = selectedMemes
+            selectedMemes = selectedMemes,
+            sortOption = sortOption
         )
 
     }.onStart {

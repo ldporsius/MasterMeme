@@ -21,6 +21,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.core.presentation.templates.toUi
 import nl.codingwithlinda.mastermeme.memes_list.domain.MemeListRepository
+import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.MemeSortOption
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -30,7 +31,7 @@ class MemeListViewModel(
     memeTemplates: MemeTemplates,
     private val memeListRepository: MemeListRepository,
     private val internalStorageInteractor: InternalStorageInteractor,
-    private val navToMemeSelect: (memeId: String) -> Unit
+    private val navToMemeSelect: (memeId: String, sortOption: MemeSortOption) -> Unit
 ): ViewModel() {
 
     private val savedMemes = memeListRepository.getMemes()
@@ -97,7 +98,7 @@ class MemeListViewModel(
             }
 
             is MemeListAction.MemeLongPressed -> {
-                navToMemeSelect(action.id)
+                navToMemeSelect(action.id, state.value.selectedSortOption)
             }
 
             is MemeListAction.SortMemes -> {
