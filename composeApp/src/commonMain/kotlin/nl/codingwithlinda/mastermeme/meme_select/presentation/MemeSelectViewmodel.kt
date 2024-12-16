@@ -57,11 +57,10 @@ class MemeSelectViewmodel(
         }
         emit(memesUi)
     }
-    private val _state = MutableStateFlow(MemeSelectViewState())
+    private val _state = MutableStateFlow(MemeSelectViewState(sortOption = sortOption))
     val state = combine(_state, _selectedMemes) { state, selectedMemes ->
         state.copy(
             selectedMemes = selectedMemes,
-            sortOption = sortOption
         )
 
     }.onStart {

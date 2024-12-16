@@ -6,14 +6,15 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar
 data class MemeSelectViewState(
     val memes: List<MemeUi> = emptyList(),
     val selectedMemes: List<String> = emptyList(),
-    val sortOption: MemeSortOption = MemeSortOption.FavoritesFirst,
+    val sortOption: MemeSortOption
 
     ){
 
     val sortedMemes = when(sortOption){
         MemeSortOption.FavoritesFirst -> memes.sortedByDescending { it.isFavorite }
         MemeSortOption.NewestFirst -> memes.sortedByDescending { it.dateCreated }
-        MemeSortOption.Both -> memes.filter { it.isFavorite }.sortedByDescending { it.dateCreated }.plus(memes.filter { !it.isFavorite })
+        MemeSortOption.Both -> memes.filter { it.isFavorite }.sortedByDescending { it.dateCreated }
+            .plus(memes.filterNot { it.isFavorite }.sortedByDescending { it.dateCreated })
     }
     val selectedMemesCount: Int = selectedMemes.size
 
