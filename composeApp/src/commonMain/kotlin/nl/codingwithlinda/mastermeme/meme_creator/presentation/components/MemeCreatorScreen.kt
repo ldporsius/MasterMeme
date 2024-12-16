@@ -23,9 +23,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
+import mastermeme.composeapp.generated.resources.Res
+import mastermeme.composeapp.generated.resources.download
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
@@ -36,6 +39,9 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_m
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.PictureDrawerImpl
+import org.jetbrains.compose.resources.imageResource
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -182,12 +188,12 @@ fun MemeCreatorScreen(
                         SaveMemeOption(
                             icon = {
                                 Icon(
-                                    imageVector = Icons.Default.AccountCircle,
+                                    imageVector = vectorResource(Res.drawable.download),
                                     contentDescription = null
                                 )
                             },
                             title = "Save meme",
-                            text = "Keep this meme in your local storage",
+                            text = "Save created meme in the Files of your device",
                             onClick = {
                                 onAction(MemeCreatorAction.SaveMeme)
                             }
@@ -200,10 +206,9 @@ fun MemeCreatorScreen(
                                 )
                             },
                             title = "Share meme",
-                            text = "Share this meme with your friends",
+                            text = "Share your meme or open it in the other App",
                             onClick = {
                                 state.memeUri?.let {
-                                    println("MEME CREATOR SCREEN HAS URI: $it")
                                     shareAppPicker.share(imageUri = state.memeUri)
                                 }
                             }

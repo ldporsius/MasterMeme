@@ -42,18 +42,11 @@ fun MemeCreatorRoot(
     storageInteractor: StorageInteractor<Meme>,
     memeFactory: MemeFactory,
     onBack: () -> Unit,
-    ) {
+) {
 
     var showConfirmExit by remember {
         mutableStateOf(false)
     }
-
-    BackHandler(
-        enabled = true,
-        onBackPressed = {
-           showConfirmExit = true
-        }
-    )
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
@@ -65,6 +58,15 @@ fun MemeCreatorRoot(
         storageInteractor = storageInteractor,
         memeFactory = memeFactory,
 
+        )
+
+    val shouldShowConfirmExit = viewModel.hasUnsavedChanges.collectAsStateWithLifecycle().value
+
+    BackHandler(
+        enabled = shouldShowConfirmExit,
+        onBackPressed = {
+            showConfirmExit = true
+        }
     )
 
 
@@ -78,7 +80,10 @@ fun MemeCreatorRoot(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            showConfirmExit = true
+                            if (shouldShowConfirmExit)
+                                showConfirmExit = true
+                            else
+                                onBack()
                         },
                         content = {
                             Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
@@ -95,7 +100,7 @@ fun MemeCreatorRoot(
                     showConfirmExit = false
                 },
                 onConfirm = {
-                   onBack()
+                    onBack()
                 }
             )
         }

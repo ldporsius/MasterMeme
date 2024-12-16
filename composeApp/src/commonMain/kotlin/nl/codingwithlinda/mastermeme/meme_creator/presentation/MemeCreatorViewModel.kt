@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
@@ -60,6 +61,9 @@ class MemeCreatorViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
 
+    private val _hasUnsavedChanges = MutableStateFlow(false)
+    val hasUnsavedChanges = _hasUnsavedChanges.asStateFlow()
+
     private var parentSize: Size = Size.Zero
 
     private var _template: MemeTemplate? = null
@@ -79,6 +83,7 @@ class MemeCreatorViewModel(
     }
 
     fun handleAction(action: MemeCreatorAction){
+        _hasUnsavedChanges.update { true }
         when(action){
             is MemeCreatorAction.CreateText -> {
                 val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
@@ -253,6 +258,7 @@ class MemeCreatorViewModel(
                             isSaving = false
                         )
                     }
+                    _hasUnsavedChanges.update { false }
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
