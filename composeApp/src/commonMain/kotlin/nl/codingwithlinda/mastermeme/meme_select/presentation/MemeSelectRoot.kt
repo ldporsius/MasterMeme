@@ -17,7 +17,8 @@ import nl.codingwithlinda.mastermeme.meme_select.presentation.components.MemeSel
 fun MemeSelectRoot(
     memeId: String,
     internalStorageInteractor: InternalStorageInteractor,
-    storageInteractor: StorageInteractor<Meme>
+    storageInteractor: StorageInteractor<Meme>,
+    onBackNav: () -> Unit
 ) {
 
     val MemeSelectViewModelFactory : ViewModelProvider.Factory = viewModelFactory {
@@ -36,7 +37,11 @@ fun MemeSelectRoot(
     Scaffold {
 
         MemeSelectScreen(
-            viewState = viewModel.state.collectAsStateWithLifecycle().value
+            viewState = viewModel.state.collectAsStateWithLifecycle().value,
+            onAction = viewModel::onAction,
+            onBackClick = {
+                onBackNav()
+            }
         )
     }
 

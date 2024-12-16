@@ -39,6 +39,6 @@ fun fakeMemeUi(): MemeUi {
         name = "meme1",
         dateCreated = 123456789,
         image = MemeImageUi.pngImage(Res.drawable._1_49su9f),
-        isFavorite = true
+        isFavorite = true,
     )
 }

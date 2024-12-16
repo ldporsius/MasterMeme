@@ -68,7 +68,10 @@ fun App(
                     MemeSelectRoot(
                         memeId = memeId,
                         internalStorageInteractor = internalStorageInteractor,
-                        storageInteractor = localCache.storageInteractor()
+                        storageInteractor = localCache.storageInteractor(),
+                        onBackNav = {
+                            navController.navigateUp()
+                        }
                     )
                 }
             }

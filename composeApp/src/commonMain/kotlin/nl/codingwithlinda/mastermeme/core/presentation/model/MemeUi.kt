@@ -6,5 +6,4 @@ data class MemeUi(
     val image: MemeImageUi,
     val dateCreated: Long,
     val isFavorite: Boolean,
-
 )

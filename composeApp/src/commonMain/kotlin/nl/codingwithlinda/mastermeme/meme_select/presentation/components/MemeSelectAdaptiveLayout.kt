@@ -11,14 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
+import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectViewState
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.MemeListItem
 
 @Composable
 fun MemeSelectAdaptiveLayout(
     modifier: Modifier = Modifier,
+    viewState: MemeSelectViewState,
     memes: List<MemeUi>,
     onMemeClick: (id: String) -> Unit,
-    onMemeLongPress: (id: String) -> Unit
+
 ) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 176.dp),
@@ -35,6 +37,10 @@ fun MemeSelectAdaptiveLayout(
                     .aspectRatio(1f)
                 ,
                 memeUi = it,
+                isSelected = viewState.isSelected(it.id),
+                onClick = {
+                    onMemeClick(it)
+                }
 
             )
         }
