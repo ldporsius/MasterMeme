@@ -120,6 +120,7 @@ class MemeSelectViewmodel(
             state.value.selectedMemes.onEach {
                 storageInteractor.delete(it)
             }
+            _selectedMemes.update { emptyList() }
         }
     }
 
