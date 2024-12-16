@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
@@ -99,8 +98,9 @@ class MemeSelectViewmodel(
 
     private fun shareMemes() {
         viewModelScope.launch {
+            _events.send(MemeSelectEvent.ShowShareMemesDialog(state.value.memeUris()))
         }
-        }
+    }
 
     private fun warningDeleteMemes() {
         viewModelScope.launch {

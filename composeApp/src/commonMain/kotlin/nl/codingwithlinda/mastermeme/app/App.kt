@@ -71,6 +71,7 @@ fun App(
                         sortOption = sortOption,
                         internalStorageInteractor = internalStorageInteractor,
                         storageInteractor = localCache.storageInteractor(),
+                        shareAppPicker = shareAppPicker,
                         onBackNav = {
                             navController.navigateUp()
                         }

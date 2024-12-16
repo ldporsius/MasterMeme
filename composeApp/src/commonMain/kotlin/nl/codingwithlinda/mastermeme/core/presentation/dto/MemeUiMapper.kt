@@ -10,6 +10,7 @@ fun Meme.toUi(
     return MemeUi(
        id = this.id,
         name = this.name,
+        imageUri = this.imageUri,
         image = imageUi,
         dateCreated = this.dateCreated,
         isFavorite = this.isFavorite,

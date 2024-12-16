@@ -6,7 +6,8 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar
 data class MemeSelectViewState(
     val memes: List<MemeUi> = emptyList(),
     val selectedMemes: List<String> = emptyList(),
-    val sortOption: MemeSortOption = MemeSortOption.FavoritesFirst
+    val sortOption: MemeSortOption = MemeSortOption.FavoritesFirst,
+
     ){
 
     val sortedMemes = when(sortOption){
@@ -19,4 +20,6 @@ data class MemeSelectViewState(
     fun isSelected(memeId: String): Boolean {
         return selectedMemes.contains(memeId)
     }
+
+    fun memeUris(): List<String> = memes.filter { it.id in selectedMemes }.map { it.imageUri }
 }

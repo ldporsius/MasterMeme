@@ -9,5 +9,8 @@ expect class ShareAppPicker{
 
     fun share(imageUri: String)
 
+    fun shareMultiple(imageUris: List<String>)
+
+
 
 }
