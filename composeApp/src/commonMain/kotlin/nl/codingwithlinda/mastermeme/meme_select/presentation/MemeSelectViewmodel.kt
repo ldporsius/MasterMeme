@@ -63,7 +63,6 @@ class MemeSelectViewmodel(
                     memes = savedMemesToUi.first()
                 )
             }
-            selectMeme(memeId)
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), _state.value)
 
