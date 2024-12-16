@@ -39,7 +39,7 @@ fun MemeSelectTopBar(
         IconButton(onClick = { onAction(MemeSelectAction.ShareMemes) }) {
             Icon(imageVector = Icons.Default.Share, contentDescription = null)
         }
-        IconButton(onClick = { onAction(MemeSelectAction.DeleteMemes) }) {
+        IconButton(onClick = { onAction(MemeSelectAction.WarningDeleteMemes) }) {
             Icon(imageVector = Icons.Default.Delete, contentDescription = null)
         }
     }

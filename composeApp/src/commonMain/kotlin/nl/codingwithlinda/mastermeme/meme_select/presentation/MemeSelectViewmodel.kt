@@ -2,11 +2,13 @@ package nl.codingwithlinda.mastermeme.meme_select.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
@@ -21,6 +23,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.dto.toUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectAction
+import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectEvent
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectViewState
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.MemeSortOption
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -36,12 +39,14 @@ class MemeSelectViewmodel(
     private val savedMemes = storageInteractor.readAll()
     private val _selectedMemes = MutableStateFlow<List<String>>(listOf(memeId))
 
+    private val _events = Channel<MemeSelectEvent>()
+    val events = _events
+
     @OptIn(ExperimentalResourceApi::class)
     private val savedMemesToUi : Flow<List<MemeUi>> = savedMemes.transform{ memes ->
         val memesUi = memes.map { meme ->
             try {
                 val uri = meme.imageUri
-
                 val image = internalStorageInteractor.read(uri).decodeToImageBitmap()
                 val imageUi = MemeImageUi.bitmapImage(image)
                 meme.toUi(imageUi)
@@ -72,7 +77,8 @@ class MemeSelectViewmodel(
 
     fun onAction(action: MemeSelectAction) {
         when (action) {
-            MemeSelectAction.DeleteMemes -> deleteMeme()
+            MemeSelectAction.WarningDeleteMemes -> warningDeleteMemes()
+            MemeSelectAction.DeleteMemes -> deleteMemes()
             MemeSelectAction.ShareMemes -> shareMemes()
             is MemeSelectAction.SelectMeme -> selectMeme(action.memeId)
         }
@@ -95,11 +101,26 @@ class MemeSelectViewmodel(
         viewModelScope.launch {
         }
         }
-    private fun deleteMeme(){
+
+    private fun warningDeleteMemes() {
         viewModelScope.launch {
-
+            _events.send(MemeSelectEvent.ShowDeleteMemesDialog)
         }
-
+    }
+    private fun deleteMemes(){
+        viewModelScope.launch {
+            _state.update {
+                it.copy(
+                    memes = it.memes.filter { meme ->
+                        meme.id !in state.value.selectedMemes
+                    },
+                    selectedMemes = emptyList()
+                )
+            }
+            state.value.selectedMemes.onEach {
+                storageInteractor.delete(it)
+            }
+        }
     }
 
 
