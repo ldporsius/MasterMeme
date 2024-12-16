@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -24,19 +23,7 @@ fun MemeSelectItem(
     memeUi: MemeUi,
     isSelected: Boolean,
     onClick: (memeId: String) -> Unit,
-    modifier: Modifier = Modifier
 ) {
-
-    val iconTint = if(isSelected){
-        white
-    }else{
-        black
-    }
-    val iconBackground = if(isSelected){
-        black
-    }else{
-        white
-    }
 
     Box(
         contentAlignment = androidx.compose.ui.Alignment.TopEnd

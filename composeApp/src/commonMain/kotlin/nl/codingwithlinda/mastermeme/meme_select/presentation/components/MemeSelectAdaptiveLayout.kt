@@ -32,10 +32,7 @@ fun MemeSelectAdaptiveLayout(
 
         items(memes){
             MemeSelectItem(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(1f)
-                ,
+
                 memeUi = it,
                 isSelected = viewState.isSelected(it.id),
                 onClick = {
