@@ -60,10 +60,10 @@ fun MemeCreatorRoot(
 
         )
 
-    val shouldShowConfirmExit = viewModel.hasUnsavedChanges.collectAsStateWithLifecycle().value
+    val shouldShowConfirmExit = viewModel.hasUnsavedChanges.collectAsStateWithLifecycle()
 
     BackHandler(
-        enabled = shouldShowConfirmExit,
+        enabled = shouldShowConfirmExit.value,
         onBackPressed = {
             showConfirmExit = true
         }
@@ -80,7 +80,7 @@ fun MemeCreatorRoot(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (shouldShowConfirmExit)
+                            if (shouldShowConfirmExit.value)
                                 showConfirmExit = true
                             else
                                 onBack()

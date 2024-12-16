@@ -61,7 +61,7 @@ class MemeCreatorViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
 
-    private val _hasUnsavedChanges = MutableStateFlow(false)
+    private val _hasUnsavedChanges = MutableStateFlow(true)
     val hasUnsavedChanges = _hasUnsavedChanges.asStateFlow()
 
     private var parentSize: Size = Size.Zero
@@ -83,7 +83,7 @@ class MemeCreatorViewModel(
     }
 
     fun handleAction(action: MemeCreatorAction){
-        _hasUnsavedChanges.update { true }
+
         when(action){
             is MemeCreatorAction.CreateText -> {
                 val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
@@ -258,7 +258,7 @@ class MemeCreatorViewModel(
                             isSaving = false
                         )
                     }
-                    _hasUnsavedChanges.update { false }
+                   // _hasUnsavedChanges.update { false }
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
