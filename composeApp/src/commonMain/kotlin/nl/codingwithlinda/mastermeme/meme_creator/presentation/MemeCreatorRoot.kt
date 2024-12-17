@@ -57,7 +57,9 @@ fun MemeCreatorRoot(
         fontPicker = fontPicker,
         storageInteractor = storageInteractor,
         memeFactory = memeFactory,
-
+        canNavigateBack = {
+            onBack()
+        }
         )
 
     val shouldShowConfirmExit = viewModel.hasUnsavedChanges.collectAsStateWithLifecycle()

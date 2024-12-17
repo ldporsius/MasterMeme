@@ -44,6 +44,7 @@ class MemeCreatorViewModel(
     private val fontPicker: FontPicker,
     private val storageInteractor: StorageInteractor<Meme>,
     private val memeFactory: MemeFactory,
+    private val canNavigateBack: (Boolean) -> Unit
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -267,7 +268,7 @@ class MemeCreatorViewModel(
                             isSaving = false
                         )
                     }
-                    // _hasUnsavedChanges.update { false }
+                   canNavigateBack(true)
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
