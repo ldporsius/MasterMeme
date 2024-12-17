@@ -89,6 +89,10 @@ fun MemeTemplatePicker(
                         SearchMemeField(
                             onValueChange = {
                                 onSearch(it)
+                            },
+                            onHide = {
+                                onSearch("")
+                                shouldShowSearchField = false
                             }
                         )
 
@@ -126,7 +130,8 @@ fun MemeTemplatePicker(
 
 @Composable
 fun SearchMemeField(
-    onValueChange: (String) -> Unit
+    onValueChange: (String) -> Unit,
+    onHide: () -> Unit
 ) {
 
     var value by remember {
@@ -152,7 +157,7 @@ fun SearchMemeField(
                 Text("Search input")
             },
             leadingIcon = {
-                IconButton(onClick = {}) {
+                IconButton(onClick = {onHide()}) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = null)
                 }
             },
@@ -164,7 +169,8 @@ fun SearchMemeField(
                 }) {
                     Icon(Icons.Default.Close, contentDescription = null)
                 }
-            }
+            },
+            singleLine = true
         )
     }
 }
