@@ -118,8 +118,30 @@ fun MemeListScreen(
 
     val skipPartiallyExpanded = false
     val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = skipPartiallyExpanded)
+
+    if (state.showMemePicker) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                onAction(MemeListAction.HideMemePicker)
+            },
+            sheetState = bottomSheetState
+        ){
+            MemeTemplatePicker(
+                viewState = state,
+                onTemplateSelected = {
+                    onAction(MemeListAction.CreateNewMeme(it))
+                },
+                onSearch = {
+                    onAction(MemeListAction.SearchTemplates(it))
+                },
+                onDismiss = {
+                    onAction(MemeListAction.HideMemePicker)
+                }
+            )
+        }
+    }
     AnimatedVisibility(
-        visible = state.showMemePicker,
+        visible = false,
         enter = slideInVertically(initialOffsetY = { it }),
         exit = slideOutVertically (
             animationSpec = tween(durationMillis = 1000),
