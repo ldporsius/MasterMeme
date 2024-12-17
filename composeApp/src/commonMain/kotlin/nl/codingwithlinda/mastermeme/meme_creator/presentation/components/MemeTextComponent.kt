@@ -78,16 +78,16 @@ fun MemeTextComponent(
         color = text.textColor,
         fontSize = _fontSize,
         fontFamily = fontFamily,
-        lineHeight = 1f.em,
+        lineHeight = _fontSize,
         platformStyle = platformTextStyle.PlTextStyle(),
         lineHeightStyle = LineHeightStyle(
-            alignment = LineHeightStyle.Alignment.Top,
+            alignment = LineHeightStyle.Alignment.Center,
             trim = LineHeightStyle.Trim.Both,
         ),
 
 
     )
-    var textLayoutResult = remember(text) {
+    val textLayoutResult = remember(text) {
         textMeasurer.measure(
             text = text.text,
             style = textStyle,
@@ -143,10 +143,10 @@ fun MemeTextComponent(
                 val original = Offset(offsetX.value, offsetY.value)
                 val summed = original + dragAmount
                 val maxX = (parentSize.width - textWidth).coerceAtLeast(0f)
-                val maxY = (parentSize.height - textHeight).coerceAtLeast(0f)
+                val maxY = (parentSize.height - textLayoutResult.lastBaseline).coerceAtLeast(0f)
                 val newValue = Offset(
                     x = summed.x.coerceIn(0f, maxX),
-                    y = summed.y.coerceIn(0f, maxY)
+                    y = summed.y.coerceIn(-textLayoutResult.firstBaseline * .5f, maxY)
                 )
                 offsetX.value = newValue.x
                 offsetY.value = newValue.y
@@ -169,7 +169,7 @@ fun MemeTextComponent(
 
     Text(
         modifier = Modifier
-            .wrapContentSize()
+            //.wrapContentSize()
             .offset { pointerOffset }
             .then(border)
             .then(pointerInputModifier),
@@ -177,7 +177,7 @@ fun MemeTextComponent(
         style = textStyle,
         onTextLayout = {
             println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
-            textLayoutResult = it
+            //textLayoutResult = it
         }
     )
 

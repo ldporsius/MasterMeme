@@ -6,5 +6,4 @@ actual class OurPlatformTextStyle {
     actual fun PlTextStyle(): PlatformTextStyle {
         return PlatformTextStyle(includeFontPadding = false)
     }
-
 }
