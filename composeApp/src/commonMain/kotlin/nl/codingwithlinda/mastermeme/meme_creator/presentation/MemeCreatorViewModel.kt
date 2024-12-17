@@ -74,7 +74,7 @@ class MemeCreatorViewModel(
             val template = memeTemplates.getTemplate(memeId)
             val bytes = templateToBytes(template.drawableResource)
 
-           val image = bytes.decodeToImageBitmap()
+            val image = bytes.decodeToImageBitmap()
             _state.value = _state.value.copy(
                 memeImageUi = MemeImageUi.bitmapImage(image)
             )
@@ -86,17 +86,19 @@ class MemeCreatorViewModel(
 
         when(action){
             is MemeCreatorAction.CreateText -> {
-                val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
-                val newMemeText =  memeFactory.defaultMemeUiText().copy(
-                    id = newIndex,
-                    text = action.text
-                )
-                _memeTexts.update {
-                    it.plus(newIndex to newMemeText)
+                if (action.text.isNotBlank()) {
+
+                    val newIndex = _memeTexts.value.keys.maxOrNull()?.plus(1) ?: 0
+                    val newMemeText = memeFactory.defaultMemeUiText().copy(
+                        id = newIndex,
+                        text = action.text
+                    )
+                    _memeTexts.update {
+                        it.plus(newIndex to newMemeText)
+                    }
+
+                    putMemeTextInHistory(newIndex)
                 }
-
-                putMemeTextInHistory(newIndex)
-
                 _state.update {
                     it.copy(
                         isAddingText = false
@@ -111,12 +113,19 @@ class MemeCreatorViewModel(
                     )
                 }
             }
+            MemeCreatorAction.CancelAddText -> {
+                _state.update {
+                    it.copy(
+                        isAddingText = false
+                    )
+                }
+            }
 
             is MemeCreatorAction.SaveParentSize -> {
                 parentSize = Size(action.width, action.height)
             }
             is MemeCreatorAction.PositionText -> {
-               positionText(action)
+                positionText(action)
             }
 
             is MemeCreatorAction.StartEditing -> {
@@ -154,7 +163,7 @@ class MemeCreatorViewModel(
             is MemeCreatorAction.SelectMemeText -> {
                 mementoCareTakers.remove(action.id)
                 putMemeTextInHistory(action.id)
-               setSelected(action.id)
+                setSelected(action.id)
             }
 
             is MemeCreatorAction.AdjustTextSize -> {
@@ -218,7 +227,7 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.CreateMemeUri -> {
-               //use factory to create meme with date. In CMP no easy way to do that. Date is used to create unique name
+                //use factory to create meme with date. In CMP no easy way to do that. Date is used to create unique name
                 val meme = memeFactory.createMeme(
                     name = "meme",
                     imageUri = "",
@@ -258,7 +267,7 @@ class MemeCreatorViewModel(
                             isSaving = false
                         )
                     }
-                   // _hasUnsavedChanges.update { false }
+                    // _hasUnsavedChanges.update { false }
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
@@ -282,16 +291,16 @@ class MemeCreatorViewModel(
 
     private fun setCurrentMemeTextEditing(id: Int) {
         _memeTexts.update {
-          it.changeState(MemeTextState.Editing, id)
+            it.changeState(MemeTextState.Editing, id)
         }
     }
     private fun setNotCurrentMemeTextEditing() {
         _memeTexts.update {
-           it.mapValues {
-               it.value.copy(
-                   memeTextState = MemeTextState.Idle
-               )
-           }
+            it.mapValues {
+                it.value.copy(
+                    memeTextState = MemeTextState.Idle
+                )
+            }
         }
     }
 

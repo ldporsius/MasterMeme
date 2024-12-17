@@ -84,8 +84,6 @@ fun MemeCreatorScreen(
                     }
 
             ) {
-                val h = state.memeImageUi.height().toFloat()
-                val w = state.memeImageUi.width().toFloat()
 
                 if (state.isSaving){
                     PictureDrawerImpl(
@@ -111,7 +109,6 @@ fun MemeCreatorScreen(
 
             when(state.shouldShowEditTextOption){
                 true -> {
-
                     EditMemeBottomBar(
                         modifier = Modifier.fillMaxWidth(),
                         changeTextStyleComponent = {

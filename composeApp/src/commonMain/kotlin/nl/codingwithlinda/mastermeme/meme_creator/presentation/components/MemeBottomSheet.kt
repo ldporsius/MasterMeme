@@ -18,8 +18,14 @@ fun MemeBottomSheet(
 ) {
     ModalBottomSheet(
         modifier = modifier,
-        onDismissRequest = onDismiss) {
-        IconButton(onClick = onDismiss,
+        onDismissRequest = {
+            onDismiss()
+        }
+    ) {
+        IconButton(
+            onClick = {
+                onDismiss()
+            },
             modifier = Modifier.align(androidx.compose.ui.Alignment.End)
         ) {
             Icon(

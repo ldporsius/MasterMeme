@@ -37,7 +37,7 @@ fun CreatorButtonsComponent(
     }
 
     AnimatedVisibility (isAdding) {
-        ModalBottomSheet(onDismissRequest = { onAction(MemeCreatorAction.StopEditing) },
+        ModalBottomSheet(onDismissRequest = { onAction(MemeCreatorAction.CancelAddText) },
             modifier = Modifier
                 .fillMaxWidth()
 
@@ -49,7 +49,7 @@ fun CreatorButtonsComponent(
                         text = it
                     },
                     fontUi = fontUi,
-                    actionOnDismiss = { onAction(MemeCreatorAction.StopEditing) },
+                    actionOnDismiss = { onAction(MemeCreatorAction.CancelAddText) },
                     actionOnConfirm = {
                         onAction(MemeCreatorAction.CreateText(it))
                     }
