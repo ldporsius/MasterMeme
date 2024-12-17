@@ -54,7 +54,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.getDrawableResourceBytes
 import org.jetbrains.compose.resources.getSystemResourceEnvironment
 
-val drawableNames = listOf(
+val templateResources = listOf(
     Res.drawable._0_2reqtg ,
     Res.drawable ._0_3x8soh ,
     Res.drawable ._0_8c9dbh ,
@@ -105,6 +105,57 @@ val drawableNames = listOf(
     Res.drawable .__sad_pablo_escobar ,
 )
 
+val templateNames = listOf(
+    "_0_2reqtg",
+    "_0_3x8soh",
+    "_0_8c9dbh",
+    "_0__i_bet_hes_thinking_about_other_women",
+    "_1_49su9f",
+    "_1__third_world_skeptical_kid",
+    "_1_clown_applying_makeup",
+    "_1_is_this_a_pigeon",
+    "_2_1yz6z4",
+    "_2_2eb198",
+    "_2_3eqjd8",
+    "_2_7wxtd1",
+    "_3_2byuiy",
+    "_3__43iacv",
+    "_3_jack_sparrow_being_chased",
+    "_3_waiting_skeleton",
+    "_4_1jgrgn",
+    "_4_leonardo_dicaprio_cheers",
+    "_4_running_away_balloon",
+    "_4_scared",
+    "_5_1op9wy",
+    "_5_24zoa8",
+    "_5_58eyvu",
+    "_5_i_was_told_there_would_be",
+    "_6_2t8r9a",
+    "_6_3f0mvv",
+    "_6_21ajtl",
+    "_6_boardroom_meeting_suggestion",
+    "_7_2w2e5e",
+    "_7_3igo27",
+    "_7_34vt4i",
+    "_8_14p2is",
+    "_8_59c1hh",
+    "_8_64sz4u",
+    "_8_two_buttons",
+    "_9_2bbctk",
+    "_9_2qx7sw",
+    "_9_6rcrc1",
+    "_9_6u6ylb",
+    "___1__grus_plan",
+    "___change_my_mind_",
+    "___hide_the_pain_harold",
+    "___the_rock_driving",
+    "___two_buttons",
+    "__disaster_girl",
+    "__epic_handshake",
+    "__left_exit_12_off_ramp",
+    "__sad_pablo_escobar",
+)
+
 @OptIn(ExperimentalResourceApi::class)
 suspend fun templateToBytes(
     drawableResource: DrawableResource
@@ -114,13 +165,15 @@ suspend fun templateToBytes(
         resource = drawableResource,
     )
 }
-val templates: List<MemeTemplate> = drawableNames.map {
+val templates: List<MemeTemplate> = templateResources.mapIndexed { index, resource ->
     MemeTemplate(
-        id = it.toString(),
-        drawableResource = it
+        id = resource.toString(),
+        drawableResource = resource,
+        name = templateNames[index]
     )
 }
 val emptyMemeTemplate = MemeTemplate(
     id = Res.drawable.vector_18.toString(),
-    drawableResource = Res.drawable.vector_18
+    drawableResource = Res.drawable.vector_18,
+    name = "vector_18"
 )

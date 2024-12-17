@@ -14,7 +14,8 @@ data class MemeListViewState(
     val error: UiText? = null,
     val showMemePicker: Boolean = false,
     val interaction: MemeListInteraction = MemeListInteraction.SORTING,
-    val selectedSortOption: MemeSortOption = MemeSortOption.FavoritesFirst
+    val selectedSortOption: MemeSortOption = MemeSortOption.FavoritesFirst,
+    val searchQuery: String = ""
 ){
     val sortOptions = MemeSortOption.entries.toList()
 
@@ -29,5 +30,8 @@ data class MemeListViewState(
             memes.filter { it.isFavorite }.sortedByDescending { it.dateCreated }
                 .plus(memes.filterNot { it.isFavorite }.sortedByDescending { it.dateCreated })
         }
+    }
+    val searchResult = templates.filter {
+        it.name.contains(searchQuery, ignoreCase = true)
     }
 }

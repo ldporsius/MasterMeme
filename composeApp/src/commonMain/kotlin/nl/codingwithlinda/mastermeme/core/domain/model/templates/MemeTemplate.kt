@@ -5,4 +5,5 @@ import org.jetbrains.compose.resources.DrawableResource
 data class MemeTemplate(
     val id: String,
     val drawableResource: DrawableResource,
+    val name: String
     )

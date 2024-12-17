@@ -13,7 +13,8 @@ suspend fun MemeTemplates.toUi(): List<MemeTemplateUi> {
        val bm = templateToBytes(it.drawableResource).decodeToImageBitmap()
        MemeTemplateUi(
            id = it.id,
-           image = MemeImageUi.bitmapImage(bm)
+           image = MemeImageUi.bitmapImage(bm),
+           name = it.name
        )
     }
 }

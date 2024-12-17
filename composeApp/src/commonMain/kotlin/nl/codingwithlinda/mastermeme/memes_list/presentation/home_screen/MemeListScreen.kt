@@ -128,23 +128,16 @@ fun MemeListScreen(
     ) {
 
             MemeTemplatePicker(
-                templates = state.templates,
+                viewState = state,
                 onTemplateSelected = {
                     onAction(MemeListAction.CreateNewMeme(it))
+                },
+                onSearch = {
+                    onAction(MemeListAction.SearchTemplates(it))
                 },
                 onDismiss = {
                     onAction(MemeListAction.HideMemePicker)
                 }
             )
-            /* ModalBottomSheet(
-            onDismissRequest = {
-                //onAction(MemeListAction.HideMemePicker)
-            },
-            sheetState = bottomSheetState,
-
-        ){
-
-        }*/
-
     }
 }

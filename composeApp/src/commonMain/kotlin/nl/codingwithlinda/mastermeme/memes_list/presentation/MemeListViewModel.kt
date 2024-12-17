@@ -19,6 +19,7 @@ import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.templates
 import nl.codingwithlinda.mastermeme.core.presentation.dto.toUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
@@ -116,6 +117,13 @@ class MemeListViewModel(
                 _state.update {
                     it.copy(
                         selectedSortOption = action.sortOption
+                    )
+                }
+            }
+            is MemeListAction.SearchTemplates -> {
+                _state.update {
+                    it.copy(
+                       searchQuery = action.query
                     )
                 }
             }

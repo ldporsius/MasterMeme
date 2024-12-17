@@ -9,6 +9,5 @@ sealed interface MemeListAction {
     data class MemeClicked(val id: String): MemeListAction
     data class MemeLongPressed(val id: String): MemeListAction
     data class SortMemes(val sortOption: MemeSortOption): MemeListAction
-
-
+    data class SearchTemplates(val query: String): MemeListAction
 }

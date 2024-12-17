@@ -7,5 +7,6 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 
 val emptyTemplate = MemeTemplateUi(
     id = "",
-    image = MemeImageUi.vectorImage(Res.drawable.vector_18)
+    image = MemeImageUi.vectorImage(Res.drawable.vector_18),
+    name = "vector_18"
 )
