@@ -23,7 +23,11 @@ fun MemeTemplatePicker(
         contentPadding = PaddingValues(16.dp)
     ){
 
-        items(templates){template ->
+        items(templates,
+            key = {
+                it.id
+            }
+        ){template ->
             MemeTemplateItem(
                 modifier = Modifier.size(176.dp),
                 memeImageUi = template.image,

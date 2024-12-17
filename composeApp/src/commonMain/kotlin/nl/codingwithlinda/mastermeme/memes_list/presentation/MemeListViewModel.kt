@@ -2,6 +2,8 @@ package nl.codingwithlinda.mastermeme.memes_list.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -12,6 +14,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
@@ -57,10 +60,18 @@ class MemeListViewModel(
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state.asStateFlow()
         .onStart {
-            _state.update {
-                it.copy(
-                    memes = savedMemesToUi.first(),
-                    templates = memeTemplates.toUi())
+            CoroutineScope(Dispatchers.Default).launch {
+                val templates = memeTemplates.toUi()
+                val memes = savedMemesToUi.first()
+                withContext(viewModelScope.coroutineContext) {
+                    _state.update {
+                        it.copy(
+                            memes = memes,
+                            templates = templates,
+                            isLoading = false
+                        )
+                    }
+                }
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), _state.value)
 

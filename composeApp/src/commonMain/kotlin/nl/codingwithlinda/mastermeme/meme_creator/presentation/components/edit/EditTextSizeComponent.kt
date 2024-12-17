@@ -45,7 +45,7 @@ fun EditTextSizeComponent(
     }
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
     ) {
@@ -60,7 +60,7 @@ fun EditTextSizeComponent(
                 sliderValue = it
             },
             steps = 0,
-            valueRange = 14f..100f,
+            valueRange = 4f..200f,
             onValueChangeFinished = {
                 onAction(MemeCreatorAction.AdjustTextSize(memeText.id, sliderValue))
             },

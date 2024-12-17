@@ -26,7 +26,7 @@ fun MemeTemplateItem(
 
     ){
         Box(modifier = Modifier.fillMaxSize()){
-            memeImageUi.DrawImage()
+            memeImageUi.DrawThumbnail()
         }
     }
 }
