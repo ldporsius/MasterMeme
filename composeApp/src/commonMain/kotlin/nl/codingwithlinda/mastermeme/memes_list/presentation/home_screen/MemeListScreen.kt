@@ -22,6 +22,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyListComponent
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.SortMemesTopBar
@@ -36,7 +37,6 @@ fun MemeListScreen(
     onAction: (MemeListAction) -> Unit,
 
 ) {
-    val scaffoldState = rememberBottomSheetScaffoldState()
 
     Scaffold(
         modifier = Modifier.fillMaxSize().safeContentPadding(),
@@ -120,7 +120,8 @@ fun MemeListScreen(
             onDismissRequest = {
                 onAction(MemeListAction.HideMemePicker)
             },
-            sheetState = bottomSheetState
+            sheetState = bottomSheetState,
+            sheetMaxWidth = Dp.Infinity
         ){
             MemeTemplatePicker(
                 viewState = state,

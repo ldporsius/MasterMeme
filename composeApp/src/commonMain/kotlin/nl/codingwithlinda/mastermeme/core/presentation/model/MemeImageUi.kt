@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.BitmapPainter
@@ -89,13 +90,14 @@ sealed interface MemeImageUi{
                 Box(modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(1f)
-                    .background(color = white)
+                    .background(color = white),
+                    contentAlignment = Alignment.Center
                 ){
                     Image(
                         bitmap = image,
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.FillBounds
+                        contentScale = ContentScale.Fit
                     )
                 }
             }
