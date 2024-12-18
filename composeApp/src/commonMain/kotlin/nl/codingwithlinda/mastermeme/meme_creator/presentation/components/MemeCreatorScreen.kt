@@ -68,7 +68,9 @@ fun MemeCreatorScreen(
         }
 
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+
         ) {
 
             Box(

@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,15 +25,15 @@ fun MemeTextsBox(
     onAction: (MemeCreatorAction) -> Unit,
     modifier: Modifier = Modifier) {
 
-    val h = memeTemplate.height().toFloat()
-    val w = memeTemplate.width().toFloat()
-    println("MEME TEXTS BOX. H: $h , W: $w")
-    println("MEME TEXTS BOX. aspect ratio: ${w / h}")
+    //val h = memeTemplate.height().toFloat()
+    //val w = memeTemplate.width().toFloat()
+    //println("MEME TEXTS BOX. H: $h , W: $w")
+   // println("MEME TEXTS BOX. aspect ratio: ${w / h}")
 
     var size by remember {
         mutableStateOf( Size.Zero )
     }
-    BoxWithConstraints(
+    Box(
         modifier = modifier
             .onSizeChanged {
                 size = Size(it.width.toFloat(), it.height.toFloat())

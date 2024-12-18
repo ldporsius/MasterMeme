@@ -72,6 +72,7 @@ fun MemeTextComponent(
         text.fontResource.font
     )
     val _fontSize = TextUnit(text.fontSize, TextUnitType.Sp)
+
     val iconButtonSize = 24.dp
 
     val textStyle = TextStyle(
