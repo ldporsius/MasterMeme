@@ -35,6 +35,7 @@ class MemeListViewModel(
     memeTemplates: MemeTemplates,
     private val memeListRepository: MemeListRepository,
     private val internalStorageInteractor: InternalStorageInteractor,
+    private val navToMemeCreator: (memeId: String) -> Unit,
     private val navToMemeSelect: (memeId: String, sortOption: MemeSortOption) -> Unit
 ): ViewModel() {
 
@@ -79,20 +80,27 @@ class MemeListViewModel(
     fun handleAction(action: MemeListAction) {
         when (action) {
             is MemeListAction.CreateNewMeme -> {
-                _state.value = _state.value.copy(
-                    showMemePicker = false
-                )
+                _state.update {
+                    it.copy(
+                        showMemePicker = false
+                    )
+                }
+                navToMemeCreator(action.id)
             }
 
             MemeListAction.HideMemePicker -> {
-                _state.value = _state.value.copy(
-                    showMemePicker = false
-                )
+                _state.update {
+                    it.copy(
+                        showMemePicker = false
+                    )
+                }
             }
             MemeListAction.ShowMemePicker -> {
-                _state.value = _state.value.copy(
-                    showMemePicker = true
-                )
+                _state.update {
+                    it.copy(
+                        showMemePicker = true
+                    )
+                }
             }
             is MemeListAction.MemeClicked -> {
                 viewModelScope.launch {

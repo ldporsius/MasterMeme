@@ -33,6 +33,7 @@ fun MemesListRoot(
                 memeTemplates = templates,
                 memeListRepository = repo,
                 internalStorageInteractor = internalStorageInteractor,
+                navToMemeCreator = navToMemeCreator,
                 navToMemeSelect = navToMemeSelector
             )
         }
@@ -43,12 +44,6 @@ fun MemesListRoot(
     )
     MemeListScreen(
         state = memeListViewModel.state.collectAsStateWithLifecycle().value,
-        onAction = {
-            if(it is MemeListAction.CreateNewMeme){
-                navToMemeCreator(it.id)
-            }else{
-                memeListViewModel.handleAction(it)
-            }
-        }
+        onAction = memeListViewModel::handleAction
     )
 }
