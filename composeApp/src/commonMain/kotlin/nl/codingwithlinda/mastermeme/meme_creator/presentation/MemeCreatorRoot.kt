@@ -18,7 +18,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
@@ -47,6 +46,9 @@ fun MemeCreatorRoot(
     var showConfirmExit by remember {
         mutableStateOf(false)
     }
+    var shouldShowConfirmExit by remember {
+        mutableStateOf(false)
+    }
 
     val viewModel = MemeCreatorViewModel(
         savedStateHandle = SavedStateHandle().apply {
@@ -57,17 +59,20 @@ fun MemeCreatorRoot(
         fontPicker = fontPicker,
         storageInteractor = storageInteractor,
         memeFactory = memeFactory,
-        canNavigateBack = {
-            onBack()
+        shouldShowConfirmExit = {
+            shouldShowConfirmExit = it
+            println("MEME CREATOR ROOT. shouldShowConfirmExit: $shouldShowConfirmExit")
         }
         )
 
-    val shouldShowConfirmExit = viewModel.hasUnsavedChanges.collectAsStateWithLifecycle()
 
     BackHandler(
-        enabled = shouldShowConfirmExit.value,
+        enabled = true,
         onBackPressed = {
+            if (shouldShowConfirmExit)
             showConfirmExit = true
+            else
+                onBack()
         }
     )
 
@@ -82,7 +87,7 @@ fun MemeCreatorRoot(
                 navigationIcon = {
                     IconButton(
                         onClick = {
-                            if (shouldShowConfirmExit.value)
+                            if (shouldShowConfirmExit)
                                 showConfirmExit = true
                             else
                                 onBack()

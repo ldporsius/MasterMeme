@@ -6,22 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
-import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
-import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.emptyMemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
-import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.templates.emptyTemplate
@@ -32,7 +27,6 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreator
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.changeState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
-import nl.codingwithlinda.mastermeme.ui.theme.black
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 
@@ -44,7 +38,7 @@ class MemeCreatorViewModel(
     private val fontPicker: FontPicker,
     private val storageInteractor: StorageInteractor<Meme>,
     private val memeFactory: MemeFactory,
-    private val canNavigateBack: (Boolean) -> Unit
+    private val shouldShowConfirmExit: (Boolean) -> Unit
 ) : ViewModel() {
 
     private val mementoCareTakers:MutableMap<Int, MementoCareTaker<MemeUiText>> = mutableMapOf()
@@ -62,8 +56,8 @@ class MemeCreatorViewModel(
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
 
-    private val _hasUnsavedChanges = MutableStateFlow(true)
-    val hasUnsavedChanges = _hasUnsavedChanges.asStateFlow()
+    //private val _hasUnsavedChanges = MutableStateFlow(true)
+    //val hasUnsavedChanges = _hasUnsavedChanges.asStateFlow()
 
     private var parentSize: Size = Size.Zero
 
@@ -105,6 +99,7 @@ class MemeCreatorViewModel(
                         isAddingText = false
                     )
                 }
+                shouldShowConfirmExit(true)
             }
 
             is MemeCreatorAction.AddText -> {
@@ -268,7 +263,7 @@ class MemeCreatorViewModel(
                             isSaving = false
                         )
                     }
-                   canNavigateBack(true)
+                   shouldShowConfirmExit(false)
                 }
             }
             is MemeCreatorAction.ShareMeme -> {
