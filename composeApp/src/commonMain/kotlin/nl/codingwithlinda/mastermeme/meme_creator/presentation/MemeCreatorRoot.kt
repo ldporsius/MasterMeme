@@ -2,6 +2,8 @@ package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -115,7 +117,11 @@ fun MemeCreatorRoot(
         MemeCreatorScreen(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .systemBarsPadding()
+                .safeContentPadding()
+
+            ,
             state = viewModel.state.collectAsStateWithLifecycle().value,
             colors = colorPicker.colors,
             shareAppPicker = shareAppPicker,

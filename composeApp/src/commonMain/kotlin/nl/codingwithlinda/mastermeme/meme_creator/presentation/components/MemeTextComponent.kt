@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -71,7 +72,18 @@ fun MemeTextComponent(
     val fontFamily = FontFamily(
         text.fontResource.font
     )
-    val _fontSize = TextUnit(text.fontSize, TextUnitType.Sp)
+
+    val fontSizeSp = TextUnit(text.fontSize, TextUnitType.Sp)
+
+    val ratio =  fontSizeSp.value / parentSize.height
+    val scaledFontSize = fontSizeSp.value - (fontSizeSp.value * ratio)
+    val _fontSize = ratio.sp * 1000
+
+    println("MEME TEXT COMPONENT. fontSizeSp: $fontSizeSp")
+    println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}")
+    println("MEME TEXT COMPONENT. ratio: $ratio")
+    println("MEME TEXT COMPONENT. scaledFontSize: $scaledFontSize")
+    println("MEME TEXT COMPONENT. fontSize: $_fontSize")
 
     val iconButtonSize = 24.dp
 
@@ -88,7 +100,7 @@ fun MemeTextComponent(
 
 
     )
-    val textLayoutResult = remember(text) {
+    val textLayoutResult = remember(text, ratio) {
         textMeasurer.measure(
             text = text.text,
             style = textStyle,
@@ -100,15 +112,30 @@ fun MemeTextComponent(
         )
     }
 
+
+
     val textWidth = textLayoutResult.size.width
     val textHeight = textLayoutResult.size.height
 
     val offsetX = remember() {
-        mutableStateOf(text.offsetX)
+        mutableStateOf(text.offsetX )
     }
     val offsetY = remember() {
-        mutableStateOf(text.offsetY)
+        mutableStateOf(text.offsetY * ratio)
     }
+   /* LaunchedEffect(ratio){
+        println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}")
+        println("MEME TEXT COMPONENT. ratio: $ratio")
+        onAction(
+            MemeCreatorAction.PositionText(
+                id = text.id,
+                parentWidth = parentSize.width,
+                parentHeight = parentSize.height,
+                offsetX = offsetX.value,
+                offsetY = offsetY.value
+            )
+        )
+    }*/
 
     val pointerInputModifier = Modifier
         .pointerInput(textLayoutResult) {
@@ -154,10 +181,12 @@ fun MemeTextComponent(
             }
         }
 
-    val pointerOffset = IntOffset(
-        offsetX.value.roundToInt(),
-        (offsetY.value).roundToInt()
-    )
+    val pointerOffset =
+        IntOffset(
+            offsetX.value.roundToInt(),
+            (offsetY.value).roundToInt()
+        )
+
 
     val border: Modifier = remember(text.memeTextState) {
         if (text.memeTextState == MemeTextState.Selected)
@@ -170,7 +199,6 @@ fun MemeTextComponent(
 
     Text(
         modifier = Modifier
-            //.wrapContentSize()
             .offset { pointerOffset }
             .then(border)
             .then(pointerInputModifier),
@@ -178,7 +206,7 @@ fun MemeTextComponent(
         style = textStyle,
         onTextLayout = {
             println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
-            //textLayoutResult = it
+            println("MEME TEXT COMPONENT. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
         }
     )
 

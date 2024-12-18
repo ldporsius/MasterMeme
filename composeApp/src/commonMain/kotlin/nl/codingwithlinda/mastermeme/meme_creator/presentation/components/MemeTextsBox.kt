@@ -25,11 +25,6 @@ fun MemeTextsBox(
     onAction: (MemeCreatorAction) -> Unit,
     modifier: Modifier = Modifier) {
 
-    //val h = memeTemplate.height().toFloat()
-    //val w = memeTemplate.width().toFloat()
-    //println("MEME TEXTS BOX. H: $h , W: $w")
-   // println("MEME TEXTS BOX. aspect ratio: ${w / h}")
-
     var size by remember {
         mutableStateOf( Size.Zero )
     }
