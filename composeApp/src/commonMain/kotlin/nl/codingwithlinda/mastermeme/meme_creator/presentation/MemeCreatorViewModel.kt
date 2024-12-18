@@ -55,12 +55,6 @@ class MemeCreatorViewModel(
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), _state.value)
 
-
-    //private val _hasUnsavedChanges = MutableStateFlow(true)
-    //val hasUnsavedChanges = _hasUnsavedChanges.asStateFlow()
-
-    private var parentSize: Size = Size.Zero
-
     private var _template: MemeTemplate? = null
     init {
         viewModelScope.launch {
@@ -117,9 +111,6 @@ class MemeCreatorViewModel(
                 }
             }
 
-            is MemeCreatorAction.SaveParentSize -> {
-                parentSize = Size(action.width, action.height)
-            }
             is MemeCreatorAction.PositionText -> {
                 positionText(action)
             }
@@ -316,6 +307,7 @@ class MemeCreatorViewModel(
     }
 
     private fun positionText(action: MemeCreatorAction.PositionText){
+
         val updateMemeText = getMemeText(action.id).copy(
             offsetX = action.offsetX,
             offsetY = action.offsetY,

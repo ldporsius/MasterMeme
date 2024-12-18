@@ -1,47 +1,27 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Canvas
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.NativeCanvas
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.PlatformSpanStyle
-import androidx.compose.ui.text.PlatformTextStyle
-import androidx.compose.ui.text.TextPainter
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.text.style.BaselineShift
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
@@ -49,15 +29,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.schemes_error
 import nl.codingwithlinda.mastermeme.ui.theme.white
-import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 @Composable
@@ -67,22 +46,26 @@ fun MemeTextComponent(
     parentSize: Size,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
+
     val textMeasurer = rememberTextMeasurer()
 
     val fontFamily = FontFamily(
         text.fontResource.font
     )
 
+    val ratioReference = 1000f
+
     val fontSizeSp = TextUnit(text.fontSize, TextUnitType.Sp)
 
-    val ratio =  fontSizeSp.value / parentSize.height
-    val scaledFontSize = fontSizeSp.value - (fontSizeSp.value * ratio)
-    val _fontSize = ratio.sp * 1000
+    val ratioFont = ratioReference / fontSizeSp.value
+    val ratioHeight = ratioReference / parentSize.height
+    val scaledFontSize = fontSizeSp.value //* (ratioFont + ratioHeight)
+    val _fontSize = scaledFontSize.sp
 
     println("MEME TEXT COMPONENT. fontSizeSp: $fontSizeSp")
     println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}")
-    println("MEME TEXT COMPONENT. ratio: $ratio")
-    println("MEME TEXT COMPONENT. scaledFontSize: $scaledFontSize")
+    println("MEME TEXT COMPONENT. ratioFont: $ratioFont")
+    println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
     println("MEME TEXT COMPONENT. fontSize: $_fontSize")
 
     val iconButtonSize = 24.dp
@@ -97,10 +80,9 @@ fun MemeTextComponent(
             alignment = LineHeightStyle.Alignment.Center,
             trim = LineHeightStyle.Trim.Both,
         ),
-
-
     )
-    val textLayoutResult = remember(text, ratio) {
+
+    val textLayoutResult = remember(text) {
         textMeasurer.measure(
             text = text.text,
             style = textStyle,
@@ -112,8 +94,6 @@ fun MemeTextComponent(
         )
     }
 
-
-
     val textWidth = textLayoutResult.size.width
     val textHeight = textLayoutResult.size.height
 
@@ -121,21 +101,8 @@ fun MemeTextComponent(
         mutableStateOf(text.offsetX )
     }
     val offsetY = remember() {
-        mutableStateOf(text.offsetY * ratio)
+        mutableStateOf(text.offsetY)
     }
-   /* LaunchedEffect(ratio){
-        println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}")
-        println("MEME TEXT COMPONENT. ratio: $ratio")
-        onAction(
-            MemeCreatorAction.PositionText(
-                id = text.id,
-                parentWidth = parentSize.width,
-                parentHeight = parentSize.height,
-                offsetX = offsetX.value,
-                offsetY = offsetY.value
-            )
-        )
-    }*/
 
     val pointerInputModifier = Modifier
         .pointerInput(textLayoutResult) {
@@ -160,8 +127,6 @@ fun MemeTextComponent(
                     onAction(
                         MemeCreatorAction.PositionText(
                             id = text.id,
-                            parentWidth = parentSize.width,
-                            parentHeight = parentSize.height,
                             offsetX = offsetX.value,
                             offsetY = offsetY.value
                         )

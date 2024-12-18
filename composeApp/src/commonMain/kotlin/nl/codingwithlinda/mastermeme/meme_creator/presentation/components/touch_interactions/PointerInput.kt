@@ -80,8 +80,6 @@ fun PointerInput(
                     onAction(
                         MemeCreatorAction.PositionText(
                             id = text.id,
-                            parentWidth = parentSize.width,
-                            parentHeight = parentSize.height,
                             offsetX = offsetX.value,
                             offsetY = offsetY.value
                         )

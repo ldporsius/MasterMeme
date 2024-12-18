@@ -63,10 +63,6 @@ fun MemeCreatorScreen(
 
     Surface (modifier = modifier){
 
-        var size by remember {
-            mutableStateOf(Size.Zero)
-        }
-
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -77,10 +73,6 @@ fun MemeCreatorScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .weight(1f)
-                    .onSizeChanged {
-                        size = Size(it.width.toFloat(), it.height.toFloat())
-                        onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))
-                    }
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = {
