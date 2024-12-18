@@ -37,7 +37,7 @@ fun MemeTextsBox(
             .onSizeChanged {
                 size = Size(it.width.toFloat(), it.height.toFloat())
             }
-            .aspectRatio(w / h)
+
     ) {
 
         memeTemplate.DrawImage()

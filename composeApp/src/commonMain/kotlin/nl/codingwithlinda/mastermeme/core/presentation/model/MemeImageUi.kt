@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,6 +28,13 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
 
+
+val bitMapImageModifier: Modifier
+    get() = Modifier
+        .fillMaxHeight()
+        .aspectRatio(1f, false)
+        .background(color = white)
+
 sealed interface MemeImageUi{
     data class vectorImage(val image: DrawableResource): MemeImageUi {
         override fun width() = Int.MAX_VALUE
@@ -44,6 +52,7 @@ sealed interface MemeImageUi{
 
     fun width(): Int
     fun height(): Int
+
 
     @Composable
     fun DrawImage() {
@@ -64,10 +73,10 @@ sealed interface MemeImageUi{
                 val h = image.height.dp
                 val w = image.width.dp
 
-                Box(modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(w / h)
-                    .heightIn(h, h)
+                Box(modifier = bitMapImageModifier
+                    ,
+                    contentAlignment = Alignment.Center
+
                 ){
                     Image(
                         bitmap = image,

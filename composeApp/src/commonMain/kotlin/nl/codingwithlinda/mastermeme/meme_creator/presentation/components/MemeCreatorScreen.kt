@@ -5,6 +5,7 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -30,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.download
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.bitMapImageModifier
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
@@ -67,10 +70,11 @@ fun MemeCreatorScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            Spacer(modifier = Modifier.weight(1f))
+
             Box(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .fillMaxHeight()
+                    .weight(1f)
                     .onSizeChanged {
                         size = Size(it.width.toFloat(), it.height.toFloat())
                         onAction(MemeCreatorAction.SaveParentSize(it.width.toFloat(), it.height.toFloat()))
@@ -87,6 +91,7 @@ fun MemeCreatorScreen(
 
                 if (state.isSaving){
                     PictureDrawerImpl(
+                        modifier = bitMapImageModifier,
                         memeImageUi = state.memeImageUi,
                         memeTexts = state.memeTexts.values.toList(),
                         onSave = {
@@ -99,51 +104,61 @@ fun MemeCreatorScreen(
                         memeTemplate = state.memeImageUi,
                         memeTexts = state.memeTexts.values.toList(),
                         onAction = onAction,
-                        modifier = Modifier
-                            .fillMaxWidth()
+                        modifier = bitMapImageModifier
                     )
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier) {
+                when (state.shouldShowEditTextOption) {
+                    true -> {
+                        EditMemeBottomBar(
+                            modifier = Modifier.fillMaxWidth(),
+                            changeTextStyleComponent = {
+                                EditTextFontComponent(
+                                    fonts = fonts,
+                                    onFontSelected = {
+                                        onAction(
+                                            MemeCreatorAction.EditMemeTextFont(
+                                                state.selectedMemeText!!.id,
+                                                it
+                                            )
+                                        )
+                                    }
+                                )
+                            },
+                            changeTextSizeComponent = {
+                                EditTextSizeComponent(
+                                    memeText = state.selectedMemeText!!,
+                                    onAction = onAction
+                                )
+                            },
+                            changeTextColorComponent = {
+                                EditTextColorComponent(
+                                    modifier = Modifier.padding(16.dp),
+                                    colors = colors,
+                                    onColorSelected = {
+                                        onAction(
+                                            MemeCreatorAction.EditMemeTextColor(
+                                                state.selectedMemeText!!.id,
+                                                it
+                                            )
+                                        )
+                                    }
+                                )
+                            },
+                            onAction = onAction
+                        )
+                    }
 
-            when(state.shouldShowEditTextOption){
-                true -> {
-                    EditMemeBottomBar(
-                        modifier = Modifier.fillMaxWidth(),
-                        changeTextStyleComponent = {
-                            EditTextFontComponent(
-                                fonts = fonts,
-                                onFontSelected = {
-                                    onAction(MemeCreatorAction.EditMemeTextFont(state.selectedMemeText!!.id, it))
-                                }
-                            )
-                        },
-                        changeTextSizeComponent = {
-                            EditTextSizeComponent(
-                                memeText = state.selectedMemeText!!,
-                                onAction = onAction
-                            )
-                        },
-                        changeTextColorComponent = {
-                            EditTextColorComponent(
-                                modifier = Modifier.padding(16.dp),
-                                colors = colors,
-                                onColorSelected = {
-                                    onAction(MemeCreatorAction.EditMemeTextColor(state.selectedMemeText!!.id, it))
-                                }
-                            )
-                        },
-                        onAction = onAction
-                    )
-                }
-                false -> {
-                    CreatorButtonsComponent(
-                        modifier = Modifier.fillMaxWidth(),
-                        fontUi = fonts[0],
-                        isAdding = state.isAddingText,
-                        onAction = onAction
-                    )
+                    false -> {
+                        CreatorButtonsComponent(
+                            modifier = Modifier.fillMaxWidth(),
+                            fontUi = fonts[0],
+                            isAdding = state.isAddingText,
+                            onAction = onAction
+                        )
+                    }
                 }
             }
         }

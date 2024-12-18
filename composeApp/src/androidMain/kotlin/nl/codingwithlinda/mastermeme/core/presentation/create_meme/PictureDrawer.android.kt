@@ -14,14 +14,14 @@ import nl.codingwithlinda.mastermeme.core.data.toByteArray
 
 @Composable
 actual fun PictureDrawer(
+    modifier: Modifier,
     content: @Composable () -> Unit,
     onSave: (ByteArray) -> Unit,
 ) {
 
     val picture = remember { Picture()}
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .drawWithCache {
                 // Example that shows how to redirect rendering to an Android Picture and then
                 // draw the picture into the original destination
