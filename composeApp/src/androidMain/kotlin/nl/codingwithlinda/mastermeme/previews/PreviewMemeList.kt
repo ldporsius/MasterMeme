@@ -48,6 +48,9 @@ fun MemesListPreview() {
                 fakeMemeUi(),
                fakeMemeUi()
             ),
+            isSelecting = false,
+            isSelected = {false},
+            toggleMemeSelection = {},
             onMemeClick = {},
             onMemeLongPress = {}
 

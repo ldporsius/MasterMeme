@@ -41,9 +41,7 @@ fun App(
                         navToMemeCreator = {
                             navController.navigate(Route.MemeCreator(it))
                         },
-                        navToMemeSelector = {id, sortOption ->
-                            navController.navigate(Route.MemeSelect(id, sortOption))
-                        }
+                       shareAppPicker = shareAppPicker
                     )
                 }
                 composable<Route.MemeCreator>(){entry ->

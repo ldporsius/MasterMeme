@@ -28,12 +28,15 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.components.EmptyLis
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.SortMemesTopBar
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListViewState
+import nl.codingwithlinda.mastermeme.memes_list.presentation.templates.MemePickerBottomSheet
 import nl.codingwithlinda.mastermeme.memes_list.presentation.templates.MemeTemplatePicker
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemeListScreen(
     state: MemeListViewState,
+    isSelecting: Boolean,
+    isSelected: (memeId: String) -> Boolean,
+    toggleMemeSelection: (memeId: String) -> Unit,
     onAction: (MemeListAction) -> Unit,
 
 ) {
@@ -41,7 +44,7 @@ fun MemeListScreen(
     Scaffold(
         modifier = Modifier.fillMaxSize().safeContentPadding(),
 
-       /* floatingActionButton = {
+       floatingActionButton = {
             FloatingActionButton(onClick = {
                 onAction(MemeListAction.ShowMemePicker)
             }){
@@ -49,7 +52,6 @@ fun MemeListScreen(
             }
         },
         floatingActionButtonPosition = androidx.compose.material3.FabPosition.End,
-*/
         ) { paddingValues ->
 
         Box(modifier = Modifier.fillMaxSize()) {
@@ -58,14 +60,6 @@ fun MemeListScreen(
                     .fillMaxSize()
                     .padding(paddingValues)
             ) {
-                SortMemesTopBar(
-                    sortOptions = state.sortOptions,
-                    selectedSortOption = state.selectedSortOption,
-                    selectSortOption = {
-                        onAction(MemeListAction.SortMemes(it))
-                    }
-
-                )
 
                 if (state.isLoading) {
                     Box(
@@ -90,6 +84,9 @@ fun MemeListScreen(
                 }
                 MemeListAdaptiveLayout(
                     memes = state.sortedMemes,
+                    isSelecting = isSelecting,
+                    isSelected = isSelected,
+                    toggleMemeSelection = toggleMemeSelection,
                     onMemeClick = {
                         onAction(MemeListAction.MemeClicked(it))
                     },
@@ -98,65 +95,14 @@ fun MemeListScreen(
                     }
                 )
             }
-
-            FloatingActionButton(
-                onClick = {
-                    onAction(MemeListAction.ShowMemePicker)
-                },
-                modifier = Modifier.padding(16.dp).align(androidx.compose.ui.Alignment.BottomEnd)
-
-            ){
-                Icon(imageVector = Icons.Default.Add, contentDescription = null)
-            }
         }
-
     }
-
-    val skipPartiallyExpanded = false
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = skipPartiallyExpanded)
 
     if (state.showMemePicker) {
-        ModalBottomSheet(
-            onDismissRequest = {
-                onAction(MemeListAction.HideMemePicker)
-            },
-            sheetState = bottomSheetState,
-            sheetMaxWidth = Dp.Infinity
-        ){
-            MemeTemplatePicker(
-                viewState = state,
-                onTemplateSelected = {
-                    onAction(MemeListAction.CreateNewMeme(it))
-                },
-                onSearch = {
-                    onAction(MemeListAction.SearchTemplates(it))
-                },
-                onDismiss = {
-                    onAction(MemeListAction.HideMemePicker)
-                }
-            )
-        }
+        MemePickerBottomSheet(
+            state = state,
+            onAction = onAction
+        )
     }
-    AnimatedVisibility(
-        visible = false,
-        enter = slideInVertically(initialOffsetY = { it }),
-        exit = slideOutVertically (
-            animationSpec = tween(durationMillis = 1000),
-            targetOffsetY = { it })
 
-    ) {
-
-            MemeTemplatePicker(
-                viewState = state,
-                onTemplateSelected = {
-                    onAction(MemeListAction.CreateNewMeme(it))
-                },
-                onSearch = {
-                    onAction(MemeListAction.SearchTemplates(it))
-                },
-                onDismiss = {
-                    onAction(MemeListAction.HideMemePicker)
-                }
-            )
-    }
 }

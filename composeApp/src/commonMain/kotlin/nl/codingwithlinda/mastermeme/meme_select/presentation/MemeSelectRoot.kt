@@ -45,9 +45,6 @@ fun MemeSelectRoot(
             shareAppPicker = shareAppPicker,
             onAction = viewModel::onAction,
             memeSelectEvent = viewModel.events,
-            onBackClick = {
-                onBackNav()
-            }
         )
     }
 

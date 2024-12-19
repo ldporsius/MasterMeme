@@ -13,6 +13,8 @@ import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeUi
 import nl.codingwithlinda.mastermeme.ui.theme.black
@@ -30,7 +32,19 @@ fun MemeSelectItem(
     ) {
         memeUi.image.DrawThumbnail()
 
-        Box(modifier = Modifier.padding(16.dp)) {
+        Box(modifier = Modifier
+            .matchParentSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        black.copy(alpha = .5f),
+                        Color.Transparent
+                    )
+                )
+            )
+            .padding(16.dp),
+            contentAlignment = androidx.compose.ui.Alignment.TopEnd
+        ) {
             if (isSelected) {
                 SelectedIcon(
                     onClick = {

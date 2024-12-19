@@ -59,13 +59,14 @@ class MemeListViewModel(
            }
         emit(memesUi)
     }
+
     private val _state = MutableStateFlow(MemeListViewState())
     val state = _state.asStateFlow()
         .onStart {
             CoroutineScope(Dispatchers.Default).launch {
                 val templates = memeTemplates.toUi()
                 val memes = savedMemesToUi.first()
-                withContext(viewModelScope.coroutineContext) {
+
                     _state.update {
                         it.copy(
                             memes = memes,
@@ -73,7 +74,7 @@ class MemeListViewModel(
                             isLoading = false
                         )
                     }
-                }
+
             }
         }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(), _state.value)
 

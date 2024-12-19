@@ -21,23 +21,8 @@ fun MemeSelectScreen(
     memeSelectEvent: Channel<MemeSelectEvent>,
     shareAppPicker: ShareAppPicker,
     onAction: (MemeSelectAction) -> Unit,
-    onBackClick: () -> Unit
 ) {
     shareAppPicker.registerPicker {  }
-    Column(){
-        MemeSelectTopBar(
-            numSelected = viewState.selectedMemesCount,
-            onAction = onAction,
-            onBackClick = onBackClick
-        )
-        MemeSelectAdaptiveLayout(
-            memes = viewState.sortedMemes,
-            viewState = viewState,
-            onMemeClick = {
-                onAction(MemeSelectAction.SelectMeme(it))
-            },
-        )
-    }
 
     var shouldShowDeleteDialog by remember {
         mutableStateOf(false)

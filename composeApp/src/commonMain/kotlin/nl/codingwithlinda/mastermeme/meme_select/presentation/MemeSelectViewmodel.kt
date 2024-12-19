@@ -36,7 +36,7 @@ class MemeSelectViewmodel(
 ): ViewModel() {
 
     private val savedMemes = storageInteractor.readAll()
-    private val _selectedMemes = MutableStateFlow<List<String>>(listOf(memeId))
+    private val _selectedMemes = MutableStateFlow<List<String>>(listOf())
 
     private val _events = Channel<MemeSelectEvent>()
     val events = _events
@@ -92,7 +92,6 @@ class MemeSelectViewmodel(
                 it.plus(memeId)
             }
         }
-
     }
 
     private fun shareMemes() {
@@ -108,15 +107,15 @@ class MemeSelectViewmodel(
     }
     private fun deleteMemes(){
         viewModelScope.launch {
+            val toDelete = _selectedMemes.value
+            println("DELETING MEMES: $toDelete")
             _state.update {
                 it.copy(
-                    memes = it.memes.filter { meme ->
-                        meme.id !in state.value.selectedMemes
-                    },
+                    memes = it.memes.filterNot { it.id in toDelete },
                     selectedMemes = emptyList()
                 )
             }
-            state.value.selectedMemes.onEach {
+            toDelete.onEach {
                 storageInteractor.delete(it)
             }
             _selectedMemes.update { emptyList() }
