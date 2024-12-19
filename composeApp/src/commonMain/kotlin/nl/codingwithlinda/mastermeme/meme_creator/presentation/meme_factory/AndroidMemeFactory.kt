@@ -42,7 +42,7 @@ class AndroidMemeFactory(
             id = 0,
             text = "",
             fontResource = fontPicker.fontResources[0],
-            fontSize = 57f,
+            fontSize = 5f,
             textColor = black,
             platformTextStyle = ourPlatformTextStyle,
             offsetX = 0f,

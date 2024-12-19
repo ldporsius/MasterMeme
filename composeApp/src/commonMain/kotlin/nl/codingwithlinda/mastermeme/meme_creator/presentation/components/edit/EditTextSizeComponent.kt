@@ -60,7 +60,7 @@ fun EditTextSizeComponent(
                 sliderValue = it
             },
             steps = 0,
-            valueRange = 4f..200f,
+            valueRange = 0.1f..10f,
             onValueChangeFinished = {
                 onAction(MemeCreatorAction.AdjustTextSize(memeText.id, sliderValue))
             },

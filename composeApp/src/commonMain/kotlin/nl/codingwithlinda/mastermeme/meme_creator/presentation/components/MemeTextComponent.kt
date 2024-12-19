@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -54,23 +55,23 @@ fun MemeTextComponent(
     )
 
     val ratioReference = 1000f
-
-    val fontSizeSp = TextUnit(text.fontSize, TextUnitType.Sp)
-
-    val ratioFont = ratioReference / fontSizeSp.value
     val ratioHeight = ratioReference / parentSize.height
-    val scaledFontSize = fontSizeSp.value //* (ratioFont + ratioHeight)
-    val _fontSize = scaledFontSize.sp
-
-    println("MEME TEXT COMPONENT. fontSizeSp: $fontSizeSp")
-    println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}")
-    println("MEME TEXT COMPONENT. ratioFont: $ratioFont")
+    val ratioWidth = ratioReference / parentSize.width
     println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
-    println("MEME TEXT COMPONENT. fontSize: $_fontSize")
+
+    val currentFontSize = LocalTextStyle.current.fontSize.value
+    val ratioFont = (currentFontSize / parentSize.maxDimension) * 100
+    val scaledFontSize = (currentFontSize / ratioFont) * text.fontSize
+    val _fontSize = TextUnit(scaledFontSize, TextUnitType.Sp)
+
+//    println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}, maxDimen: ${parentSize.maxDimension}")
+//    println("MEME TEXT COMPONENT. ratioFont: $ratioFont")
+//    println("MEME TEXT COMPONENT. fontSize: $_fontSize")
+//    println("MEME TEXT COMPONENT. currentFontSize: $currentFontSize")
 
     val iconButtonSize = 24.dp
 
-    val textStyle = TextStyle(
+    val textStyle = androidx.compose.material3.LocalTextStyle.current.merge(
         color = text.textColor,
         fontSize = _fontSize,
         fontFamily = fontFamily,
@@ -98,10 +99,10 @@ fun MemeTextComponent(
     val textHeight = textLayoutResult.size.height
 
     val offsetX = remember() {
-        mutableStateOf(text.offsetX )
+        mutableStateOf(text.offsetX / ratioWidth)
     }
     val offsetY = remember() {
-        mutableStateOf(text.offsetY)
+        mutableStateOf(text.offsetY / ratioHeight)
     }
 
     val pointerInputModifier = Modifier
@@ -120,9 +121,9 @@ fun MemeTextComponent(
                 onDragEnd = {
                     println("DRAG END. parentWidth: ${parentSize.width}, parentHeight: ${parentSize.height}")
                     println("DRAG END. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
-                    println("DRAG END. text width: $textWidth , text height: $textHeight")
-                    println("DRAG END. firstBaseline: ${textLayoutResult.firstBaseline}")
-                    println("DRAG END. lastBaseline: ${textLayoutResult.lastBaseline}")
+//                    println("DRAG END. text width: $textWidth , text height: $textHeight")
+//                    println("DRAG END. firstBaseline: ${textLayoutResult.firstBaseline}")
+//                    println("DRAG END. lastBaseline: ${textLayoutResult.lastBaseline}")
 
                     onAction(
                         MemeCreatorAction.PositionText(
@@ -132,7 +133,17 @@ fun MemeTextComponent(
                         )
                     )
                 },
-            ) { _, dragAmount ->
+                onDragCancel = {
+                    onAction(
+                        MemeCreatorAction.PositionText(
+                            id = text.id,
+                            offsetX = offsetX.value,
+                            offsetY = offsetY.value
+                        )
+                    )
+                }
+            ) { change, dragAmount ->
+                println(" ON DRAG . change: ${change.position}, dragAmount: $dragAmount")
                 val original = Offset(offsetX.value, offsetY.value)
                 val summed = original + dragAmount
                 val maxX = (parentSize.width - textWidth).coerceAtLeast(0f)
@@ -144,14 +155,15 @@ fun MemeTextComponent(
                 offsetX.value = newValue.x
                 offsetY.value = newValue.y
             }
+
+
         }
 
     val pointerOffset =
         IntOffset(
-            offsetX.value.roundToInt(),
-            (offsetY.value).roundToInt()
+            (offsetX.value / ratioWidth).roundToInt(),
+            (offsetY.value / ratioHeight).roundToInt()
         )
-
 
     val border: Modifier = remember(text.memeTextState) {
         if (text.memeTextState == MemeTextState.Selected)

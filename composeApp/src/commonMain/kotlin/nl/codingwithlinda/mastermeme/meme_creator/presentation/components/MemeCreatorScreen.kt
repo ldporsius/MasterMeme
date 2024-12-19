@@ -62,7 +62,6 @@ fun MemeCreatorScreen(
     }
 
     Surface (modifier = modifier){
-
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
