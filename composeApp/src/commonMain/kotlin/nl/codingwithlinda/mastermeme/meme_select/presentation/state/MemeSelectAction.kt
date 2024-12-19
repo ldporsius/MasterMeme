@@ -5,5 +5,7 @@ sealed interface MemeSelectAction {
     data object ShareMemes : MemeSelectAction
     data object WarningDeleteMemes : MemeSelectAction
     data object DeleteMemes : MemeSelectAction
+    data object ClearSelection : MemeSelectAction
+
 
 }

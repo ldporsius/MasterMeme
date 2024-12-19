@@ -65,14 +65,9 @@ fun App(
                     val memeId = entry.toRoute<Route.MemeSelect>().memeId
                     val sortOption = entry.toRoute<Route.MemeSelect>().sortOption
                     MemeSelectRoot(
-                        memeId = memeId,
-                        sortOption = sortOption,
-                        internalStorageInteractor = internalStorageInteractor,
                         storageInteractor = localCache.storageInteractor(),
                         shareAppPicker = shareAppPicker,
-                        onBackNav = {
-                            navController.navigateUp()
-                        }
+
                     )
                 }
             }

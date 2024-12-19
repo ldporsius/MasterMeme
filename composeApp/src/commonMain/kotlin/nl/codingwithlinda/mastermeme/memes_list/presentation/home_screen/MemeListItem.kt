@@ -22,7 +22,7 @@ import nl.codingwithlinda.mastermeme.ui.theme.white
 
 @Composable
 fun MemeListItem(
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     memeUi: MemeUi,
     onLongPress: (String) -> Unit,
     onClick: (String) -> Unit
@@ -35,7 +35,7 @@ fun MemeListItem(
     }
     Box(
         modifier = modifier
-            .pointerInput(Unit){
+            .pointerInput(true){
                 this.detectTapGestures(
                     onLongPress = {
                         onLongPress(memeUi.id)

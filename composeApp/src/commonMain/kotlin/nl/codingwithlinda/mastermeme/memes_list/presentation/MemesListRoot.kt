@@ -14,9 +14,19 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import mastermeme.composeapp.generated.resources.Res
+import mastermeme.composeapp.generated.resources.vector_18
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
+import nl.codingwithlinda.mastermeme.core.presentation.dto.toUi
+import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ImageConverter
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.core.presentation.templates.MemeTemplatesFromResources
@@ -30,7 +40,10 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.MemeLis
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.MemeSortOption
 import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar.SortMemesTopBar
 import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListAction
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.decodeToImageBitmap
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun MemesListRoot(
     storageInteractor: StorageInteractor<Meme>,
@@ -41,6 +54,22 @@ fun MemesListRoot(
 
     val  repo = MemeListRepoImpl(storageInteractor)
 
+
+    val savedMemes = repo.getMemes().map {
+        it.map {meme ->
+            try {
+                val uri = meme.imageUri
+                val image = internalStorageInteractor.read(uri).decodeToImageBitmap()
+                val imageUi = MemeImageUi.bitmapImage(image)
+                meme.toUi(imageUi)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                val image = MemeImageUi.vectorImage(Res.drawable.vector_18)
+                meme.toUi(image)
+            }
+        }
+    }.stateIn(CoroutineScope(Dispatchers.Default), SharingStarted.WhileSubscribed(), emptyList())
+
     var isSelecting by remember {
         mutableStateOf(false)
     }
@@ -48,9 +77,7 @@ fun MemesListRoot(
         initializer {
             MemeSelectViewmodel(
                 storageInteractor = storageInteractor,
-                internalStorageInteractor = internalStorageInteractor,
-                memeId = "nl.codingwithlinda",
-                sortOption = MemeSortOption.FavoritesFirst
+                savedMemes = savedMemes.value,
             )
         }
     }
@@ -92,6 +119,7 @@ fun MemesListRoot(
                         onAction = memeSelectViewModel::onAction,
                         onBackClick = {
                             isSelecting = false
+                            memeSelectViewModel.onAction(MemeSelectAction.ClearSelection)
                         }
                     )
                 } else {

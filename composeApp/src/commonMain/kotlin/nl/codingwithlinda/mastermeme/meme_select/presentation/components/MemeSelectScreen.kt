@@ -1,6 +1,5 @@
 package nl.codingwithlinda.mastermeme.meme_select.presentation.components
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -10,7 +9,6 @@ import androidx.compose.runtime.setValue
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
-import nl.codingwithlinda.mastermeme.meme_select.presentation.components.top_bar.MemeSelectTopBar
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectAction
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectEvent
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectViewState

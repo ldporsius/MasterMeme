@@ -16,21 +16,15 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.home_screen.top_bar
 
 @Composable
 fun MemeSelectRoot(
-    memeId: String,
-    sortOption: MemeSortOption,
-    internalStorageInteractor: InternalStorageInteractor,
     storageInteractor: StorageInteractor<Meme>,
     shareAppPicker: ShareAppPicker,
-    onBackNav: () -> Unit
 ) {
 
     val MemeSelectViewModelFactory : ViewModelProvider.Factory = viewModelFactory {
        initializer {
            MemeSelectViewmodel(
                storageInteractor = storageInteractor,
-               internalStorageInteractor = internalStorageInteractor,
-               memeId = memeId,
-               sortOption = sortOption
+               savedMemes = emptyList(),
            )
        }
     }
