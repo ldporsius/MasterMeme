@@ -57,7 +57,6 @@ fun MemeTextComponent(
     val ratioReference = 1000f
     val ratioHeight = ratioReference / parentSize.height
     val ratioWidth = ratioReference / parentSize.width
-    println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
 
     val currentFontSize = LocalTextStyle.current.fontSize.value
     val ratioFont = (currentFontSize / parentSize.maxDimension) * 100
@@ -71,7 +70,7 @@ fun MemeTextComponent(
 
     val iconButtonSize = 24.dp
 
-    val textStyle = androidx.compose.material3.LocalTextStyle.current.merge(
+    val textStyle = LocalTextStyle.current.merge(
         color = text.textColor,
         fontSize = _fontSize,
         fontFamily = fontFamily,
@@ -96,13 +95,12 @@ fun MemeTextComponent(
     }
 
     val textWidth = textLayoutResult.size.width
-    val textHeight = textLayoutResult.size.height
 
     val offsetX = remember() {
-        mutableStateOf(text.offsetX / ratioWidth)
+        mutableStateOf(text.offsetX )
     }
     val offsetY = remember() {
-        mutableStateOf(text.offsetY / ratioHeight)
+        mutableStateOf(text.offsetY )
     }
 
     val pointerInputModifier = Modifier
@@ -143,7 +141,7 @@ fun MemeTextComponent(
                     )
                 }
             ) { change, dragAmount ->
-                println(" ON DRAG . change: ${change.position}, dragAmount: $dragAmount")
+
                 val original = Offset(offsetX.value, offsetY.value)
                 val summed = original + dragAmount
                 val maxX = (parentSize.width - textWidth).coerceAtLeast(0f)
@@ -161,8 +159,8 @@ fun MemeTextComponent(
 
     val pointerOffset =
         IntOffset(
-            (offsetX.value / ratioWidth).roundToInt(),
-            (offsetY.value / ratioHeight).roundToInt()
+            (offsetX.value ).roundToInt(),
+            (offsetY.value ).roundToInt()
         )
 
     val border: Modifier = remember(text.memeTextState) {
@@ -176,7 +174,9 @@ fun MemeTextComponent(
 
     Text(
         modifier = Modifier
-            .offset { pointerOffset }
+            .offset {
+               pointerOffset
+            }
             .then(border)
             .then(pointerInputModifier),
         text = text.text,
@@ -184,6 +184,9 @@ fun MemeTextComponent(
         onTextLayout = {
             println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
             println("MEME TEXT COMPONENT. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
+
+            println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
+            println("MEME TEXT COMPONENT. ratioWidth: $ratioWidth")
         }
     )
 
@@ -202,7 +205,7 @@ fun MemeTextComponent(
                 onAction(MemeCreatorAction.DeleteMemeText(text.id))
             },
             modifier =
-                iconButtonModifier
+            iconButtonModifier
                 .then(pointerInputModifier)
             ,
             colors = IconButtonDefaults.iconButtonColors(

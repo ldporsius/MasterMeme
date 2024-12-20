@@ -4,14 +4,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -25,12 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.download
+import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.bitMapImageModifier
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
@@ -41,9 +40,6 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.E
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.PictureDrawerImpl
-import org.jetbrains.compose.resources.imageResource
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.vectorResource
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -60,7 +56,9 @@ fun MemeCreatorScreen(
     shareAppPicker.registerPicker {
         println("Is This Called?: $it")
     }
-
+    var size by remember {
+        mutableStateOf( Size.Zero )
+    }
     Surface (modifier = modifier){
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -70,8 +68,12 @@ fun MemeCreatorScreen(
 
             Box(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .aspectRatio(1f)
+                    .wrapContentSize()
                     .weight(1f)
+                    .onSizeChanged {
+                        size = Size(it.width.toFloat(), it.height.toFloat())
+                    }
                     .pointerInput(Unit) {
                         detectTapGestures(
                             onTap = {
@@ -81,12 +83,18 @@ fun MemeCreatorScreen(
                     }
 
             ) {
-
                 if (state.isSaving){
-                    PictureDrawerImpl(
-                        modifier = bitMapImageModifier,
-                        memeImageUi = state.memeImageUi,
-                        memeTexts = state.memeTexts.values.toList(),
+                    PictureDrawer(
+                        modifier = Modifier,
+                        content = {
+                            MemeTextsBox(
+                                parentSize = size,
+                                memeTemplate = state.memeImageUi,
+                                memeTexts = state.memeTexts.values.toList(),
+                                onAction = onAction,
+                                modifier = bitMapImageModifier
+                            )
+                        },
                         onSave = {
                             onAction(MemeCreatorAction.CreateMemeUri(it))
                         }
@@ -94,6 +102,7 @@ fun MemeCreatorScreen(
                 }
                 else {
                     MemeTextsBox(
+                        parentSize = size,
                         memeTemplate = state.memeImageUi,
                         memeTexts = state.memeTexts.values.toList(),
                         onAction = onAction,
@@ -176,7 +185,7 @@ fun MemeCreatorScreen(
                             onAction(MemeCreatorAction.StopEditing)
                         },
 
-                    )
+                        )
                 }
             )
         }

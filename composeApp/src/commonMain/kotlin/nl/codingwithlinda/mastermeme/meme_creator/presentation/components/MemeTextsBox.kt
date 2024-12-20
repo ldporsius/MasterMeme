@@ -21,19 +21,15 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiTe
 
 @Composable
 fun MemeTextsBox(
+    parentSize: Size,
     memeTemplate: MemeImageUi,
     memeTexts: List<MemeUiText>,
     onAction: (MemeCreatorAction) -> Unit,
     modifier: Modifier = Modifier) {
 
-    var size by remember {
-        mutableStateOf( Size.Zero )
-    }
+
     Box(
         modifier = modifier
-            .onSizeChanged {
-                size = Size(it.width.toFloat(), it.height.toFloat())
-            }
 
     ) {
 
@@ -42,10 +38,7 @@ fun MemeTextsBox(
             MemeTextComponent(
                 text = memeText,
                 platformTextStyle = memeText.platformTextStyle,
-                parentSize = Size(
-                    width = size.width,
-                    height = size.height
-                ),
+                parentSize = parentSize,
                 onAction = onAction
             )
         }
