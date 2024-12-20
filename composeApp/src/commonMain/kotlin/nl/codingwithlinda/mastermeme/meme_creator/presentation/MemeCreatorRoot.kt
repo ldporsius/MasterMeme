@@ -56,7 +56,7 @@ fun MemeCreatorRoot(
         savedStateHandle = SavedStateHandle().apply {
             set("memeId", memeId)
         },
-        memeTemplates = MemeTemplatesFromResources(),
+        memeTemplatesProvider = MemeTemplatesFromResources(),
         imageConverter = imageConverter,
         fontPicker = fontPicker,
         storageInteractor = storageInteractor,

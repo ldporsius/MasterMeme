@@ -6,8 +6,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectAction
 import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectEvent
@@ -15,9 +20,10 @@ import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectVi
 
 @Composable
 fun MemeSelectScreen(
-    viewState: MemeSelectViewState,
-    memeSelectEvent: Channel<MemeSelectEvent>,
-    shareAppPicker: ShareAppPicker,
+    numSelected: Int,
+    memeSelectEvent: Flow<MemeSelectEvent>,
+            shareAppPicker
+    : ShareAppPicker,
     onAction: (MemeSelectAction) -> Unit,
 ) {
     shareAppPicker.registerPicker {  }
@@ -25,19 +31,23 @@ fun MemeSelectScreen(
     var shouldShowDeleteDialog by remember {
         mutableStateOf(false)
     }
-    LaunchedEffect(true) {
-        memeSelectEvent.consumeEach {event ->
-            when (event) {
-                MemeSelectEvent.ShowDeleteMemesDialog -> {
-                    shouldShowDeleteDialog = true
-                }
-                is MemeSelectEvent.ShowShareMemesDialog -> {
-                    println("SHARING MEMES: ${event.memeUris}")
-                    try {
-                        shareAppPicker.shareMultiple(event.memeUris)
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    LaunchedEffect(lifecycleOwner.lifecycle) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            memeSelectEvent.collectLatest { memeSelectEvent ->
+                when (memeSelectEvent) {
+                    MemeSelectEvent.ShowDeleteMemesDialog -> {
+                        shouldShowDeleteDialog = true
                     }
-                    catch (e: Exception){
-                        e.printStackTrace()
+
+                    is MemeSelectEvent.ShowShareMemesDialog -> {
+                        try {
+                            shareAppPicker.shareMultiple(memeSelectEvent.memeUris)
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     }
                 }
             }
@@ -47,7 +57,7 @@ fun MemeSelectScreen(
     if (shouldShowDeleteDialog){
 
         DeleteMemesDialog(
-            numberToDelete = viewState.selectedMemesCount,
+            numberToDelete = numSelected,
             onConfirm = {
                 onAction(MemeSelectAction.DeleteMemes)
                 shouldShowDeleteDialog = false

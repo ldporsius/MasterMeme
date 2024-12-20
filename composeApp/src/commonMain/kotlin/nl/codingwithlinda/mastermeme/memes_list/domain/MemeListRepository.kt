@@ -7,4 +7,6 @@ interface MemeListRepository {
 
     fun getMemes(): Flow<List<Meme>>
     suspend fun toggleFavorite(memeId: String)
+    suspend fun deleteMeme(memeId: String)
+
 }

@@ -1,11 +1,11 @@
 package nl.codingwithlinda.mastermeme.core.presentation.templates
 
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplatesProvider
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.emptyMemeTemplate
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templates
 
-class MemeTemplatesFromResources : MemeTemplates {
+class MemeTemplatesFromResources : MemeTemplatesProvider {
 
     override fun getTemplates(): List<MemeTemplate> {
         return templates

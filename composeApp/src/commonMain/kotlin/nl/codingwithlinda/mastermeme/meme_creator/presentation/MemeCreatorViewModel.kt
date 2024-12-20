@@ -1,6 +1,5 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
-import androidx.compose.ui.geometry.Size
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,7 +13,7 @@ import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplate
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplatesProvider
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
@@ -33,7 +32,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 @OptIn(ExperimentalResourceApi::class)
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
-    private val memeTemplates: MemeTemplates,
+    private val memeTemplatesProvider: MemeTemplatesProvider,
     private val imageConverter: ImageConverter,
     private val fontPicker: FontPicker,
     private val storageInteractor: StorageInteractor<Meme>,
@@ -60,7 +59,7 @@ class MemeCreatorViewModel(
         viewModelScope.launch {
 
             val memeId = savedStateHandle.get<String>("memeId") ?: ""
-            val template = memeTemplates.getTemplate(memeId)
+            val template = memeTemplatesProvider.getTemplate(memeId)
             val bytes = templateToBytes(template.drawableResource)
 
             val image = bytes.decodeToImageBitmap()

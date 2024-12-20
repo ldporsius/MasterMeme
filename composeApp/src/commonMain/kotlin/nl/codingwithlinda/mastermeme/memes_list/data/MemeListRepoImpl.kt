@@ -36,4 +36,9 @@ class MemeListRepoImpl(
             }
         }
     }
+
+    override suspend fun deleteMeme(memeId: String) {
+        storageInteractor.delete(memeId)
+    }
+
 }

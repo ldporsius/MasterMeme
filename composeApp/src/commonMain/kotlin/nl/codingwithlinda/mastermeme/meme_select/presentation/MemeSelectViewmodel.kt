@@ -49,7 +49,7 @@ class MemeSelectViewmodel(
             MemeSelectAction.DeleteMemes -> deleteMemes()
             MemeSelectAction.ShareMemes -> shareMemes()
             is MemeSelectAction.SelectMeme -> selectMeme(action.memeId)
-            MemeSelectAction.ClearSelection -> _selectedMemes.update { emptyList() }
+            MemeSelectAction.StopSelection -> _selectedMemes.update { emptyList() }
         }
     }
     private fun selectMeme(memeId: String) {

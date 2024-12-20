@@ -15,8 +15,18 @@ data class MemeListViewState(
     val showMemePicker: Boolean = false,
     val interaction: MemeListInteraction = MemeListInteraction.SORTING,
     val selectedSortOption: MemeSortOption = MemeSortOption.FavoritesFirst,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val selectedMemes: List<String> = emptyList(),
 ){
+
+    val selectedMemesCount: Int = selectedMemes.size
+
+    fun isSelected(memeId: String): Boolean {
+        return selectedMemes.contains(memeId)
+    }
+
+    fun memeUris(): List<String> = memes.filter { it.id in selectedMemes }.map { it.imageUri }
+
     val sortOptions = MemeSortOption.entries.toList()
 
     val sortedMemes: List<MemeUi> = when(selectedSortOption){

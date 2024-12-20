@@ -7,6 +7,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import kotlinx.coroutines.flow.receiveAsFlow
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
@@ -35,10 +36,10 @@ fun MemeSelectRoot(
     Scaffold {
 
         MemeSelectScreen(
-            viewState = viewModel.state.collectAsStateWithLifecycle().value,
+           numSelected = viewModel.state.collectAsStateWithLifecycle().value.selectedMemesCount,
             shareAppPicker = shareAppPicker,
             onAction = viewModel::onAction,
-            memeSelectEvent = viewModel.events,
+            memeSelectEvent = viewModel.events.receiveAsFlow(),
         )
     }
 

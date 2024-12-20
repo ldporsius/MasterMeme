@@ -4,13 +4,13 @@ import android.content.Context
 import androidx.compose.ui.graphics.asImageBitmap
 import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
 import nl.codingwithlinda.mastermeme.core.data.memeDtoToBitmap
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplates
+import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplatesProvider
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.templateToBytes
 import nl.codingwithlinda.mastermeme.core.presentation.model.MemeImageUi
 
 actual class ImageConverter(
     private val context: Context,
-    private val templates: MemeTemplates
+    private val templates: MemeTemplatesProvider
 ) {
 
     private fun byteArrayToUri(byteArray: ByteArray, name: String): String {

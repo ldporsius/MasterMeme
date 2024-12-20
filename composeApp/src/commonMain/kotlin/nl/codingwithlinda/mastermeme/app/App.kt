@@ -39,7 +39,10 @@ fun App(
                         storageInteractor = localCache.storageInteractor(),
                         internalStorageInteractor = internalStorageInteractor,
                         navToMemeCreator = {
-                            navController.navigate(Route.MemeCreator(it))
+                            navController.navigate(Route.MemeCreator(it)){
+                                launchSingleTop = true
+
+                            }
                         },
                        shareAppPicker = shareAppPicker
                     )
@@ -55,7 +58,12 @@ fun App(
                         storageInteractor = localCache.storageInteractor(),
                         memeFactory = memeFactory,
                         onBack = {
-                              navController.navigateUp()
+                            /*  navController.navigate(Route.MemeList){
+                                  popUpTo(Route.MemeList){
+                                      inclusive = false
+                                  }
+                              }*/
+                            navController.navigateUp()
                         },
 
                     )
