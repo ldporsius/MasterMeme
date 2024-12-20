@@ -22,8 +22,7 @@ import nl.codingwithlinda.mastermeme.meme_select.presentation.state.MemeSelectVi
 fun MemeSelectScreen(
     numSelected: Int,
     memeSelectEvent: Flow<MemeSelectEvent>,
-            shareAppPicker
-    : ShareAppPicker,
+    shareAppPicker: ShareAppPicker,
     onAction: (MemeSelectAction) -> Unit,
 ) {
     shareAppPicker.registerPicker {  }
