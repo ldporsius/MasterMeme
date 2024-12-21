@@ -6,10 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextFontComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 
@@ -22,10 +18,10 @@ fun CustomizeTextComponent(
 ) {
     if (state.selectedMemeText == null) return
 
-    EditMemeBottomBar(
+    CustomizeMemeTextBottomBar(
         modifier = Modifier.fillMaxWidth(),
         changeTextStyleComponent = {
-            EditTextFontComponent(
+            CustomizeTextFontComponent(
                 fonts = fonts,
                 onFontSelected = {
                     onAction(
@@ -38,13 +34,13 @@ fun CustomizeTextComponent(
             )
         },
         changeTextSizeComponent = {
-            EditTextSizeComponent(
+            CustomizeTextSizeComponent(
                 memeText = state.selectedMemeText,
                 onAction = onAction
             )
         },
         changeTextColorComponent = {
-            EditTextColorComponent(
+            CustomizeTextColorComponent(
                 modifier = Modifier.padding(16.dp),
                 colors = colors,
                 onColorSelected = {

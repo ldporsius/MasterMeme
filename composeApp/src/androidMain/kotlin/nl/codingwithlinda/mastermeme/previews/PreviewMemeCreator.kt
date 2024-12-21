@@ -6,7 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.CreatorButtonsComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text.CustomizeTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.MemeTextComponentActive
 import nl.codingwithlinda.mastermeme.previews.data_generator.fakeMemeTextUI
 import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
@@ -39,7 +39,7 @@ fun PreviewMemeButtonsComponent() {
 @Composable
 fun PreviewMemeTextSizeComponent() {
     AppTheme {
-        EditTextSizeComponent(
+        CustomizeTextSizeComponent(
             memeText = fakeMemeTextUI(),
             onAction = {}
         )

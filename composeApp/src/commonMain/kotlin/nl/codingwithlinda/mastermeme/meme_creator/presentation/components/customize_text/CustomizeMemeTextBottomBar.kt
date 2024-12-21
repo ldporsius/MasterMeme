@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -24,12 +24,11 @@ import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.color_picker_button
 import mastermeme.composeapp.generated.resources.text_size_button
 import mastermeme.composeapp.generated.resources.text_style_button
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text.CustomizeTextOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun EditMemeBottomBar(
+fun CustomizeMemeTextBottomBar(
     modifier: Modifier = Modifier,
     changeTextStyleComponent: @Composable () -> Unit,
     changeTextSizeComponent: @Composable () -> Unit,

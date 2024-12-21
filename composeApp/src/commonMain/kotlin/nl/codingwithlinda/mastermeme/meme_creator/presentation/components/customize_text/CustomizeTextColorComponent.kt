@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -13,11 +13,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun EditTextColorComponent(
+fun CustomizeTextColorComponent(
     modifier: Modifier = Modifier,
     colors: List<Color>,
     onColorSelected: (Color) -> Unit

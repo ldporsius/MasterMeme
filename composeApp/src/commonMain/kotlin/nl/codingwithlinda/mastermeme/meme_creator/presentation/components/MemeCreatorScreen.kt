@@ -26,6 +26,7 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.bitMapImageModifier
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text.CustomizeTextComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeTextBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.text_input.MemeTextInputParent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
@@ -124,30 +125,10 @@ fun MemeCreatorScreen(
         }
 
         AnimatedVisibility(state.editingMemeText != null){
-            val _text = state.editingMemeText ?: return@AnimatedVisibility
-
-            ModalBottomSheet(
-                onDismissRequest = {
-                    onAction(MemeCreatorAction.UndoEditing(_text.id))
-                },
-                content = {
-                    MemeTextInputParent(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        text = _text.text,
-                        setText = {
-                            onAction(MemeCreatorAction.EditMemeText(_text.id, it))
-                        },
-                        fontUi = _text.fontResource,
-                        actionOnDismiss = {
-                            onAction(MemeCreatorAction.UndoEditing(_text.id))
-                        },
-                        actionOnConfirm = {
-                            onAction(MemeCreatorAction.StopEditing)
-                        },
-                    )
-                }
-            )
+           EditMemeTextBottomSheet(
+               state = state,
+               onAction = onAction
+           )
         }
         AnimatedVisibility(state.isSaving){
            SaveMemeBottomSheet(

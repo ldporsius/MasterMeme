@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 
 @Composable
-fun EditTextFontComponent(
+fun CustomizeTextFontComponent(
     modifier: Modifier = Modifier,
     fonts: List<FontUi>,
     onFontSelected: (index: Int) -> Unit
