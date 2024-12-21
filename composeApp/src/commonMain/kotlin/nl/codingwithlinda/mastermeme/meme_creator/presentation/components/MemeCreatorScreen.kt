@@ -5,7 +5,6 @@ import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,6 +37,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.E
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextFontComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.text_input.MemeTextInputParent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import org.jetbrains.compose.resources.vectorResource
@@ -59,11 +59,11 @@ fun MemeCreatorScreen(
     var size by remember {
         mutableStateOf( Size.Zero )
     }
+
     Surface (modifier = modifier){
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
-
         ) {
 
             Box(
@@ -114,6 +114,7 @@ fun MemeCreatorScreen(
             Box(modifier = Modifier) {
                 when (state.shouldShowEditTextOption) {
                     true -> {
+                        state.selectedMemeText ?: return@Box
                         EditMemeBottomBar(
                             modifier = Modifier.fillMaxWidth(),
                             changeTextStyleComponent = {
@@ -122,7 +123,7 @@ fun MemeCreatorScreen(
                                     onFontSelected = {
                                         onAction(
                                             MemeCreatorAction.EditMemeTextFont(
-                                                state.selectedMemeText!!.id,
+                                                state.selectedMemeText.id,
                                                 it
                                             )
                                         )
@@ -131,7 +132,7 @@ fun MemeCreatorScreen(
                             },
                             changeTextSizeComponent = {
                                 EditTextSizeComponent(
-                                    memeText = state.selectedMemeText!!,
+                                    memeText = state.selectedMemeText,
                                     onAction = onAction
                                 )
                             },
@@ -142,7 +143,7 @@ fun MemeCreatorScreen(
                                     onColorSelected = {
                                         onAction(
                                             MemeCreatorAction.EditMemeTextColor(
-                                                state.selectedMemeText!!.id,
+                                                state.selectedMemeText.id,
                                                 it
                                             )
                                         )
@@ -167,12 +168,15 @@ fun MemeCreatorScreen(
 
         AnimatedVisibility(state.editingMemeText != null){
             val _text = state.editingMemeText ?: return@AnimatedVisibility
+
             ModalBottomSheet(
                 onDismissRequest = {
                     onAction(MemeCreatorAction.UndoEditing(_text.id))
                 },
                 content = {
-                    MemeTextInput(
+                    MemeTextInputParent(
+                        modifier = Modifier
+                            .fillMaxWidth(),
                         text = _text.text,
                         setText = {
                             onAction(MemeCreatorAction.EditMemeText(_text.id, it))
@@ -184,8 +188,7 @@ fun MemeCreatorScreen(
                         actionOnConfirm = {
                             onAction(MemeCreatorAction.StopEditing)
                         },
-
-                        )
+                    )
                 }
             )
         }

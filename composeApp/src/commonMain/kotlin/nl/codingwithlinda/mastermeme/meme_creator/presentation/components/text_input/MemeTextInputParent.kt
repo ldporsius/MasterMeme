@@ -1,4 +1,4 @@
-package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
+package nl.codingwithlinda.mastermeme.meme_creator.presentation.components.text_input
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,13 +24,15 @@ import nl.codingwithlinda.mastermeme.ui.theme.black
 import nl.codingwithlinda.mastermeme.ui.theme.white
 
 @Composable
-fun MemeTextInput(
+fun MemeTextInputParent(
+    modifier: Modifier,
     text: String,
     setText: (String) -> Unit,
     fontUi: FontUi,
     actionOnDismiss: () -> Unit,
-    actionOnConfirm: (text: String) -> Unit,
+    actionOnConfirm: () -> Unit,
 ) {
+
     Column {
         Row(
             modifier = Modifier.fillMaxWidth()
@@ -43,20 +45,20 @@ fun MemeTextInput(
                 Icon(imageVector = Icons.Default.Close, contentDescription = null)
             }
             IconButton(onClick = {
-                actionOnConfirm(text)
+                actionOnConfirm()
 
             }) {
                 Icon(imageVector = Icons.Default.Check, contentDescription = null)
             }
         }
 
-        OutlinedTextField(
+       OutlinedTextField(
             value = text,
             onValueChange = {
                 setText(it)
             },
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = modifier
+            ,
             singleLine = false,
             colors = OutlinedTextFieldDefaults.colors(
                 unfocusedContainerColor = white,
