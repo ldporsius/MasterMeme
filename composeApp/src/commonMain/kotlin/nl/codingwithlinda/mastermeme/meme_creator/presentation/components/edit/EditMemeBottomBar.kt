@@ -24,6 +24,7 @@ import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.color_picker_button
 import mastermeme.composeapp.generated.resources.text_size_button
 import mastermeme.composeapp.generated.resources.text_style_button
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text.CustomizeTextOption
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import org.jetbrains.compose.resources.painterResource
 
@@ -35,20 +36,20 @@ fun EditMemeBottomBar(
     changeTextColorComponent: @Composable () -> Unit,
     onAction: (MemeCreatorAction) -> Unit
 ) {
-    var editComponentOption: EditComponentOption? by remember {
+    var customizeTextOption: CustomizeTextOption? by remember {
         mutableStateOf(null)
     }
 
     Column {
-        AnimatedVisibility(visible = editComponentOption != null){
-            when(editComponentOption){
-                EditComponentOption.TEXTSTYLE -> {
+        AnimatedVisibility(visible = customizeTextOption != null){
+            when(customizeTextOption){
+                CustomizeTextOption.TEXTSTYLE -> {
                     changeTextStyleComponent()
                 }
-                EditComponentOption.TEXTSIZE -> {
+                CustomizeTextOption.TEXTSIZE -> {
                     changeTextSizeComponent()
                 }
-                EditComponentOption.TEXTCOLOR -> {
+                CustomizeTextOption.TEXTCOLOR -> {
                     changeTextColorComponent()
                 }
                 null -> Unit
@@ -62,7 +63,7 @@ fun EditMemeBottomBar(
         ) {
             IconButton(
                 onClick = {
-                    editComponentOption = null
+                    customizeTextOption = null
                     onAction(MemeCreatorAction.UndoAll)
                     onAction(MemeCreatorAction.StopEditing)
                 }
@@ -78,7 +79,7 @@ fun EditMemeBottomBar(
                     modifier = Modifier
                         .size(48.dp)
                         .clickable {
-                        editComponentOption = EditComponentOption.TEXTSTYLE
+                        customizeTextOption = CustomizeTextOption.TEXTSTYLE
                     }
                 )
                 Image(
@@ -87,7 +88,7 @@ fun EditMemeBottomBar(
                     modifier = Modifier
                         .size(48.dp)
                         .clickable {
-                        editComponentOption = EditComponentOption.TEXTSIZE
+                        customizeTextOption = CustomizeTextOption.TEXTSIZE
                     }
                 )
                 Image(
@@ -96,13 +97,13 @@ fun EditMemeBottomBar(
                     modifier = Modifier
                         .size(48.dp)
                         .clickable {
-                        editComponentOption = EditComponentOption.TEXTCOLOR
+                        customizeTextOption = CustomizeTextOption.TEXTCOLOR
                     }
                 )
             }
             IconButton(
                 onClick = {
-                    editComponentOption = null
+                    customizeTextOption = null
                     onAction(MemeCreatorAction.StopEditing)
                 }
             ){

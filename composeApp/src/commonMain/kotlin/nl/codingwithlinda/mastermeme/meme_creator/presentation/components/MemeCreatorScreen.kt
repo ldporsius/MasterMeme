@@ -7,12 +7,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -25,22 +21,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.unit.dp
-import mastermeme.composeapp.generated.resources.Res
-import mastermeme.composeapp.generated.resources.download
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.bitMapImageModifier
 import nl.codingwithlinda.mastermeme.core.presentation.share_application_picker.ShareAppPicker
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditMemeBottomBar
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextColorComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextFontComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.edit.EditTextSizeComponent
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeOption
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.customize_text.CustomizeTextComponent
+import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_meme.SaveMemeBottomSheet
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.text_input.MemeTextInputParent
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
-import org.jetbrains.compose.resources.vectorResource
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -112,44 +101,12 @@ fun MemeCreatorScreen(
             }
 
             Box(modifier = Modifier) {
-                when (state.shouldShowEditTextOption) {
+                when (state.shouldShowCustomizeTextOptions) {
                     true -> {
-                        state.selectedMemeText ?: return@Box
-                        EditMemeBottomBar(
-                            modifier = Modifier.fillMaxWidth(),
-                            changeTextStyleComponent = {
-                                EditTextFontComponent(
-                                    fonts = fonts,
-                                    onFontSelected = {
-                                        onAction(
-                                            MemeCreatorAction.EditMemeTextFont(
-                                                state.selectedMemeText.id,
-                                                it
-                                            )
-                                        )
-                                    }
-                                )
-                            },
-                            changeTextSizeComponent = {
-                                EditTextSizeComponent(
-                                    memeText = state.selectedMemeText,
-                                    onAction = onAction
-                                )
-                            },
-                            changeTextColorComponent = {
-                                EditTextColorComponent(
-                                    modifier = Modifier.padding(16.dp),
-                                    colors = colors,
-                                    onColorSelected = {
-                                        onAction(
-                                            MemeCreatorAction.EditMemeTextColor(
-                                                state.selectedMemeText.id,
-                                                it
-                                            )
-                                        )
-                                    }
-                                )
-                            },
+                        CustomizeTextComponent(
+                            state = state,
+                            colors = colors,
+                            fonts = fonts,
                             onAction = onAction
                         )
                     }
@@ -193,46 +150,14 @@ fun MemeCreatorScreen(
             )
         }
         AnimatedVisibility(state.isSaving){
-            MemeBottomSheet(
-                onDismiss = {
-                    onAction(MemeCreatorAction.CancelSaveMeme)
-                },
-                content = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .padding(16.dp)
-                    ) {
-                        SaveMemeOption(
-                            icon = {
-                                Icon(
-                                    imageVector = vectorResource(Res.drawable.download),
-                                    contentDescription = null
-                                )
-                            },
-                            title = "Save meme",
-                            text = "Save created meme in the Files of your device",
-                            onClick = {
-                                onAction(MemeCreatorAction.SaveMeme)
-                            }
-                        )
-                        SaveMemeOption(
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Default.Share,
-                                    contentDescription = null
-                                )
-                            },
-                            title = "Share meme",
-                            text = "Share your meme or open it in the other App",
-                            onClick = {
-                                state.memeUri?.let {
-                                    shareAppPicker.share(imageUri = state.memeUri)
-                                }
-                            }
-                        )
-                    }
-                }
-            )
+           SaveMemeBottomSheet(
+               onAction = onAction,
+               onShare = {
+                   state.memeUri?.let {
+                       shareAppPicker.share(imageUri = state.memeUri)
+                   }
+               }
+           )
         }
 
     }
