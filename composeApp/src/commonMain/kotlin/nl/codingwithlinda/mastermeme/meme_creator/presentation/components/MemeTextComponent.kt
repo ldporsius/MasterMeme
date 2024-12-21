@@ -1,8 +1,11 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.draggable2D
+import androidx.compose.foundation.gestures.rememberDraggable2DState
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -14,26 +17,26 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.round
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
-import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
 import nl.codingwithlinda.mastermeme.ui.theme.schemes_error
@@ -44,7 +47,7 @@ import kotlin.math.roundToInt
 fun MemeTextComponent(
     text: MemeUiText,
     platformTextStyle: OurPlatformTextStyle,
-    parentSize: Size,
+    parentSize: IntSize,
     onAction: (MemeCreatorAction) -> Unit,
 ) {
 
@@ -54,19 +57,13 @@ fun MemeTextComponent(
         text.fontResource.font
     )
 
-    val ratioReference = 1000f
-    val ratioHeight = ratioReference / parentSize.height
-    val ratioWidth = ratioReference / parentSize.width
+    val ratioWidth = 100 / parentSize.width.toFloat()
+    val ratioHeight = 100 / parentSize.height.toFloat()
 
     val currentFontSize = LocalTextStyle.current.fontSize.value
-    val ratioFont = (currentFontSize / parentSize.maxDimension) * 100
+    val ratioFont = (currentFontSize / parentSize.height) * 100
     val scaledFontSize = (currentFontSize / ratioFont) * text.fontSize
     val _fontSize = TextUnit(scaledFontSize, TextUnitType.Sp)
-
-//    println("MEME TEXT COMPONENT. H: ${parentSize.height}, W: ${parentSize.width}, maxDimen: ${parentSize.maxDimension}")
-//    println("MEME TEXT COMPONENT. ratioFont: $ratioFont")
-//    println("MEME TEXT COMPONENT. fontSize: $_fontSize")
-//    println("MEME TEXT COMPONENT. currentFontSize: $currentFontSize")
 
     val iconButtonSize = 24.dp
 
@@ -96,11 +93,11 @@ fun MemeTextComponent(
 
     val textWidth = textLayoutResult.size.width
 
-    val offsetX = remember() {
-        mutableStateOf(text.offsetX )
+    val offsetX = remember(parentSize) {
+        mutableStateOf(text.offsetX * parentSize.width)
     }
-    val offsetY = remember() {
-        mutableStateOf(text.offsetY )
+    val offsetY = remember(parentSize) {
+        mutableStateOf(text.offsetY * parentSize.height)
     }
 
     val pointerInputModifier = Modifier
@@ -117,17 +114,11 @@ fun MemeTextComponent(
         .pointerInput(textLayoutResult) {
             detectDragGestures(
                 onDragEnd = {
-                    println("DRAG END. parentWidth: ${parentSize.width}, parentHeight: ${parentSize.height}")
-                    println("DRAG END. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
-//                    println("DRAG END. text width: $textWidth , text height: $textHeight")
-//                    println("DRAG END. firstBaseline: ${textLayoutResult.firstBaseline}")
-//                    println("DRAG END. lastBaseline: ${textLayoutResult.lastBaseline}")
-
                     onAction(
                         MemeCreatorAction.PositionText(
                             id = text.id,
-                            offsetX = offsetX.value,
-                            offsetY = offsetY.value
+                            offsetX = offsetX.value / parentSize.width,
+                            offsetY = offsetY.value / parentSize.height
                         )
                     )
                 },
@@ -144,7 +135,7 @@ fun MemeTextComponent(
 
                 val original = Offset(offsetX.value, offsetY.value)
                 val summed = original + dragAmount
-                val maxX = (parentSize.width - textWidth).coerceAtLeast(0f)
+                val maxX = (parentSize.width - textWidth).coerceAtLeast(0).toFloat()
                 val maxY = (parentSize.height - textLayoutResult.lastBaseline).coerceAtLeast(0f)
                 val newValue = Offset(
                     x = summed.x.coerceIn(0f, maxX),
@@ -153,14 +144,12 @@ fun MemeTextComponent(
                 offsetX.value = newValue.x
                 offsetY.value = newValue.y
             }
-
-
         }
 
     val pointerOffset =
         IntOffset(
-            (offsetX.value ).roundToInt(),
-            (offsetY.value ).roundToInt()
+            (offsetX.value).roundToInt(),
+            (offsetY.value).roundToInt()
         )
 
     val border: Modifier = remember(text.memeTextState) {
@@ -194,7 +183,7 @@ fun MemeTextComponent(
     offset {
         IntOffset(
             x = (pointerOffset.x + textWidth - iconButtonSize.roundToPx())
-                .coerceAtMost(parentSize.toDpSize().width.roundToPx() -  2 * iconButtonSize.roundToPx()),
+                .coerceAtMost(parentSize.width -  2 * iconButtonSize.roundToPx()),
             y = pointerOffset.y - iconButtonSize.roundToPx()
         )
     }
