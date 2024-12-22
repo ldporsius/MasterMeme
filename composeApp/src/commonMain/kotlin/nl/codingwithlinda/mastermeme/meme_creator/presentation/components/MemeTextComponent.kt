@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
+import nl.codingwithlinda.mastermeme.core.presentation.util.applyIf
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeTextState
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.ui_model.MemeUiText
@@ -56,9 +57,6 @@ fun MemeTextComponent(
     val fontFamily = FontFamily(
         text.fontResource.font
     )
-
-    val ratioWidth = 100 / parentSize.width.toFloat()
-    val ratioHeight = 100 / parentSize.height.toFloat()
 
     val currentFontSize = LocalTextStyle.current.fontSize.value
     val ratioFont = (currentFontSize / parentSize.height) * 100
@@ -152,31 +150,28 @@ fun MemeTextComponent(
             (offsetY.value).roundToInt()
         )
 
-    val border: Modifier = remember(text.memeTextState) {
-        if (text.memeTextState == MemeTextState.Selected)
-            Modifier
-                .border(width = 2.dp, color = white)
-                .padding(4.dp)
-        else Modifier
-
-    }
+    val shouldShowBorder = text.memeTextState == MemeTextState.Selected
 
     Text(
         modifier = Modifier
             .offset {
                pointerOffset
             }
-            .then(border)
-            .then(pointerInputModifier),
+            .then(pointerInputModifier)
+            .applyIf(shouldShowBorder){
+                Modifier.border(width = 2.dp, color = white)
+                    .padding(4.dp)
+            }
+        ,
         text = text.text,
         style = textStyle,
-        onTextLayout = {
-            println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
-            println("MEME TEXT COMPONENT. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
-
-            println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
-            println("MEME TEXT COMPONENT. ratioWidth: $ratioWidth")
-        }
+//        onTextLayout = {
+//            println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
+//            println("MEME TEXT COMPONENT. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
+//
+//            println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
+//            println("MEME TEXT COMPONENT. ratioWidth: $ratioWidth")
+//        }
     )
 
     val iconButtonModifier = Modifier.

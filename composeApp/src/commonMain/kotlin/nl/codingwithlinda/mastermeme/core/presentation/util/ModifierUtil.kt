@@ -16,3 +16,13 @@ fun Modifier.printConstraints(tag: String): Modifier {
         }
     }
 }
+
+fun Modifier.applyIf(
+    condition: Boolean,
+    modifier: Modifier.() -> Modifier): Modifier {
+    return if (condition) {
+        this.then(modifier())
+    } else {
+        this
+    }
+}
