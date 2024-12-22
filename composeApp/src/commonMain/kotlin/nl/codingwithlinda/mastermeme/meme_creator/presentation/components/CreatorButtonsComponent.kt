@@ -43,48 +43,47 @@ fun CreatorButtonsComponent(
 
     LaunchedEffect(isAdding) {
         if (isAdding)
-        focusRequester.requestFocus()
+            focusRequester.requestFocus()
     }
     val focusModifier = Modifier.focusRequester(focusRequester)
 
+    AnimatedContent(
+        targetState = isAdding) { adding ->
 
-        AnimatedContent(
-            targetState = isAdding) { adding ->
+        if (adding) {
+            Box(modifier = Modifier.padding(16.dp)) {
+                MemeTextInputParent(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                            then (focusModifier),
+                    text = text,
+                    setText = {
+                        text = it
+                    },
+                    fontUi = fontUi,
+                    actionOnDismiss = { onAction(MemeCreatorAction.CancelAddText) },
+                    actionOnConfirm = {
+                        onAction(MemeCreatorAction.CreateText(text))
+                    },
+                )
+            }
+        } else {
 
-            if (adding) {
-                Box(modifier = Modifier.padding(16.dp)) {
-                    MemeTextInputParent(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                                then (focusModifier),
-                        text = text,
-                        setText = {
-                            text = it
-                        },
-                        fontUi = fontUi,
-                        actionOnDismiss = { onAction(MemeCreatorAction.CancelAddText) },
-                        actionOnConfirm = {
-                            onAction(MemeCreatorAction.CreateText(text))
-                        },
-                    )
+            Row(
+                modifier = modifier,
+                horizontalArrangement = Arrangement.End
+            ) {
+                OutlinedButton(onClick = {
+                    text = ""
+                    onAction(MemeCreatorAction.AddText)
+                }) {
+                    Text(text = "Add text")
                 }
-            } else {
-
-                Row(
-                    modifier = modifier,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    OutlinedButton(onClick = {
-                        text = ""
-                        onAction(MemeCreatorAction.AddText)
-                    }) {
-                        Text(text = "Add text")
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(onClick = { onAction(MemeCreatorAction.StartSaveMeme) }) {
-                        Text(text = "Save meme")
-                    }
+                Spacer(modifier = Modifier.width(16.dp))
+                Button(onClick = { onAction(MemeCreatorAction.StartSaveMeme) }) {
+                    Text(text = "Save meme")
                 }
             }
         }
+    }
 }

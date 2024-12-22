@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.memes_list.presentation.templates
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -23,6 +24,9 @@ fun MemePickerBottomSheet(
         onDismissRequest = {
             onAction(MemeListAction.HideMemePicker)
         },
+        modifier = Modifier
+            .fillMaxSize()
+        ,
         sheetState = bottomSheetState,
         sheetMaxWidth = Dp.Infinity
     ) {
