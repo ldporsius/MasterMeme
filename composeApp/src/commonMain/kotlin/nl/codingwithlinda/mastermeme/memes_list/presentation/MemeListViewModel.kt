@@ -98,6 +98,7 @@ class MemeListViewModel(
             MemeListAction.HideMemePicker -> {
                 _state.update {
                     it.copy(
+                        searchQuery = "",
                         showMemePicker = false
                     )
                 }

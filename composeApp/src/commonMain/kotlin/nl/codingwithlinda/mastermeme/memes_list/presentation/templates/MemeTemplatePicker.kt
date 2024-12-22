@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -51,72 +52,104 @@ fun MemeTemplatePicker(
         modifier = Modifier
             .fillMaxSize()
             .background(
-            color = black, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-        )
+                color = black, shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
+            )
     ) {
-        Box() {
-            IconButton(onClick = onDismiss) {
-                Icon(Icons.Default.Close, contentDescription = null)
-            }
-            Column(
-                modifier = Modifier.padding(top = 48.dp)
-            ) {
-                Row(modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Choose template:")
-                    IconButton(onClick = {
-                        shouldShowSearchField = !shouldShowSearchField
-                    }) {
-                        Icon(Icons.Default.Search, contentDescription = null)
-                    }
+        Column {
+            TemplatePickerHeader(
+                onDismiss = onDismiss,
+                toggleSearchField = {
+                    shouldShowSearchField = !shouldShowSearchField
                 }
-                Text(
-                    "Choose template for your next meme masterpiece",
-                    style = MaterialTheme.typography.bodySmall
-                )
-
-                AnimatedVisibility(visible = shouldShowSearchField) {
-                    Column() {
-                        SearchMemeField(
-                            onValueChange = {
-                                onSearch(it)
-                            },
-                            onHide = {
-                                onSearch("")
-                                shouldShowSearchField = false
-                            }
-                        )
-
-                        Text("${viewState.searchResult.size} templates")
-                    }
-                }
-
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(176.dp),
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                    contentPadding = PaddingValues(16.dp)
+            )
+            AnimatedVisibility(visible = shouldShowSearchField) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .imePadding()
+                    ,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
-                    items(viewState.searchResult,
-                        key = {
-                            it.id
+                    SearchMemeField(
+                        onValueChange = {
+                            onSearch(it)
+                        },
+                        onHide = {
+                            onSearch("")
+                            shouldShowSearchField = false
                         }
-                    ) { template ->
-                        MemeTemplateItem(
-                            modifier = Modifier.size(176.dp),
-                            memeImageUi = template.image,
-                            memeName = template.name,
-                            onClick = {
-                                onTemplateSelected(template.id)
-                            }
-                        )
+                    )
+
+                    Text("${viewState.searchResult.size} templates")
+                }
+            }
+
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(176.dp),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .imePadding()
+                ,
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+                contentPadding = PaddingValues(16.dp)
+            ) {
+
+
+                items(viewState.searchResult,
+                    key = {
+                        it.id
                     }
+                ) { template ->
+                    MemeTemplateItem(
+                        modifier = Modifier.size(176.dp),
+                        memeImageUi = template.image,
+                        memeName = template.name,
+                        onClick = {
+                            onTemplateSelected(template.id)
+                        }
+                    )
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun TemplatePickerHeader(
+    modifier: Modifier = Modifier,
+    onDismiss: () -> Unit,
+    toggleSearchField: () -> Unit
+
+) {
+
+    Column(
+        modifier = modifier
+    ) {
+
+        IconButton(onClick = onDismiss) {
+            Icon(
+                Icons.Default.Close,
+                contentDescription = null,
+                modifier = Modifier.align(Alignment.End)
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text("Choose template:")
+            IconButton(onClick = {
+                toggleSearchField()
+            }) {
+                Icon(Icons.Default.Search, contentDescription = null)
+            }
+        }
+        Text(
+            "Choose template for your next meme masterpiece",
+            style = MaterialTheme.typography.bodySmall
+        )
     }
 }
 

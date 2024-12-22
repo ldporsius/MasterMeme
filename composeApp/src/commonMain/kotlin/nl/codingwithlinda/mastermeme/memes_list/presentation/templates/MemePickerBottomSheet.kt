@@ -3,6 +3,8 @@ package nl.codingwithlinda.mastermeme.memes_list.presentation.templates
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.ModalBottomSheetDefaults
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,8 +19,10 @@ fun MemePickerBottomSheet(
     onAction: (MemeListAction) -> Unit,
 ) {
 
-    val skipPartiallyExpanded = false
-    val bottomSheetState = rememberModalBottomSheetState(skipPartiallyExpanded = skipPartiallyExpanded)
+    var skipPartiallyExpanded = true
+    val bottomSheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = skipPartiallyExpanded,
+    )
 
     ModalBottomSheet(
         onDismissRequest = {
