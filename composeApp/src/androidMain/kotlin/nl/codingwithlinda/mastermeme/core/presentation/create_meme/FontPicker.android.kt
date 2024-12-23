@@ -33,8 +33,4 @@ actual class FontPicker {
             ),
 
         )
-
-    actual fun getFont(index: Int): Int{
-        return fontResources[index].ref
-    }
 }

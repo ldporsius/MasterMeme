@@ -6,6 +6,4 @@ expect class FontPicker {
 
     val fontResources : List<FontUi>
 
-    fun getFont(index: Int): Int
-
 }
