@@ -6,6 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
@@ -21,6 +22,7 @@ import nl.codingwithlinda.mastermeme.ui.theme.AppTheme
 
 @Composable
 fun App(
+    dispatcherProvider: DispatcherProvider,
     shareAppPicker: ShareAppPicker,
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
@@ -30,12 +32,14 @@ fun App(
     internalStorageInteractor: InternalStorageInteractor
 ) {
 
+
     val navController = rememberNavController()
     AppTheme {
         NavHost(navController = navController, startDestination = Route.mainGraph){
             navigation<Route.mainGraph>(startDestination = Route.MemeList){
                 composable<Route.MemeList>(){
                     MemesListRoot(
+                        dispatcherProvider = dispatcherProvider,
                         storageInteractor = localCache.storageInteractor(),
                         internalStorageInteractor = internalStorageInteractor,
                         navToMemeCreator = {
@@ -58,26 +62,12 @@ fun App(
                         storageInteractor = localCache.storageInteractor(),
                         memeFactory = memeFactory,
                         onBack = {
-                            /*  navController.navigate(Route.MemeList){
-                                  popUpTo(Route.MemeList){
-                                      inclusive = false
-                                  }
-                              }*/
                             navController.navigateUp()
                         },
 
                     )
                 }
 
-                composable<Route.MemeSelect>(){entry ->
-                    val memeId = entry.toRoute<Route.MemeSelect>().memeId
-                    val sortOption = entry.toRoute<Route.MemeSelect>().sortOption
-                    MemeSelectRoot(
-                        storageInteractor = localCache.storageInteractor(),
-                        shareAppPicker = shareAppPicker,
-
-                    )
-                }
             }
         }
 

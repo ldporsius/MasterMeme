@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.receiveAsFlow
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
@@ -29,6 +30,7 @@ import nl.codingwithlinda.mastermeme.memes_list.presentation.state.MemeListInter
 
 @Composable
 fun MemesListRoot(
+    dispatcherProvider: DispatcherProvider,
     storageInteractor: StorageInteractor<Meme>,
     internalStorageInteractor: InternalStorageInteractor,
     shareAppPicker: ShareAppPicker,
@@ -42,6 +44,7 @@ fun MemesListRoot(
         initializer {
             val templates = MemeTemplatesFromResources()
             MemeListViewModel(
+                dispatcherProvider = dispatcherProvider,
                 memeTemplatesProvider = templates,
                 memeListRepository = repo,
                 internalStorageInteractor = internalStorageInteractor,

@@ -1,11 +1,8 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.gestures.draggable2D
-import androidx.compose.foundation.gestures.rememberDraggable2DState
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -17,10 +14,8 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -34,7 +29,6 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.round
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.OurPlatformTextStyle
 import nl.codingwithlinda.mastermeme.core.presentation.util.applyIf
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction

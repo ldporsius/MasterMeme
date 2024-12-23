@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import nl.codingwithlinda.mastermeme.core.data.local_cache.DatabaseFactory
 import nl.codingwithlinda.mastermeme.app.App
+import nl.codingwithlinda.mastermeme.app.di.AndroidDispatcherProvider
 import nl.codingwithlinda.mastermeme.core.domain.local_cache.LocalCache
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.AndroidColorPicker
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.FontPicker
@@ -24,8 +25,10 @@ class MainActivity : ComponentActivity() {
         setContent {
             val picker = ShareAppPickerFactory()
             val databaseFactory = DatabaseFactory(this.applicationContext)
+            val dispatcherProvider = AndroidDispatcherProvider()
 
             App(
+                dispatcherProvider = dispatcherProvider,
                 shareAppPicker = picker.create(),
                 imageConverter = ImageConverter(
                     context = this,

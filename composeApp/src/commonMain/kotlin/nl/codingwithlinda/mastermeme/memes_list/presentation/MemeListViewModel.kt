@@ -3,7 +3,6 @@ package nl.codingwithlinda.mastermeme.memes_list.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,6 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.vector_18
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.data.local_cache.InternalStorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.templates.MemeTemplatesProvider
 import nl.codingwithlinda.mastermeme.core.presentation.dto.toUi
@@ -34,6 +34,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.decodeToImageBitmap
 
 class MemeListViewModel(
+    dispatcherProvider: DispatcherProvider,
     memeTemplatesProvider: MemeTemplatesProvider,
     private val memeListRepository: MemeListRepository,
     private val internalStorageInteractor: InternalStorageInteractor,
@@ -66,7 +67,7 @@ class MemeListViewModel(
             selectedMemes = selectedMemes,
         )
     }.onStart {
-            CoroutineScope(Dispatchers.Default).launch {
+            CoroutineScope(dispatcherProvider.default).launch {
                 val templates = memeTemplatesProvider.toUi()
                 val memes = savedMemesToUi.first()
 

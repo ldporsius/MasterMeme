@@ -7,11 +7,11 @@ import java.io.File
 actual class InternalStorageInteractor(
     private val context: Context
 ) {
-    actual fun write(fileName: String, bytes: ByteArray) {
+   /* actual fun write(fileName: String, bytes: ByteArray) {
         context.openFileOutput(fileName, Context.MODE_PRIVATE).use { outputStream ->
             outputStream.write(bytes)
         }
-    }
+    }*/
     actual fun read(fileName: String): ByteArray {
         val file = File(fileName)
 
