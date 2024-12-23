@@ -1,5 +1,6 @@
 package nl.codingwithlinda.mastermeme.meme_creator.presentation
 
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -169,11 +170,24 @@ class MemeCreatorViewModel(
                 putMemeTextInHistory(action.id)
                 val currentMemeText = getMemeText(action.id)
                 val updateMemeText = currentMemeText.copy(
-                    fontResource = fontPicker.fontResources.get(action.fontIndex)
+                    fontResource = fontPicker.fontResources[action.fontIndex]
                 )
                 _memeTexts.update {
                     it.plus(action.id to updateMemeText)
                 }
+            }
+            MemeCreatorAction.EditMemeTextLineThrough -> {
+                val current = state.value.selectedMemeText ?: return
+                putMemeTextInHistory(current.id)
+                val updateMemeText = current.copy(
+                    fontResource = current.fontResource.copy(
+                        textDecoration = TextDecoration.LineThrough
+                )
+                )
+                _memeTexts.update {
+                    it.plus(current.id to updateMemeText)
+                }
+
             }
 
             is MemeCreatorAction.EditMemeTextColor -> {

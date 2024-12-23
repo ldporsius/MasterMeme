@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.toFontFamily
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 
@@ -21,7 +22,8 @@ import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 fun CustomizeTextFontComponent(
     modifier: Modifier = Modifier,
     fonts: List<FontUi>,
-    onFontSelected: (index: Int) -> Unit
+    onFontSelected: (index: Int) -> Unit,
+    onLineThrough: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -37,9 +39,20 @@ fun CustomizeTextFontComponent(
                 },
                 text = "GOOD",
                 name = it.name,
-                font = it.font
+                font = it.font,
+                textDecoration = it.textDecoration
             )
         }
+
+        EditTextFontItem(
+            modifier = Modifier.clickable {
+              onLineThrough()
+            },
+            text = "GOOD",
+            name = "Linethrough",
+            font = fonts[0].font,
+            textDecoration = TextDecoration.LineThrough
+        )
     }
 }
 
@@ -48,8 +61,9 @@ fun EditTextFontItem(
     modifier: Modifier = Modifier,
     text: String,
     name: String,
-    font: Font
-) {
+    font: Font,
+    textDecoration: TextDecoration
+){
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -60,7 +74,8 @@ fun EditTextFontItem(
         )
         Text(text = name,
             style = MaterialTheme.typography.labelMedium,
-            fontFamily = font.toFontFamily()
+            fontFamily = font.toFontFamily(),
+            textDecoration = textDecoration
         )
     }
 

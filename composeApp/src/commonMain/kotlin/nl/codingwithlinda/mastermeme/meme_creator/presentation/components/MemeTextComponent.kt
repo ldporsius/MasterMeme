@@ -161,13 +161,8 @@ fun MemeTextComponent(
         ,
         text = text.text,
         style = textStyle,
-//        onTextLayout = {
-//            println("MEME TEXT COMPONENT has new TEXT LAYOUT size: ${it.size}")
-//            println("MEME TEXT COMPONENT. offsetX: ${offsetX.value}, offsetY: ${offsetY.value}")
-//
-//            println("MEME TEXT COMPONENT. ratioHeight: $ratioHeight")
-//            println("MEME TEXT COMPONENT. ratioWidth: $ratioWidth")
-//        }
+        textDecoration = text.fontResource.textDecoration
+
     )
 
     val iconButtonModifier = Modifier.
