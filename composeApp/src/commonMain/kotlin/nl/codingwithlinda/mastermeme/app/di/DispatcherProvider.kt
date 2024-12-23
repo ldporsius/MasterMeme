@@ -1,10 +1,10 @@
 package nl.codingwithlinda.mastermeme.app.di
 
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineDispatcher
 
 interface DispatcherProvider {
-    val main: CoroutineContext
-    val mainImmediate: CoroutineContext
-    val default: CoroutineContext
-    val io: CoroutineContext
+    val main: CoroutineDispatcher
+    val mainImmediate: CoroutineDispatcher
+    val default: CoroutineDispatcher
+    val io: CoroutineDispatcher
 }

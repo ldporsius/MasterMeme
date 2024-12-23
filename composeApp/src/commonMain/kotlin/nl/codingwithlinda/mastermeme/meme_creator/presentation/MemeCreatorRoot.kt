@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.ColorPicker
@@ -36,6 +37,7 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.confir
 @Composable
 fun MemeCreatorRoot(
     memeId: String,
+    dispatcherProvider: DispatcherProvider,
     shareAppPicker: ShareAppPicker,
     imageConverter: ImageConverter,
     colorPicker: ColorPicker,
@@ -56,6 +58,7 @@ fun MemeCreatorRoot(
         savedStateHandle = SavedStateHandle().apply {
             set("memeId", memeId)
         },
+        dispatcherProvider = dispatcherProvider,
         memeTemplatesProvider = MemeTemplatesFromResources(),
         imageConverter = imageConverter,
         fontPicker = fontPicker,
@@ -123,6 +126,7 @@ fun MemeCreatorRoot(
 
             ,
             state = viewModel.state.collectAsStateWithLifecycle().value,
+            dispatcherProvider = dispatcherProvider,
             colors = colorPicker.colors,
             shareAppPicker = shareAppPicker,
             fonts = fontPicker.fontResources,

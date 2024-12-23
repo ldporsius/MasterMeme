@@ -1,45 +1,30 @@
 package nl.codingwithlinda.mastermeme.core.data
+//
+//import android.content.Context
+//import android.graphics.Bitmap
+//import android.graphics.BitmapFactory
+//import android.graphics.Canvas
+//import android.graphics.Paint
+//import android.graphics.Picture
+//import android.graphics.Rect
+//import android.text.StaticLayout
+//import android.text.TextPaint
+//import android.util.TypedValue
+//import androidx.compose.ui.graphics.Color
+//import androidx.compose.ui.graphics.ImageBitmap
+//import androidx.compose.ui.graphics.asImageBitmap
+//import androidx.compose.ui.graphics.toArgb
+//import androidx.compose.ui.graphics.toComposeRect
+//import androidx.core.content.res.ResourcesCompat
+//import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
+//import nl.codingwithlinda.mastermeme.core.domain.model.templates.templates
+//import java.io.ByteArrayOutputStream
+//import java.io.File
+//import kotlin.math.roundToInt
 
-import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.Picture
-import android.graphics.Rect
-import android.text.StaticLayout
-import android.text.TextPaint
-import android.util.TypedValue
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.graphics.toComposeRect
-import androidx.core.content.res.ResourcesCompat
-import nl.codingwithlinda.mastermeme.core.data.dto.MemeDto
-import nl.codingwithlinda.mastermeme.core.domain.model.templates.templates
-import java.io.ByteArrayOutputStream
-import java.io.File
-import kotlin.math.roundToInt
 
-fun Picture.toByteArray(): ByteArray {
-    if (this.width == 0 || this.height == 0) return ByteArray(0)
-    val byteArrayOutputStream = ByteArrayOutputStream()
-    pictureToBitmap(this).compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
-    return byteArrayOutputStream.toByteArray()
-}
-fun pictureToBitmap(picture: Picture): Bitmap {
-    val bitmap = Bitmap.createBitmap(
-        picture.width,
-        picture.height,
-        Bitmap.Config.ARGB_8888
-    )
+/*
 
-    val canvas = android.graphics.Canvas(bitmap)
-    canvas.drawColor(android.graphics.Color.WHITE)
-    canvas.drawPicture(picture)
-    return bitmap
-}
 fun memeDtoToBitmap(memeDto: MemeDto, imageBytes: ByteArray, context: Context): Bitmap {
     val parentWidth = memeDto.parentWidth.roundToInt()
     val parentHeight = memeDto.parentHeight.roundToInt()
@@ -156,18 +141,4 @@ fun memeDtoToBitmap(memeDto: MemeDto, imageBytes: ByteArray, context: Context): 
 }
 
 
-private fun bitMapToByteArray(bitmap: Bitmap): ByteArray {
-    val stream = ByteArrayOutputStream()
-    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-    return stream.toByteArray()
-}
-
-fun byteArrayToUri(byteArray: ByteArray, name: String,context: Context): String {
-    val path = context.filesDir
-
-    val tmpFile = File(path, "$name.png")
-
-    tmpFile.writeBytes(byteArray)
-
-    return tmpFile.path
-}
+*/

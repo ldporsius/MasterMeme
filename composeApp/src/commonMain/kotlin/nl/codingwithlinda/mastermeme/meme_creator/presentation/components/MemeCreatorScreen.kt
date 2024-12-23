@@ -20,6 +20,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.presentation.create_meme.PictureDrawer
 import nl.codingwithlinda.mastermeme.core.presentation.model.FontUi
 import nl.codingwithlinda.mastermeme.core.presentation.model.bitMapImageModifier
@@ -31,11 +34,11 @@ import nl.codingwithlinda.mastermeme.meme_creator.presentation.components.save_m
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorViewState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemeCreatorScreen(
     modifier: Modifier = Modifier,
     state: MemeCreatorViewState,
+    dispatcherProvider: DispatcherProvider,
     colors: List<androidx.compose.ui.graphics.Color>,
     fonts: List<FontUi>,
     shareAppPicker: ShareAppPicker,
@@ -59,9 +62,6 @@ fun MemeCreatorScreen(
                 modifier = Modifier
                     .weight(1f)
                     .aspectRatio(1f)
-                    .onSizeChanged {
-                        //size = Size(it.width.toFloat(), it.height.toFloat())
-                    }
                     .onGloballyPositioned {
                         size = it.size
                     }
@@ -77,6 +77,7 @@ fun MemeCreatorScreen(
             ) {
                 if (state.isSaving){
                     PictureDrawer(
+                        dispatcher = dispatcherProvider.default,
                         modifier = Modifier,
                         content = {
                             MemeTextsBox(

@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
+import nl.codingwithlinda.mastermeme.app.di.DispatcherProvider
 import nl.codingwithlinda.mastermeme.core.data.local_storage.StorageInteractor
 import nl.codingwithlinda.mastermeme.core.data.dto.toDomain
 import nl.codingwithlinda.mastermeme.core.domain.model.memes.Meme
@@ -32,6 +34,7 @@ import org.jetbrains.compose.resources.decodeToImageBitmap
 @OptIn(ExperimentalResourceApi::class)
 class MemeCreatorViewModel(
     private val savedStateHandle: SavedStateHandle,
+    private val dispatcherProvider: DispatcherProvider,
     private val memeTemplatesProvider: MemeTemplatesProvider,
     private val imageConverter: ImageConverter,
     private val fontPicker: FontPicker,
@@ -232,7 +235,7 @@ class MemeCreatorViewModel(
                 }
             }
             is MemeCreatorAction.SaveMeme -> {
-                viewModelScope.launch {
+                viewModelScope.plus(dispatcherProvider.default).launch {
 
                     val imageUri = _template?.id ?: return@launch
                     val uri = state.value.memeUri ?: imageUri
@@ -256,15 +259,7 @@ class MemeCreatorViewModel(
                    shouldShowConfirmExit(false)
                 }
             }
-            is MemeCreatorAction.ShareMeme -> {
-                val uri = imageConverter.share(action.byteArray, "meme")
 
-                _state.update {
-                    it.copy(
-                        memeUri = uri,
-                    )
-                }
-            }
         }
     }
 

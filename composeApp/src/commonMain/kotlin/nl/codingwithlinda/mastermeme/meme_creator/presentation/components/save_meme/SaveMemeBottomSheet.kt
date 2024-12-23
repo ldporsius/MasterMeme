@@ -52,6 +52,7 @@ fun SaveMemeBottomSheet(
                     title = "Share meme",
                     text = "Share your meme or open it in the other App",
                     onClick = {
+
                         onShare()
 //                        state.memeUri?.let {
 //                            shareAppPicker.share(imageUri = state.memeUri)

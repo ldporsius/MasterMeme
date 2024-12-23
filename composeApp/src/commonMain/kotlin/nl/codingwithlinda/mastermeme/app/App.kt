@@ -55,6 +55,7 @@ fun App(
                     val memeId = entry.toRoute<Route.MemeCreator>().memeId
                     MemeCreatorRoot(
                         memeId = memeId,
+                        dispatcherProvider = dispatcherProvider,
                         shareAppPicker = shareAppPicker,
                         imageConverter = imageConverter,
                         colorPicker = colorPicker,

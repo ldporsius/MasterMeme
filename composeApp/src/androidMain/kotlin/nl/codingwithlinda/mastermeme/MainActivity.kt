@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
                 shareAppPicker = picker.create(),
                 imageConverter = ImageConverter(
                     context = this,
-                    templates = MemeTemplatesFromResources()
                 ),
                 colorPicker = AndroidColorPicker(),
                 fontPicker = FontPicker(),
