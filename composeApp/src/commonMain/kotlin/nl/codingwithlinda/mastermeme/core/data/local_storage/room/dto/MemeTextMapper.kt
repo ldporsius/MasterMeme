@@ -30,6 +30,7 @@ fun MemeTextEntity.toDomain(): MemeText{
         textColor = textColor,
         offsetX = offsetX,
         offsetY = offsetY,
+        rotation = 0f,
 
 
     )

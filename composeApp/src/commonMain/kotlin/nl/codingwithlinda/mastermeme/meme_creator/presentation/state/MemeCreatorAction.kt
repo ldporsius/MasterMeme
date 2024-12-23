@@ -16,6 +16,7 @@ sealed interface MemeCreatorAction {
     data class SelectMemeText(val id: Int) : MemeCreatorAction
     data class DeleteMemeText(val id: Int) : MemeCreatorAction
     data class AdjustTextSize(val id: Int, val size: Float) : MemeCreatorAction
+    data class AdjustTextRotation(val id: Int, val rotation: Float) : MemeCreatorAction
     data class EditMemeTextColor(val id: Int, val color: androidx.compose.ui.graphics.Color) : MemeCreatorAction
     data class EditMemeTextFont(val id: Int, val fontIndex: Int) : MemeCreatorAction
     data object Undo : MemeCreatorAction

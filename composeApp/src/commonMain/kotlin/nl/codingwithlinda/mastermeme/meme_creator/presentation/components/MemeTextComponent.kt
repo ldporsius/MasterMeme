@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontFamily
@@ -151,6 +152,7 @@ fun MemeTextComponent(
             .offset {
                pointerOffset
             }
+            .rotate(text.rotation)
             .then(pointerInputModifier)
             .applyIf(shouldShowBorder){
                 Modifier.border(width = 2.dp, color = white)

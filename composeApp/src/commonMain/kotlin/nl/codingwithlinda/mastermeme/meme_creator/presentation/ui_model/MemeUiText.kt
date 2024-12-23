@@ -18,6 +18,7 @@ data class MemeUiText(
     val platformTextStyle: OurPlatformTextStyle,
     val offsetX: Float,
     val offsetY: Float,
+    val rotation: Float,
     val memeTextState: MemeTextState = MemeTextState.Idle,
     ) {
 

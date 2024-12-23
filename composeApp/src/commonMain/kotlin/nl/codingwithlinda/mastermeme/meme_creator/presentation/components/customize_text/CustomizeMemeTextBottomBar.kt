@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import mastermeme.composeapp.generated.resources.Res
 import mastermeme.composeapp.generated.resources.color_picker_button
+import mastermeme.composeapp.generated.resources.rotate
 import mastermeme.composeapp.generated.resources.text_size_button
 import mastermeme.composeapp.generated.resources.text_style_button
 import nl.codingwithlinda.mastermeme.meme_creator.presentation.state.MemeCreatorAction
@@ -30,6 +31,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun CustomizeMemeTextBottomBar(
     modifier: Modifier = Modifier,
+    changeTextRotationComponent: @Composable () -> Unit,
     changeTextStyleComponent: @Composable () -> Unit,
     changeTextSizeComponent: @Composable () -> Unit,
     changeTextColorComponent: @Composable () -> Unit,
@@ -50,6 +52,9 @@ fun CustomizeMemeTextBottomBar(
                 }
                 CustomizeTextOption.TEXTCOLOR -> {
                     changeTextColorComponent()
+                }
+                CustomizeTextOption.ROTATION -> {
+                   changeTextRotationComponent()
                 }
                 null -> Unit
             }
@@ -72,6 +77,15 @@ fun CustomizeMemeTextBottomBar(
             Row(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
+                Image(
+                    painter = painterResource(Res.drawable.rotate),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clickable {
+                            customizeTextOption = CustomizeTextOption.ROTATION
+                        }
+                )
                 Image(
                     painter = painterResource(Res.drawable.text_style_button),
                     contentDescription = null,

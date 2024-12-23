@@ -12,6 +12,8 @@ fun MemeUiText.toDomain(): MemeText{
         offsetY = offsetY,
         fontResource = fontResource.ref,
         fontSize = fontSize,
-        textColor = textColor.toArgb()
+        textColor = textColor.toArgb(),
+        rotation = rotation,
+
     )
 }

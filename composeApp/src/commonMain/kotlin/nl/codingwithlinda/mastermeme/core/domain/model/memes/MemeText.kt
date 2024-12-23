@@ -11,4 +11,5 @@ data class MemeText(
     val textColor: Int,
     val offsetX: Float,
     val offsetY: Float,
+    val rotation: Float,
 )

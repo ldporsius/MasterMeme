@@ -47,6 +47,7 @@ class AndroidMemeFactory(
             platformTextStyle = ourPlatformTextStyle,
             offsetX = 0f,
             offsetY = 0f,
+            rotation = 0f,
 
         )
     }
@@ -61,6 +62,8 @@ class AndroidMemeFactory(
             platformTextStyle = ourPlatformTextStyle,
             offsetX = memeText.offsetX,
             offsetY = memeText.offsetY,
+            rotation = memeText.rotation,
+
         )
     }
 }

@@ -186,6 +186,18 @@ class MemeCreatorViewModel(
                     it.plus(action.id to updateMemeText)
                 }
             }
+            is MemeCreatorAction.AdjustTextRotation -> {
+                putMemeTextInHistory(action.id)
+
+                val currentMemeText = getMemeText(action.id)
+                val updateMemeText = currentMemeText.copy(
+                    rotation = action.rotation
+                )
+
+                _memeTexts.update {
+                    it.plus(action.id to updateMemeText)
+                }
+            }
             MemeCreatorAction.Undo -> {
                 getSelectedMemeText()?.let {
                     restoreFromHistory(it.id)

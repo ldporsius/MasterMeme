@@ -20,6 +20,12 @@ fun CustomizeTextComponent(
 
     CustomizeMemeTextBottomBar(
         modifier = Modifier.fillMaxWidth(),
+        changeTextRotationComponent = {
+            CustomizeTextRotationComponent(
+                memeText = state.selectedMemeText,
+                onAction = onAction
+            )
+        },
         changeTextStyleComponent = {
             CustomizeTextFontComponent(
                 fonts = fonts,

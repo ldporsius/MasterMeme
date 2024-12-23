@@ -20,6 +20,7 @@ fun PreviewCreatorBottomBar() {
             modifier = Modifier.fillMaxWidth()
                 .background(color = black)
             ,
+            changeTextRotationComponent = {},
             changeTextStyleComponent = {},
             changeTextSizeComponent = {
                 CustomizeTextSizeComponent(
