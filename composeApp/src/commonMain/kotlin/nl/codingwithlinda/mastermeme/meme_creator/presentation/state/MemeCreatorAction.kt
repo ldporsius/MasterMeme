@@ -5,7 +5,6 @@ sealed interface MemeCreatorAction {
     data object CancelSaveMeme : MemeCreatorAction
     data class CreateMemeUri(val byteArray: ByteArray) : MemeCreatorAction
     data object SaveMeme : MemeCreatorAction
-    //data class ShareMeme(val byteArray: ByteArray) : MemeCreatorAction
     data object AddText : MemeCreatorAction
     data object CancelAddText : MemeCreatorAction
     data class CreateText(val text: String) : MemeCreatorAction
